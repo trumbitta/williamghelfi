@@ -1,0 +1,36 @@
+---
+layout: default
+single: true
+---
+
+<article class="col-xs-12 col-md-10 col-md-offset-1" role="article">
+  {% include article.html %}
+
+  <hr />
+
+  <footer>
+    <div class="vcard">
+      {% include post/author.html %} &middot;
+      {% include post/date.html %}{% if updated %}{{ updated }}{% else %}{{ time }}{% endif %}
+    </div>
+    {% include post/categories.html %}
+    <hr/>
+    <!-- Insert tweet button here -->
+    {% unless page.sharing == false %}
+      {% include post/sharing.html %}
+    {% endunless %}
+    <ul class="pager">
+    {% if page.previous.url %}
+      <li class="previous">
+        <a href="{{page.previous.url}}" title="Previous Post: {{page.previous.title}}">&larr; {{page.previous.title}}</a>
+      </li>
+    {% endif %}
+    {% if page.next.url %}
+      <li class="next">
+        <a href="{{page.next.url}}" title="Next Post: {{page.next.title}}">{{page.next.title}} &rarr;</a>
+      </li>
+    {% endif %}
+    </ul>
+  </footer>
+
+</article>

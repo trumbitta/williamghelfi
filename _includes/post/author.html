@@ -1,0 +1,8 @@
+{% if post.author %}
+  {% assign author = post.author %}
+{% elsif page.author %}
+  {% assign author = page.author %}
+{% else %}
+  {% assign author = site.author %}
+{% endif %}
+{% if author %}Posted by <address class="author"><a rel="author" href="https://plus.google.com/u/0/114169273981533817065?rel=author"><span class="fn">{{ author }}</span></a></address>{% endif %}

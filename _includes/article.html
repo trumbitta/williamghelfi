@@ -1,0 +1,25 @@
+{% unless page.no_header %}
+  <header>
+    {% if index %}
+      <h1><a href="{{ root_url }}{{ post.url }}">{% if site.titlecase %}{{ post.title | titlecase }}{% else %}{{ post.title }}{% endif %}</a></h1>
+    {% else %}
+      <h1>{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}</h1>
+    {% endif %}
+    {% unless page.meta == false %}
+      <p class="meta">
+        {% include post/date.html %}{{ time }}
+        {% if post.comments != false %}
+         | <a href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#disqus_thread">Comments</a>
+        {% endif %}
+      </p>
+    {% endunless %}
+  </header>
+{% endunless %}
+{{ content }}
+{% if index %}
+  {% if post.comments != false %}
+   <a href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#disqus_thread">Comments</a>
+  {% endif %}
+{% else %}
+  {% include disqus.html %}
+{% endif %}

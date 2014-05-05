@@ -1,0 +1,17 @@
+---
+layout: default-landing
+---
+
+<article role="article">
+  {% if page.title %}
+  <header class="text-left container">
+  	<div class="row">
+  		<div class="col-md-10 col-md-offset-1">
+		    <h1>{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}</h1>
+		    <p class="lead">{{ page.lead }}</p>
+		  </div>
+		</div>
+  </header>
+  {% endif %}
+  {{ content }}
+</article>

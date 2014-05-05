@@ -1,0 +1,17 @@
+{% capture category %}{% if post %}{{ post.categories | category_links | size }}{% else %}{{ page.categories | category_links | size }}{% endif %}{% endcapture %}
+{% unless category == '0' %}
+<span class="pull-right">
+  {% if post %}
+		{% for item in site.categories %}
+			<a class="label label-info" href="{{ root_url }}/blog/categories/{{ item | downcase | replace:' ','-'}}/">{{ item | upcase }}</a>
+
+		{% endfor %}
+  {% else %}
+	  {% for item in page.categories %}
+	  	<a class="label label-info" href="{{ root_url }}/blog/categories/{{ item | downcase | replace:' ','-'}}/">{{ item | upcase }}</a>
+
+	  {% endfor %}
+  {% endif %}
+</span>
+<span class="clearfix"></span>
+{% endunless %}
