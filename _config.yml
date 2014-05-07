@@ -20,6 +20,15 @@ excerpt_link: "Continue →"  # "Continue reading" link text at the bottom of ex
 
 titlecase: true       # Converts page and post titles to titlecase
 
+sitemap:
+    exclude:
+        - "/atom.xml"
+        - "/salesbury-1.0.0/index.html"
+        - "/salesbury-1.0.0/js/salesbury-demo.js"
+        - "/robots.txt"
+    include_posts:
+        - "/index.html"
+
 exclude:
   - divshot.json
 
