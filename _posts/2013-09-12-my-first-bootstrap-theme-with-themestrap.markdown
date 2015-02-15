@@ -52,7 +52,7 @@ We then have to edit bower.json to adjust some properties:
 	  "version": "0.0.1",
 	  "private": true,
 	  "author": "William Ghelfi",
-	  "main": "dist/bootstrap.css",
+	  "main": "dist/css/bootstrap.css",
 	  "themestrap": {
 	    "name": "Supervillain",
 	    "repo": "https://github.com/trumbitta/bootstrap-theme-supervillain"
@@ -92,7 +92,7 @@ The page we see at `localhost:8000` is built from `pages/index.html`. It include
 
 The starting page also links to another page: "Kitchen Sink".  
 Follow now the link to the Kitchen Sink.  
-That's our sandbox and playground, and its source is `pages/kitchen-sink.html` but we don't usually need to edit it.
+That's our sandbox and playground, and its source is `pages/examples/kitchen-sink.html` but we don't usually need to edit it.
 
 ## How to edit
 
@@ -100,7 +100,7 @@ Ok, time for the fun to begin!
 
 Open `variables.less`, you'll see 600+ rows of - well - variables. But fret not, my dear, because we can focus on the first 56 rows and still bring home some nice results.
 
-Let's fiddle with the `@brand-` group of variables, from line 21.  
+Let's fiddle with the `@brand-` group of variables, starting from line 21.  
 Those variables are the ones piloting the most part of the overall color scheme.
 
 Change the values to some odd, flashy colors (what? Hey! I **only** use odd flashy colors when I'm debugging or exploring something new!) and hit refresh in your browser to start getting to know what's going on and what you can expect of your endeavours.
@@ -128,7 +128,7 @@ Then edit accordingly the `@font-family-` variables starting at line 42 of `vari
 
 ## Using your theme
 
-This is the easiest part: just take `dist/bootstrap.css` or `dist/bootstrap.min.css` and link them in your HTML just after the original Boostrap css file.
+This is the easiest part: just take `dist/css/bootstrap.css` or `dist/css/bootstrap.min.css` and link them in your HTML just after the original Boostrap css file.
 
 You could remove the original file and replace it with yours, but unless the speed gain is important to you I'd keep also the original file just in case.
 

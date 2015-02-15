@@ -46,7 +46,7 @@ A sentence which could benefit from a little rephrasing, perhaps.
 That's the best start for you. The devil is in the details, and typos can happen to everyone.  
 Two clicks on GitHub, and you are giving back to the community!
 
-An example: https://github.com/twitter/typeahead.js/pull/230/files
+An example: [https://github.com/twitter/typeahead.js/pull/230/files](https://github.com/twitter/typeahead.js/pull/230/files)
 
 ## The unknown is there to be known
 
@@ -68,7 +68,7 @@ The jQuery Gravatar plugin makes it pretty easy to retrieve a gravatar image dyn
 
 One thing I needed, was to add a class to the `img` element containing the gravatar in the same elegant way used in the rest of the plugin without adding jQuery spaghetti code.
 
-No sooner said than done, I submitted [the pull request](https://github.com/zachleat/jQuery-Gravatar/pull/41), had a brief conversation with Zach, and closed the day with a merged pull request and some positive karma in my life.
+No sooner said than done, I submitted [the pull request](https://github.com/zachleat/jQuery-Gravatar/pull/4), had a brief conversation with Zach, and closed the day with a merged pull request and some positive karma in my life.
 
 ## Scratch your own itches II
 
@@ -84,11 +84,11 @@ Six months ago, I was working at a pet project and I needed an off canvas. You k
 </figure>
 
 
-I started to look around for solutions, and I found a beautiful [implementation by Brad Frost](https://github.com/bradfrost/this-is-responsive/blob/gh-pages/patterns/layout-offcanvas-right.html).
+I started to look around for solutions, and I found a beautiful [implementation by Brad Frost](http://codepen.io/bradfrost/full/GybaF).
 
 I already had started to dig into Bootstrap 3, so I decided to try to code my own off canvas inspired by the one by Brad Frost and in a few days I [opened the pull request](https://github.com/twbs/bootstrap/pull/6565).
 
-Months passed, great and humbling feedback came from mdo and fat, the work went on, the pull request was closed and a [new one was opened](https://github.com/twbs/bootstrap/pull/7799) sporting a different approach.
+Months passed, great and humbling feedback came from mdo and fat, the work went on, the pull request was closed and I [opened a new one](https://github.com/twbs/bootstrap/pull/7799) based on a different approach.
 
 I had a great time, learned a lot, and finally - to my greatest joy - the pull request was merged into the codebase of Bootstrap 3 with a much deserved refining intervention by mdo.
 
