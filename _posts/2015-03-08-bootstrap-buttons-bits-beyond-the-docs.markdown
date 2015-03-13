@@ -80,5 +80,9 @@ Or read the docs, if you want to use it in your projects:
 
 That's it. Hope you liked these pills :)
 
-P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs. I think it's worth checking it out:  
-http://www.williamghelfi.com/bootstrap-in-practice
+----
+
+P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs.
+
+I think it's worth checking it out:  
+[http://www.williamghelfi.com/bootstrap-in-practice](http://www.williamghelfi.com/bootstrap-in-practice)
