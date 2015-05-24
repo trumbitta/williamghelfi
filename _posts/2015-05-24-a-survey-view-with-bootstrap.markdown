@@ -380,7 +380,7 @@ And it's done! No, really: done as in done!
 
 ## Closing thoughts
 
-[Once again we used a Bootstrap component](http://www.williamghelfi.com/blog/categories/bootstrap/) in a way that was not explicitly showcased in the official docs.  
+[Once again we used a Bootstrap component](http://www.williamghelfi.com/categories/bootstrap/) in a way that was not explicitly showcased in the official docs.  
 This time we also applied a ready-made theme and we built our customizations upon it, until we obtained a good-enough finished page.
 
 This is an example of what Mark and Jacob mean for "intended use of Bootstrap".  
