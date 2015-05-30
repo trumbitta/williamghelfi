@@ -2,8 +2,7 @@
 layout: post
 title: "Bootstrap 3: the new grid system, for starters"
 date: 2013-06-09 12:04
-ckform: true
-comments: true
+comments: false
 categories:
 - CSS
 - Bootstrap
@@ -337,8 +336,4 @@ Once again, `N` is a number from `1` to `11`:
 
 <hr />
 
-## Enjoyed the reading?
-
-Would like to know more about Bootstrap 3?
-
-{% include custom/ckform-course.html %}
+{% include custom/more-about-bootstrap.html %}

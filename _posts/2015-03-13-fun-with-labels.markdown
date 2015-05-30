@@ -2,7 +2,7 @@
 layout: post
 title: "Bootstrap: fun with labels"
 date: 2015-03-13 21:09
-comments: true
+comments: false
 categories:
 - bootstrap
 - pills
@@ -139,3 +139,7 @@ Hell, I even wrote [an ebook](http://www.williamghelfi.com/bootstrap-in-practice
 
 But I digress, and it's time to say goodbye.  
 Until next time!
+
+<hr />
+
+{% include custom/more-about-bootstrap.html %}

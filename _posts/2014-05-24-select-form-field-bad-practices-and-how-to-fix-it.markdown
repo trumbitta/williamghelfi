@@ -2,7 +2,7 @@
 layout: post
 title: "A SELECT form field bad practice, and 4 ways of fixing it"
 date: 2014-05-24 12:00
-comments: true
+comments: false
 categories:
 - HTML
 - CSS

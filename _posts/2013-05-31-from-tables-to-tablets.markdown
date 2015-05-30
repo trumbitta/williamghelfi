@@ -2,7 +2,7 @@
 layout: post
 title: From tables to tablets
 date: 2013-05-31 14:13
-comments: true
+comments: false
 categories:
 - CSS
 - Myself

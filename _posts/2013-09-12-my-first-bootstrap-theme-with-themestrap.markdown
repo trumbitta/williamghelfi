@@ -2,7 +2,7 @@
 layout: post
 title: "My first Bootstrap theme With Themestrap"
 date: 2013-09-12 14:00
-comments: true
+comments: false
 categories:
 - Bootstrap
 - Customization
@@ -160,13 +160,9 @@ From now on, it's just a matter of good choices and design.
 My own theme is at [http://trumbitta.github.io/bootstrap-theme-supervillain/](http://trumbitta.github.io/bootstrap-theme-supervillain/).  
 It's still a work in progress, but I like it so far.
 
-Start your engines, because in the next lesson we will try to build the base layout for a very simple web application using - and customizing - another component as a foundation: progress bars!
+P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs.  
+[I think it's worth checking it out](http://www.williamghelfi.com/bootstrap-in-practice).
 
-While in the lesson after that, we are going to talk about how to profit from knowing your moves with Bootstrap.
+<hr />
 
-P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs. I think it's worth checking it out:
-http://www.williamghelfi.com/bootstrap-in-practice
-
-Or, you can subscribe to the free course here:
-
-{% include custom/ckform-course.html %}
+{% include custom/more-about-bootstrap.html %}

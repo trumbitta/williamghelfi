@@ -2,7 +2,7 @@
 layout: post
 title: "Why I'm betting on angular and ionic"
 date: 2015-02-15 21:00
-comments: true
+comments: false
 categories:
 - development
 ---

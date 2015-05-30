@@ -2,6 +2,7 @@
 layout: post
 title: How I tamed Unity on Ubuntu 13.04
 date: 2013-04-30 12:00
+comments: false
 categories: 
 - Linux
 - Ubuntu

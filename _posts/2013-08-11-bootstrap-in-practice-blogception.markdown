@@ -2,8 +2,7 @@
 layout: post
 title: "Bootstrap in practice: Blogception"
 date: 2013-08-11 21:13
-ckform: true
-comments: true
+comments: false
 categories:
 - CSS
 - Bootstrap
@@ -242,8 +241,4 @@ I'm not sure I won't come back to the code and refine some edgy corners &mdash; 
 
 <hr />
 
-## Enjoyed the reading?
-
-Would like to know more about Bootstrap 3?
-
-{% include custom/ckform-course.html %}
+{% include custom/more-about-bootstrap.html %}

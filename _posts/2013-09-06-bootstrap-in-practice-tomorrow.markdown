@@ -2,7 +2,7 @@
 layout: post
 title: "Bootstrap in practice: Tomorrow is the day"
 date: 2013-09-06 18:00
-comments: true
+comments: false
 categories:
 - Bootstrap
 - Book
@@ -63,9 +63,7 @@ I put together a *hands-on* complete package which includes:
 
 I asked to the mailing list what part of Bootstrap was the hardest to understand for the newcomers, and the response was clear and loud: the new grid system.
 
-So here's the new grid system, tamed:
-
-{% include custom/ckform-course.html %}
+So here's [the new grid system, tamed for free](/bootstrap-in-practice/#free-chapter).
 
 To everyone who has helped, inspired, supported me, thank you so much! And to my wife, who always gives me strength right when I need it: I love you!
 

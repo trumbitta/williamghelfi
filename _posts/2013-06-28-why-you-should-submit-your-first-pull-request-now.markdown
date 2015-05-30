@@ -2,8 +2,7 @@
 layout: post
 title: "Why you should submit your first pull request now"
 date: 2013-06-28 17:41
-ckform: true
-comments: true
+comments: false
 categories:
 - Development
 ---
@@ -101,8 +100,4 @@ The exact type of profit I'm always looking for.
 
 <hr />
 
-## Enjoyed the reading?
-
-Would like to know more about Bootstrap 3?
-
-{% include custom/ckform-course.html %}
+{% include custom/more-about-bootstrap.html %}

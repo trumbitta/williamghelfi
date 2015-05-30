@@ -2,7 +2,7 @@
 layout: post
 title: "Bootstrap in practice: A preview"
 date: 2013-09-01 23:00
-comments: true
+comments: false
 categories:
 - Bootstrap
 - Book

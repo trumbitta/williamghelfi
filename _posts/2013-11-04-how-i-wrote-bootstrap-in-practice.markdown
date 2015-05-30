@@ -2,7 +2,7 @@
 layout: post
 title: "How I wrote Bootstrap In Practice"
 date: 2013-11-04 23:00
-comments: true
+comments: false
 categories:
 - Myself
 - Bootstrap
@@ -89,6 +89,6 @@ Just a quick list here:
 
  And that's it :)
 
-----
+<hr />
 
-{% include custom/ckform-course.html %}
+{% include custom/more-about-bootstrap.html %}

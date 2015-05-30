@@ -2,8 +2,7 @@
 layout: post
 title: "From tables to tablets - Part 3 of 3: Adulthood"
 date: 2013-06-04 21:49
-ckform: true
-comments: true
+comments: false
 categories:
 - CSS
 - Myself
@@ -106,8 +105,4 @@ Who knows where will it be [tomorrow](http://www.google.com/glass/start/)?
 
 <hr />
 
-## Enjoyed the reading?
-
-Would like to know more about Bootstrap 3?
-
-{% include custom/ckform-course.html %}
+{% include custom/more-about-bootstrap.html %}

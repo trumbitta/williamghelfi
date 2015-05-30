@@ -2,7 +2,7 @@
 layout: post
 title: "Bootstrap buttons: bits beyond the docs"
 date: 2015-03-08 21:53
-comments: true
+comments: false
 categories:
 - bootstrap
 - pills
@@ -86,3 +86,8 @@ P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and st
 
 I think it's worth checking it out:  
 [http://www.williamghelfi.com/bootstrap-in-practice](http://www.williamghelfi.com/bootstrap-in-practice)
+
+<hr />
+
+{% include custom/more-about-bootstrap.html %}
+
