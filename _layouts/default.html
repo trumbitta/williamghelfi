@@ -6,7 +6,7 @@
   <meta name="author" content="{{ site.author }}" />
   <meta charset="utf-8" />
   {% capture description %}{% if page.description %}{{ page.description }}{% else %}{{ content | raw_content }}{% endif %}{% endcapture %}
-  <meta name="description" content="{{ description | strip_html | condense_spaces | truncate:150 }}"/>
+  <meta name="description" content="{{ description | strip_html | condense_spaces | truncate:300 }}"/>
   {% if page.keywords %}<meta name="keywords" content="{{ page.keywords }}">{% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Bootstrap -->
@@ -28,6 +28,7 @@
 <body {% if page.body_id %} id="{{ page.body_id }}" {% endif %}>
 
 <div class="container">
+
   <div class="row">
 
   <header role="banner" class="col-xs-12 col-md-10 col-md-offset-1 text-center">
