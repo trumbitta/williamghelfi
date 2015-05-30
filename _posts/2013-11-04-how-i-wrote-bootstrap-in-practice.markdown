@@ -89,6 +89,6 @@ Just a quick list here:
 
  And that's it :)
 
-----
+<hr />
 
-{% include custom/ckform-course.html %}
+{% include custom/more-about-bootstrap.html %}

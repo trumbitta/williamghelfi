@@ -86,3 +86,8 @@ P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and st
 
 I think it's worth checking it out:  
 [http://www.williamghelfi.com/bootstrap-in-practice](http://www.williamghelfi.com/bootstrap-in-practice)
+
+<hr />
+
+{% include custom/more-about-bootstrap.html %}
+

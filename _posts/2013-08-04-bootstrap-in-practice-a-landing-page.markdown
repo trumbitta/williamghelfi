@@ -374,8 +374,4 @@ A good starting point for your landing page, where content is easily put front a
 
 <hr />
 
-## Enjoyed the reading?
-
-Would like to know more about Bootstrap 3?
-
-{% include custom/ckform-course.html %}
+{% include custom/more-about-bootstrap.html %}

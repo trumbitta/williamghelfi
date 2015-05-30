@@ -242,8 +242,4 @@ I'm not sure I won't come back to the code and refine some edgy corners &mdash; 
 
 <hr />
 
-## Enjoyed the reading?
-
-Would like to know more about Bootstrap 3?
-
-{% include custom/ckform-course.html %}
+{% include custom/more-about-bootstrap.html %}

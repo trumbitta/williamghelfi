@@ -106,8 +106,4 @@ Who knows where will it be [tomorrow](http://www.google.com/glass/start/)?
 
 <hr />
 
-## Enjoyed the reading?
-
-Would like to know more about Bootstrap 3?
-
-{% include custom/ckform-course.html %}
+{% include custom/more-about-bootstrap.html %}

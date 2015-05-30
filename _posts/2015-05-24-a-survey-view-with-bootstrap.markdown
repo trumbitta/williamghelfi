@@ -387,3 +387,8 @@ This is an example of what Mark and Jacob mean for "intended use of Bootstrap".
 And this is what you should always try to do when using it.
 
 Also, this is what you'll want to do after reading an upcoming blog post, where I'll be introducing [WrapBootstrap](https://wrapbootstrap.com/) both as a resource and as a way to profit.
+
+<hr />
+
+{% include custom/more-about-bootstrap.html %}
+
