@@ -2,7 +2,7 @@
 layout: post
 title: "Bootstrap: fun with labels"
 date: 2015-03-13 21:09
-comments: true
+comments: false
 categories:
 - bootstrap
 - pills

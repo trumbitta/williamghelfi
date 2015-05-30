@@ -2,7 +2,7 @@
 layout: post
 title: "New book: HTML & CSS - The easy path"
 date: 2014-02-20 19:00
-comments: true
+comments: false
 categories:
 - Book
 - CSS

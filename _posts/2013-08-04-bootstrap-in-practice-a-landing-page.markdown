@@ -2,8 +2,7 @@
 layout: post
 title: "Bootstrap in practice: a landing page"
 date: 2013-08-04 17:55
-ckform: true
-comments: true
+comments: false
 categories:
 - CSS
 - Bootstrap

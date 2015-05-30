@@ -2,7 +2,7 @@
 layout: post
 title: "Bootstrap in practice: Tomorrow is the day"
 date: 2013-09-06 18:00
-comments: true
+comments: false
 categories:
 - Bootstrap
 - Book

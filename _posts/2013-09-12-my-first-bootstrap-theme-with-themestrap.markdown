@@ -2,7 +2,7 @@
 layout: post
 title: "My first Bootstrap theme With Themestrap"
 date: 2013-09-12 14:00
-comments: true
+comments: false
 categories:
 - Bootstrap
 - Customization

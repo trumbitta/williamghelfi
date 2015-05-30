@@ -2,7 +2,7 @@
 layout: post
 title: "Bootstrap buttons: bits beyond the docs"
 date: 2015-03-08 21:53
-comments: true
+comments: false
 categories:
 - bootstrap
 - pills

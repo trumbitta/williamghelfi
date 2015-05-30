@@ -2,7 +2,7 @@
 layout: post
 title: "Bootstrap in practice: Lift off! We have a lift off!"
 date: 2013-09-07 14:00
-comments: true
+comments: false
 categories:
 - Bootstrap
 - Book

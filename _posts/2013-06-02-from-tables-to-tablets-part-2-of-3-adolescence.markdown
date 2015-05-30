@@ -2,7 +2,7 @@
 layout: post
 title: "From tables to tablets - Part 2 of 3: Adolescence"
 date: 2013-06-02 17:29
-comments: true
+comments: false
 categories:
 - CSS
 - Myself

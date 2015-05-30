@@ -2,8 +2,7 @@
 layout: post
 title: "From tables to tablets - Part 3 of 3: Adulthood"
 date: 2013-06-04 21:49
-ckform: true
-comments: true
+comments: false
 categories:
 - CSS
 - Myself

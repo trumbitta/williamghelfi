@@ -2,7 +2,7 @@
 layout: post
 title: "A survey view with Bootstrap"
 date: 2015-05-24 15:38
-comments: true
+comments: false
 categories:
 - bootstrap
 - pills

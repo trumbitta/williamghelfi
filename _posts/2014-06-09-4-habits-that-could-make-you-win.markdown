@@ -2,7 +2,7 @@
 layout: post
 title: "4 habits that could make you win"
 date: 2014-06-09 22:00
-comments: true
+comments: false
 categories:
 - Lifestyle
 - Best Practices

@@ -2,8 +2,7 @@
 layout: post
 title: "Why you should submit your first pull request now"
 date: 2013-06-28 17:41
-ckform: true
-comments: true
+comments: false
 categories:
 - Development
 ---

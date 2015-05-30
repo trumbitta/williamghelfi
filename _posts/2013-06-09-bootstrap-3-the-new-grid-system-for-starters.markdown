@@ -2,8 +2,7 @@
 layout: post
 title: "Bootstrap 3: the new grid system, for starters"
 date: 2013-06-09 12:04
-ckform: true
-comments: true
+comments: false
 categories:
 - CSS
 - Bootstrap

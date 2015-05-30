@@ -2,8 +2,7 @@
 layout: post
 title: "Bootstrap in practice: Blogception"
 date: 2013-08-11 21:13
-ckform: true
-comments: true
+comments: false
 categories:
 - CSS
 - Bootstrap
