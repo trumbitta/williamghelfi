@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "GitHub's homepage, a study"
+title: "GitHub's home page, a study"
 date: 2015-06-04 12:00
 comments: false
 categories:
@@ -15,7 +15,7 @@ categories:
 </figure>
 
 Quick post, this one.  
-Yesterday I envisioned some improvements to GitHub's homepage.
+Yesterday I envisioned some improvements to GitHub's home page.
 
 [This PDF is the result](/attachments/GitHub_Home-Trumbtta_version.pdf).
 
