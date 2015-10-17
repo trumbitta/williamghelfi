@@ -9,6 +9,8 @@ categories:
 - whishlist
 ---
 
+[*(Discuss on HN)*](https://news.ycombinator.com/item?id=10403970)
+
 You know that feeling. You stumble upon someone interesting at a conference, on Twitter, on Facebook, Reddit, Hacker News.
 And they are a developer.
 
@@ -27,3 +29,5 @@ Why, at the top of the first page, front and center.
 So hey GitHub, please allow me to pin a featured repositoy of mine.
 
 Also, I <3 you GitHub, [octohire me!](http://octohire.me)
+
+[*(Discuss on HN)*](https://news.ycombinator.com/item?id=10403970)
