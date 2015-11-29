@@ -8,14 +8,17 @@
     {% unless page.meta == false %}
       <p class="meta">
         {% include post/date.html %}{{ time }}
+<!--
         {% if post.comments != false %}
          | <a href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#disqus_thread">Comments</a>
         {% endif %}
+-->
       </p>
     {% endunless %}
   </header>
 {% endunless %}
 {{ content }}
+<!--
 {% if index %}
   {% if post.comments != false %}
    <a href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#disqus_thread">Comments</a>
@@ -23,3 +26,4 @@
 {% else %}
   {% include disqus.html %}
 {% endif %}
+-->
