@@ -20,5 +20,5 @@ I spent a lot of my time in starting a good `README`. Have a look at it if you w
 
 ## Where to get it
 
-* NPM: https://www.npmjs.com/package/generator-angular-trumbitta
-* GitHub: https://github.com/ngTrumbitta/generator-angular-trumbitta/tree/v0.5.1
+* [NPM](https://www.npmjs.com/package/generator-angular-trumbitta)
+* [GitHub](https://www.npmjs.com/package/generator-angular-trumbitta)
