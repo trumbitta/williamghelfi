@@ -16,7 +16,7 @@ Angular Trumbitta – my Yeoman generator for enterprise Angular apps – v0.5.1
 * Added Andrea Dessì in `package.json` as a contributor, for the sheer amount of feedback and for having added ngdoc support
 * Added a `dist-package` grunt task, to get a packaged *dist* build in `tmp/build`
 
-I spent a lot of my time in starting a good `README`. Have a look at it if you want to know more about Angular Trumbitta!
+I spent a lot of time in starting a good `README`. Have a look at it if you'd like to know more about Angular Trumbitta!
 
 ## Where to get it
 
