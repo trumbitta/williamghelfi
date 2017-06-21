@@ -1,8 +1,16 @@
-{% capture category %}{{ post.categories | size }}{% endcapture %}
 <h1><a href="{{ root_url }}{{ post.url }}">{{post.title}}</a></h1>
 <time datetime="{{ post.date | datetime | date_to_xmlschema }}" pubdate>{{ post.date | date: "<span class='month'>%b</span> <span class='day'>%d</span> <span class='year'>%Y</span>"}}</time>
-{% if category != '0' %}
+{% if post.categories %}
 <footer>
-  <span class="categories">posted in {{ post.categories | category_links }}</span>
+  <span class="categories">posted in 
+    {% for category in post.categories %}
+      {% for archive in site.archives %}
+        {% if archive.type == "category" and archive.title == category %}
+          <a href="{{ archive.url }}">{{ archive.title }}</a>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </span>
 </footer>
 {% endif %}
+

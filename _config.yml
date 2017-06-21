@@ -1,4 +1,5 @@
 url: http://www.williamghelfi.com
+baseurl: /
 title: Born, Growing Up.
 subtitle: William Ghelfi
 author: William Ghelfi
@@ -13,6 +14,17 @@ email:
 
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title/
+
+plugins: 
+    - jekyll-paginate
+    - jekyll-gist
+    - jekyll-archives
+
+jekyll-archives:
+    enabled: 
+        - categories
+    layouts:
+        category: category_index
 
 paginate: 1          # Posts per page on the blog index
 paginate_path: blog/page/:num  # Directory base for pagination URLs eg. /blog/page/2/

@@ -3,12 +3,12 @@
 <span class="pull-right">
   {% if post %}
 		{% for item in site.categories %}
-			<a class="label label-info" href="{{ root_url }}/categories/{{ item | downcase | replace:' ','-'}}/">{{ item | upcase }}</a>
+			<a class="label label-info" href="{{ root_url }}/category/{{ item | downcase | replace:' ','-'}}/">{{ item | upcase }}</a>
 
 		{% endfor %}
   {% else %}
 	  {% for item in page.categories %}
-	  	<a class="label label-info" href="{{ root_url }}/categories/{{ item | downcase | replace:' ','-'}}/">{{ item | upcase }}</a>
+	  	<a class="label label-info" href="{{ root_url }}/category/{{ item | downcase | replace:' ','-'}}/">{{ item | upcase }}</a>
 
 	  {% endfor %}
   {% endif %}
