@@ -72,7 +72,7 @@ webpackConfig.plugins.push(
     new webpack.DefinePlugin({
         webpackGlobalVars: {
             foo: JSON.stringify(fooConfig),
-            siteUrl: JSON.stringify(bazConfig)
+            baz: JSON.stringify(bazConfig)
         }
     })
 );
