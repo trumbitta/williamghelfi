@@ -1,5 +1,4 @@
 {
-  "firebase": "williamghelfi",
   "public": "_site",
   "ignore": [
     "firebase.json",
