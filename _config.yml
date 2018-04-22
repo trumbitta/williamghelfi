@@ -1,4 +1,4 @@
-url: http://www.williamghelfi.com
+url: https://www.williamghelfi.com
 baseurl: /
 title: Born, Growing Up.
 subtitle: William Ghelfi
@@ -15,13 +15,13 @@ email:
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title/
 
-plugins: 
+plugins:
     - jekyll-paginate
     - jekyll-gist
     - jekyll-archives
 
 jekyll-archives:
-    enabled: 
+    enabled:
         - categories
     layouts:
         category: category_index
