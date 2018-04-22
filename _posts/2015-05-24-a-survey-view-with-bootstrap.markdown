@@ -18,17 +18,17 @@ A survey view using progress bars, to be precise. In 4 simple steps.
 * [git](http://git-scm.com/) (prerequisite for bower)
 * bower: `npm install -g bower` (you may need to use `sudo`)
 
-We are not going to use *grunt*: a simple static server will suffice.  
-I like `serve` (see the [free chapter from my ebook about Bootstrap for newcomers](http://www.williamghelfi.com/bootstrap-in-practice)), but [`superstatic`](https://www.npmjs.com/package/superstatic) by [Divshot](http://www.divshot.com) is a great and more powerful alternative.
+We are not going to use _grunt_: a simple static server will suffice.  
+I like `serve` (see the [free chapter from my ebook about Bootstrap for newcomers](https://www.williamghelfi.com/bootstrap-in-practice)), but [`superstatic`](https://www.npmjs.com/package/superstatic) by [Divshot](http://www.divshot.com) is a great and more powerful alternative.
 
 ## What are we going to build
 
-We are going to build a simple survey-like view for a *dueling* web application, where people can vote for one of the contenders and leave a comment with their vote.
+We are going to build a simple survey-like view for a _dueling_ web application, where people can vote for one of the contenders and leave a comment with their vote.
 
 The view will not be complete (no actual comment form, and so on...), but it will do the job it was designed for:
 
 * Showing how to use and customize progress bars in an unorthodox way
-* Showing the [Themestrap theme I built](http://www.williamghelfi.com/blog/2013/09/12/my-first-bootstrap-theme-with-themestrap/) in action :p
+* Showing the [Themestrap theme I built](https://www.williamghelfi.com/blog/2013/09/12/my-first-bootstrap-theme-with-themestrap/) in action :p
 * Showing how to improve some details of a ready-made theme
 
 ## Step 1 of 4: all the content in place
@@ -380,7 +380,7 @@ And it's done! No, really: done as in done!
 
 ## Closing thoughts
 
-[Once again we used a Bootstrap component](http://www.williamghelfi.com/categories/bootstrap/) in a way that was not explicitly showcased in the official docs.  
+[Once again we used a Bootstrap component](https://www.williamghelfi.com/categories/bootstrap/) in a way that was not explicitly showcased in the official docs.  
 This time we also applied a ready-made theme and we built our customizations upon it, until we obtained a good-enough finished page.
 
 This is an example of what Mark and Jacob mean for "intended use of Bootstrap".  
@@ -391,4 +391,3 @@ Also, this is what you'll want to do after reading an upcoming blog post, where 
 <hr />
 
 {% include custom/more-about-bootstrap.html %}
-

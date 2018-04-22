@@ -30,7 +30,7 @@ Turns out I find Themestrap easier to use for building Bootstrap themes. But don
 * npm (which comes with node since v0.6.3)
 * [git](http://git-scm.com/) (prerequisite for bower)
 * bower:
-	npm install -g bower
+  npm install -g bower
 * grunt-cli
   npm install -g grunt-cli
 * a very light understanding of [LESS](http://lesscss.org/)
@@ -43,22 +43,22 @@ You can choose any name for your theme. Just try to be creative, it's fun!
 
 Let's clone a copy of Themestrap as the README tells us to do:
 
-	$ git clone https://github.com/divshot/themestrap.git bootstrap-theme-supervillain
+    $ git clone https://github.com/divshot/themestrap.git bootstrap-theme-supervillain
 
 We then have to edit bower.json to adjust some properties:
 
-	{
-	  "name": "bootstrap-theme-supervillain",
-	  "version": "0.0.1",
-	  "private": true,
-	  "author": "William Ghelfi",
-	  "main": "dist/css/bootstrap.css",
-	  "themestrap": {
-	    "name": "Supervillain",
-	    "repo": "https://github.com/trumbitta/bootstrap-theme-supervillain"
-	  },
-	// omitting the rest of the file for this snippet...
-	}
+    {
+      "name": "bootstrap-theme-supervillain",
+      "version": "0.0.1",
+      "private": true,
+      "author": "William Ghelfi",
+      "main": "dist/css/bootstrap.css",
+      "themestrap": {
+        "name": "Supervillain",
+        "repo": "https://github.com/trumbitta/bootstrap-theme-supervillain"
+      },
+    // omitting the rest of the file for this snippet...
+    }
 
 The most important are `name` and `author`, while `themestrap/name` and `themestrap/repo` are only useful if you are going to publish your theme on GitHub and sharing it with bower (more in this later).
 
@@ -66,15 +66,15 @@ All set! Time to start it up.
 
 First time only:
 
-	npm install && bower install
+    npm install && bower install
 
 Then a first all-around build:
 
-	grunt
+    grunt
 
 Followed by:
 
-	grunt serve
+    grunt serve
 
 And we are ready to go with countless cycles of editing and live previewing our work.  
 Point your browser to `http://localhost:8000`.
@@ -83,10 +83,10 @@ Point your browser to `http://localhost:8000`.
 
 The are two main files to take care of. They are both in the less directory.
 
-1. `variables.less`  
-   where the most part of our work will be
-2. `theme.less`  
-   for additional, advanced, customizations
+1.  `variables.less`  
+    where the most part of our work will be
+2.  `theme.less`  
+    for additional, advanced, customizations
 
 The page we see at `localhost:8000` is built from `pages/index.html`. It includes information `from bower.json` and the whole `README.md`, which you may want to properly edit if you are going to make your theme public.
 
@@ -118,11 +118,11 @@ Another nice touch is to add some webfonts. Head to [Google Web Fonts](http://ww
 
 Import them inside `theme.less`:
 
-	@import "bootstrap.less";
+    @import "bootstrap.less";
 
-	// Add CSS Customizations to your theme here.
+    // Add CSS Customizations to your theme here.
 
-	@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700|Yanone+Kaffeesatz:400,700);
+    @import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700|Yanone+Kaffeesatz:400,700);
 
 Then edit accordingly the `@font-family-` variables starting at line 42 of `variables.less`.
 
@@ -139,18 +139,18 @@ Just make sure to edit the `README.md` itself before registering your theme as a
 
 For a brief but clear example, take a look at the contents of [Cirrus Theme's `README.md`](https://github.com/divshot/bootstrap-theme-cirrus/blob/master/README.md):
 
-	# Cirrus Theme for Bootstrap 3
+    # Cirrus Theme for Bootstrap 3
 
-	Cirrus is a light, modern theme for Bootstrap 3 built on the [Themestrap](https://github.com/divshot/themestrap)
-	foundation. You can install it like so:
+    Cirrus is a light, modern theme for Bootstrap 3 built on the [Themestrap](https://github.com/divshot/themestrap)
+    foundation. You can install it like so:
 
-	    bower install bootstrap-theme-cirrus
+        bower install bootstrap-theme-cirrus
 
-	You can [see the GitHub pages](http://code.divshot.com/bootstrap-theme-cirrus/) for a live demo of how it looks and further instruction. Enjoy!
+    You can [see the GitHub pages](http://code.divshot.com/bootstrap-theme-cirrus/) for a live demo of how it looks and further instruction. Enjoy!
 
-	## Copyright and license
+    ## Copyright and license
 
-	Copyright 2013 Divshot, Inc. under [the Apache 2.0 license](LICENSE).
+    Copyright 2013 Divshot, Inc. under [the Apache 2.0 license](LICENSE).
 
 ## Goodbye
 
@@ -161,7 +161,7 @@ My own theme is at [http://trumbitta.github.io/bootstrap-theme-supervillain/](ht
 It's still a work in progress, but I like it so far.
 
 P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs.  
-[I think it's worth checking it out](http://www.williamghelfi.com/bootstrap-in-practice).
+[I think it's worth checking it out](https://www.williamghelfi.com/bootstrap-in-practice).
 
 <hr />
 

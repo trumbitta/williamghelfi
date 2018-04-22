@@ -4,7 +4,7 @@
   <title><![CDATA[Born, Growing Up.]]></title>
   <link href="https://www.williamghelfi.com/atom.xml" rel="self"/>
   <link href="https://www.williamghelfi.com/"/>
-  <updated>2018-04-22T15:00:00+02:00</updated>
+  <updated>2018-04-22T15:17:48+02:00</updated>
   <id>https://www.williamghelfi.com/</id>
   <author>
     <name><![CDATA[William Ghelfi]]></name>
@@ -434,7 +434,7 @@ Yesterday I envisioned some improvements to GitHub’s home page.</p>
 </ul>
 
 <p>We are not going to use <em>grunt</em>: a simple static server will suffice.<br />
-I like <code class="highlighter-rouge">serve</code> (see the <a href="http://www.williamghelfi.com/bootstrap-in-practice">free chapter from my ebook about Bootstrap for newcomers</a>), but <a href="https://www.npmjs.com/package/superstatic"><code class="highlighter-rouge">superstatic</code></a> by <a href="http://www.divshot.com">Divshot</a> is a great and more powerful alternative.</p>
+I like <code class="highlighter-rouge">serve</code> (see the <a href="https://www.williamghelfi.com/bootstrap-in-practice">free chapter from my ebook about Bootstrap for newcomers</a>), but <a href="https://www.npmjs.com/package/superstatic"><code class="highlighter-rouge">superstatic</code></a> by <a href="http://www.divshot.com">Divshot</a> is a great and more powerful alternative.</p>
 
 <h2 id="what-are-we-going-to-build">What are we going to build</h2>
 
@@ -444,7 +444,7 @@ I like <code class="highlighter-rouge">serve</code> (see the <a href="http://www
 
 <ul>
   <li>Showing how to use and customize progress bars in an unorthodox way</li>
-  <li>Showing the <a href="http://www.williamghelfi.com/blog/2013/09/12/my-first-bootstrap-theme-with-themestrap/">Themestrap theme I built</a> in action :p</li>
+  <li>Showing the <a href="https://www.williamghelfi.com/blog/2013/09/12/my-first-bootstrap-theme-with-themestrap/">Themestrap theme I built</a> in action :p</li>
   <li>Showing how to improve some details of a ready-made theme</li>
 </ul>
 
@@ -799,7 +799,7 @@ I like <code class="highlighter-rouge">serve</code> (see the <a href="http://www
 
 <h2 id="closing-thoughts">Closing thoughts</h2>
 
-<p><a href="http://www.williamghelfi.com/categories/bootstrap/">Once again we used a Bootstrap component</a> in a way that was not explicitly showcased in the official docs.<br />
+<p><a href="https://www.williamghelfi.com/categories/bootstrap/">Once again we used a Bootstrap component</a> in a way that was not explicitly showcased in the official docs.<br />
 This time we also applied a ready-made theme and we built our customizations upon it, until we obtained a good-enough finished page.</p>
 
 <p>This is an example of what Mark and Jacob mean for “intended use of Bootstrap”.<br />
@@ -953,7 +953,7 @@ Because if you are going to invest time into learning a new framework which can 
 
 <p>I still feel this pain when I think of it.</p>
 
-<p>Hell, I even wrote <a href="http://www.williamghelfi.com/bootstrap-in-practice">an ebook</a> to help newcomers in learning the basics as quickly as possible and go back to the funnier and more productive things.</p>
+<p>Hell, I even wrote <a href="https://www.williamghelfi.com/bootstrap-in-practice">an ebook</a> to help newcomers in learning the basics as quickly as possible and go back to the funnier and more productive things.</p>
 
 <p>But I digress, and it’s time to say goodbye.<br />
 Until next time!</p>
@@ -1041,7 +1041,7 @@ Now maintained by <a href="https://github.com/lostcrew">Emanuele Marchi</a>.</p>
 
 <p>I always liked switches, both in the real world and in computer / smartphone interfaces!</p>
 
-<p>Go take a look at the demo: <br />
+<p>Go take a look at the demo:<br />
 <a href="http://www.bootstrap-switch.org/">http://www.bootstrap-switch.org/</a></p>
 
 <p>Or read the docs, if you want to use it in your projects:<br />
@@ -1054,7 +1054,7 @@ Now maintained by <a href="https://github.com/lostcrew">Emanuele Marchi</a>.</p>
 <p>P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs.</p>
 
 <p>I think it’s worth checking it out:<br />
-<a href="http://www.williamghelfi.com/bootstrap-in-practice">http://www.williamghelfi.com/bootstrap-in-practice</a></p>
+<a href="https://www.williamghelfi.com/bootstrap-in-practice">https://www.williamghelfi.com/bootstrap-in-practice</a></p>
 
 <hr />
 
@@ -1836,7 +1836,7 @@ Thomas Park was the first at trying to define and streamline a suitable approach
   <li>npm (which comes with node since v0.6.3)</li>
   <li><a href="http://git-scm.com/">git</a> (prerequisite for bower)</li>
   <li>bower:
-  npm install -g bower</li>
+npm install -g bower</li>
   <li>grunt-cli
 npm install -g grunt-cli</li>
   <li>a very light understanding of <a href="http://lesscss.org/">LESS</a></li>
@@ -1984,7 +1984,7 @@ From now on, it’s just a matter of good choices and design.</p>
 It’s still a work in progress, but I like it so far.</p>
 
 <p>P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs.<br />
-<a href="http://www.williamghelfi.com/bootstrap-in-practice">I think it’s worth checking it out</a>.</p>
+<a href="https://www.williamghelfi.com/bootstrap-in-practice">I think it’s worth checking it out</a>.</p>
 
 <hr />
 
@@ -1996,6 +1996,7 @@ It’s still a work in progress, but I like it so far.</p>
 		</p>
 	</div>
 </div>
+
 ]]></content>
   </entry>
   

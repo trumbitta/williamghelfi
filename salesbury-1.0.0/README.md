@@ -1,13 +1,13 @@
 # Salesbury - Responsive Sales Page
 
-**Author**: [William Ghelfi](http://www.williamghelfi.com/)  
+**Author**: [William Ghelfi](https://www.williamghelfi.com/)  
 Copyright 2013 William Ghelfi
 
 **Version**: 1.0.0
 
 ## Info
 
-Salesbury is a general purpose rebuild of the sales page I used for my ebook [Bootstrap In Practice](http://www.williamghelfi.com/bootstrap-in-practice).
+Salesbury is a general purpose rebuild of the sales page I used for my ebook [Bootstrap In Practice](https://www.williamghelfi.com/bootstrap-in-practice).
 
 ### Features
 
@@ -46,13 +46,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 **Mark Otto**
 
-+ [http://twitter.com/mdo](http://twitter.com/mdo)
-+ [http://github.com/mdo](http://github.com/mdo)
+* [http://twitter.com/mdo](http://twitter.com/mdo)
+* [http://github.com/mdo](http://github.com/mdo)
 
 **Jacob Thornton**
 
-+ [http://twitter.com/fat](http://twitter.com/fat)
-+ [http://github.com/fat](http://github.com/fat)
+* [http://twitter.com/fat](http://twitter.com/fat)
+* [http://github.com/fat](http://github.com/fat)
 
 #### Copyright and license
 
@@ -79,7 +79,7 @@ Font Awesome by Dave Gandy - http://fontawesome.io
   http://www.google.com/fonts/specimen/Open+Sans+Condensed  
   [http://www.apache.org/licenses/LICENSE-2.0.html](http://www.apache.org/licenses/LICENSE-2.0.html)
 * Fjalla One, by [Irina Smirnova](https://plus.google.com/104243178318516468123/about)  
-	http://www.google.com/fonts/specimen/Fjalla+One  
+   http://www.google.com/fonts/specimen/Fjalla+One  
   [SIL Open Font License, 1.1](http://scripts.sil.org/OFL)
 
 ### Patterns

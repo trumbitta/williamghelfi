@@ -63,7 +63,7 @@ Then adding `data-toggle="buttons"` and making a button of it:
 &lt;/div&gt;
 </code></pre>
 
-We now have a cool *– if somewhat dangerous –* toggleable single checkbox.
+We now have a cool _– if somewhat dangerous –_ toggleable single checkbox.
 
 ## 2. On / Off switch
 
@@ -72,7 +72,7 @@ Now maintained by [Emanuele Marchi](https://github.com/lostcrew).
 
 I always liked switches, both in the real world and in computer / smartphone interfaces!
 
-Go take a look at the demo:   
+Go take a look at the demo:  
 [http://www.bootstrap-switch.org/](http://www.bootstrap-switch.org/)
 
 Or read the docs, if you want to use it in your projects:  
@@ -80,14 +80,13 @@ Or read the docs, if you want to use it in your projects:
 
 That's it. Hope you liked these pills :)
 
-----
+---
 
 P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs.
 
 I think it's worth checking it out:  
-[http://www.williamghelfi.com/bootstrap-in-practice](http://www.williamghelfi.com/bootstrap-in-practice)
+[https://www.williamghelfi.com/bootstrap-in-practice](https://www.williamghelfi.com/bootstrap-in-practice)
 
 <hr />
 
 {% include custom/more-about-bootstrap.html %}
-

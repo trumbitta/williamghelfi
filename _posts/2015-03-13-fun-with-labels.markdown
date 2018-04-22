@@ -129,13 +129,13 @@ I hope you are starting to see that Bootstrap is far more versatile than it may 
 When I was starting with it, back in 2011, I was too much focused on grasping it as a whole and getting productive as quickly as I could.  
 Because if you are going to invest time into learning a new framework which can boost your productivity, that's what you want: get productive, and fast.
 
-But now that I know more of Bootstrap, I am able to use it as I want and go beyond the *natural* ways of using its components.
+But now that I know more of Bootstrap, I am able to use it as I want and go beyond the _natural_ ways of using its components.
 
 Those first weeks, or months, are the most important because you are learning the basics. But at the same time those are the ones you wish you could skip in a minute.
 
 I still feel this pain when I think of it.
 
-Hell, I even wrote [an ebook](http://www.williamghelfi.com/bootstrap-in-practice) to help newcomers in learning the basics as quickly as possible and go back to the funnier and more productive things.
+Hell, I even wrote [an ebook](https://www.williamghelfi.com/bootstrap-in-practice) to help newcomers in learning the basics as quickly as possible and go back to the funnier and more productive things.
 
 But I digress, and it's time to say goodbye.  
 Until next time!
