@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrap in practice: a landing page - Born, Growing Up.</title>
+  <meta name="author" content="William Ghelfi" />
+  <meta charset="utf-8" />
+  
+  <meta name="description" content=" Bootstrap in practice: a landing page Aug 4th, 2013 Heads up!
+2013-09-10 · Updated to Bootstrap 3.0.0 stable. TL;DR Live Demo Here we go Let’s see how to build a landing page with Bootstrap from scratch. The first step is the good ole “Hello, world!” page. &lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;..."/>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/css/screen.css" rel="stylesheet" />
+  <link href="/css/bootstrap-custom-utils.css" rel="stylesheet" />
+  <link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" />
+  <link href="/css/prism.css" rel="stylesheet" />
+
+  
+  <link rel="canonical" href="https://www.williamghelfi.com/blog/2013/08/04/bootstrap-in-practice-a-landing-page/" />
+  <link href="/favicon.ico" rel="icon" />
+
+  <link href="/atom.xml" rel="alternate" title="Born, Growing Up." type="application/atom+xml" />
+
+</head>
+
+<body >
+
+<div class="container">
+
+  <div class="row">
+
+  <header role="banner" class="col-xs-12 col-md-10 col-md-offset-1 text-center">
+    <h1><a href="/">Born, Growing Up.</a></h1>
+    
+    <h2>William Ghelfi</h2>
+    
+  </header>
+  <nav role="navigation" class="col-xs-12 col-md-10 col-md-offset-1 navbar navbar-default">
+    <ul class="nav navbar-nav">
+      <!--
+      <li><a href="/">Blog</a></li>
+      -->
+      <li><a href="/bootstrap-in-practice"><span class="icon-book"></span>&#32;Bootstrap In Practice</a></li>
+      <li><a href="/blog/archives"><span class="icon-archive"></span>&#32;Archives</a></li>
+      <li><a href="/about?rel=me"><span class="icon-user"></span>&#32;About</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right">
+      <li><a href="https://twitter.com/trumbitta"><span class="icon-twitter"></span></a></li>
+      <li><a href="https://github.com/trumbitta"><span class="icon-github"></span></a></li>
+      <li><a href="https://it.linkedin.com/in/williamghelfi"><span class="icon-linkedin"></span></a></li>
+      <li><a rel="author" href="https://plus.google.com/114169273981533817065/about?rel=author"><span class="icon-google-plus"></span></a></li>
+      <li><a class="navbar-link" href="/atom.xml" rel="subscribe-rss" title="Subscribe via RSS"><span class="icon-rss"></span></a></li>
+    </ul>
+  </nav>
+
+  <article class="col-xs-12 col-md-10 col-md-offset-1" role="article">
+  
+  <header>
+    
+      <h1>Bootstrap in practice: a landing page</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+<time datetime="2013-08-04T17:55:00+02:00" class="published">
+
+
+
+Aug
+  
+4th,
+  
+2013
+</time>
+<!--
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+-->
+      </p>
+    
+  </header>
+
+<h2 id="heads-up">Heads up!</h2>
+<p><strong>2013-09-10</strong> · Updated to Bootstrap 3.0.0 stable.</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<p><a href="/demos/b3-landing-page.html">Live Demo</a></p>
+
+<h2 id="here-we-go">Here we go</h2>
+
+<p>Let’s see how to build a landing page with Bootstrap from scratch.</p>
+
+<p>The first step is the good ole “Hello, world!” page.</p>
+
+<pre><code class="language-markup">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Bootstrap In Practice - Landing Page Example&lt;/title&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+	&lt;!-- Bootstrap --&gt;
+	&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;h1&gt;Hello, world!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Not so much to see here: just the basic HTML and the awesome BootstrapCDN.</p>
+
+<h2 id="content-is-king">Content is king</h2>
+
+<p>Or, <em>Landing Pages 101</em>.</p>
+
+<p>One good way to catch the attention of somebody passing by your landing page is a direct question, better if about a pain they would certainly be interested in throwing away.</p>
+
+<p>Following, there should be a brief, to-the-point, digression about the same subject closed with a reiteration of the opening question which is also a nice touch.</p>
+
+<p>Now that you have exposed the pain point, introduce your solution to the problem.</p>
+
+<p>A simple form, requesting the minimum possible information about your visitor, with a clear declaration of what you are going to do with their data.</p>
+
+<p>As an example, we are going to just use a fairly famous question, followed by a brief digression on the same subject and a simple form requesting no more than an email address.</p>
+
+<pre><code class="language-markup">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Bootstrap In Practice - Landing Page Example&lt;/title&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+	&lt;!-- Bootstrap --&gt;
+	&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;h1&gt;Have you ever seen the rain?&lt;/h1&gt;
+
+	&lt;p&gt;
+		Someone told me long ago there's a calm before the storm. I know, It's been comin for some time.
+	&lt;/p&gt;
+	&lt;p&gt;
+		When it's over, so they say, it'll rain a sunny day. I know, Shinin down like water.
+	&lt;/p&gt;
+
+	&lt;p&gt;
+		I want to know, have you ever seen the rain?
+	&lt;/p&gt;
+
+	&lt;form action="/mailing-list" method="post"&gt;
+		&lt;p class="input-group"&gt;
+			&lt;span class="input-group-addon"&gt;@&lt;/span&gt;
+			&lt;input type="text" class="form-control input-lg" name="email" placeholder="jonsnow@knowsnothi.ng" /&gt;
+		&lt;/p&gt;
+		&lt;p class="help-block"&gt;&lt;small&gt;We won't send you spam. Unsubscribe at any time.&lt;/small&gt;&lt;/p&gt;
+		&lt;p&gt;
+			&lt;button type="submit" class="btn btn-success btn-lg"&gt;Keep me posted&lt;/button&gt;
+		&lt;/p&gt;
+		&lt;/span&gt;
+	&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<figure class="text-center">
+	<img src="/images/posts/2013-08-04-bootstrap-in-practice-a-landing-page/landing-sshot1.png" alt=" " class="img-thumbnail" />
+</figure>
+
+<p>Pretty basic, so far.</p>
+
+<h2 id="front-and-center-is-always-a-win">Front and center is always a win</h2>
+
+<p>Content is king and comes first. It should make sense and be effective even in a barebones page.</p>
+
+<p>But things can and will get better, if you start giving your content breath and prominence: a throne for the king.</p>
+
+<pre><code class="language-markup">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Bootstrap In Practice - Landing Page Example&lt;/title&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+	&lt;!-- Bootstrap --&gt;
+	&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" /&gt;
+
+	&lt;style&gt;
+
+	body {
+		padding-top: 20px;
+	}
+
+	.margin-base-vertical {
+		margin: 40px 0;
+	}
+
+	&lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+
+	&lt;div class="container"&gt;
+		&lt;div class="row"&gt;
+			&lt;div class="col-md-6 col-md-offset-3"&gt;
+
+				&lt;h1 class="margin-base-vertical"&gt;Have you ever seen the rain?&lt;/h1&gt;
+
+				&lt;p&gt;
+					Someone told me long ago there's a calm before the storm. I know, It's been comin for some time.
+				&lt;/p&gt;
+				&lt;p&gt;
+					When it's over, so they say, it'll rain a sunny day. I know,	Shinin down like water.
+				&lt;/p&gt;
+
+				&lt;p&gt;
+					I want to know, have you ever seen the rain?
+				&lt;/p&gt;
+
+				&lt;form action="/mailing-list" method="post" class="margin-base-vertical"&gt;
+					&lt;p class="input-group"&gt;
+						&lt;span class="input-group-addon"&gt;@&lt;/span&gt;
+						&lt;input type="text" class="form-control input-lg" name="email" placeholder="jonsnow@knowsnothi.ng" /&gt;
+					&lt;/p&gt;
+					&lt;p class="help-block text-center"&gt;&lt;small&gt;We won't send you spam. Unsubscribe at any time.&lt;/small&gt;&lt;/p&gt;
+					&lt;p class="text-center"&gt;
+						&lt;button type="submit" class="btn btn-success btn-lg"&gt;Keep me posted&lt;/button&gt;
+					&lt;/p&gt;
+					&lt;/span&gt;
+				&lt;/form&gt;
+
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<figure class="text-center">
+	<img src="/images/posts/2013-08-04-bootstrap-in-practice-a-landing-page/landing-sshot2.png" alt=" " class="img-thumbnail" />
+</figure>
+
+<p>A few touches, but a very good effect. We horizontally centered the content with a <code class="highlighter-rouge">.col-md-6 .col-md-offset-3</code>.<br />
+Then we added a default top padding to the <code class="highlighter-rouge">&lt;body&gt;</code> and used a custom utility class — <code class="highlighter-rouge">.margin-base-vertical</code> — to adjust the vertical margins of some elements.</p>
+
+<h2 id="jewels">Jewels</h2>
+
+<p>You know, since we are going on with this content is king stuff, let’s keep it on till the end of the chapter and call it a day.</p>
+
+<p>Jewels are little shiny additions to a king’s crown and dress. Just like adding two nice web fonts, and swapping a textual <code class="highlighter-rouge">@</code> for a crisp <code class="highlighter-rouge">icon-envelope</code> from FontAwesome.</p>
+
+<pre><code class="language-markup">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Bootstrap In Practice - Landing Page Example&lt;/title&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+	&lt;!-- Bootstrap --&gt;
+	&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" /&gt;
+	&lt;link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" /&gt;
+
+	&lt;link href='http://fonts.googleapis.com/css?family=Abel|Open+Sans:400,600' rel='stylesheet'&gt;
+
+	&lt;style&gt;
+
+		body {
+			padding-top: 20px;
+			font-size: 16px;
+			font-family: "Open Sans",serif;
+		}
+
+		h1 {
+			font-family: "Abel", Arial, sans-serif;
+			font-weight: 400;
+			font-size: 40px;
+		}
+
+		.margin-base-vertical {
+			margin: 40px 0;
+		}
+
+	&lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+
+	&lt;div class="container"&gt;
+		&lt;div class="row"&gt;
+			&lt;div class="col-md-6 col-md-offset-3"&gt;
+
+				&lt;h1 class="margin-base-vertical"&gt;Have you ever seen the rain?&lt;/h1&gt;
+
+				&lt;p&gt;
+					Someone told me long ago there's a calm before the storm. I know, It's been comin for some time.
+				&lt;/p&gt;
+				&lt;p&gt;
+					When it's over, so they say, it'll rain a sunny day. I know, Shinin down like water.
+				&lt;/p&gt;
+
+				&lt;p&gt;
+					I want to know, have you ever seen the rain?
+				&lt;/p&gt;
+
+				&lt;form class="margin-base-vertical"&gt;
+					&lt;p class="input-group"&gt;
+						&lt;span class="input-group-addon"&gt;&lt;span class="icon-envelope"&gt;&lt;/span&gt;&lt;/span&gt;
+						&lt;input type="text" class="form-control input-lg" name="email" placeholder="jonsnow@knowsnothi.ng" /&gt;
+					&lt;/p&gt;
+					&lt;p class="help-block text-center"&gt;&lt;small&gt;We won't send you spam. Unsubscribe at any time.&lt;/small&gt;&lt;/p&gt;
+					&lt;p class="text-center"&gt;
+						&lt;button type="submit" class="btn btn-success btn-lg"&gt;Keep me posted&lt;/button&gt;
+					&lt;/p&gt;
+					&lt;/span&gt;
+				&lt;/form&gt;
+
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<figure class="text-center">
+	<img src="/images/posts/2013-08-04-bootstrap-in-practice-a-landing-page/landing-sshot3.png" alt=" " class="img-thumbnail" />
+</figure>
+
+<h2 id="tapestries">Tapestries</h2>
+
+<p>Ok, stay with me just another few lines: the metaphorical madness has come to an end.</p>
+
+<p>So we have our king, with his crown and jewels, sitting well centered and with proper amounts of vertical space in his throne room.</p>
+
+<p>And what’s a throne room without tapestries! (Wait, wa…)</p>
+
+<p>So let’s all thank Chris Coyer — for the tecnique — and Flickr user <em>erwlas</em> — for the photo (see the attribution links added at the bottom of the final example code) — and give this landing page a nice full screen background.</p>
+
+<p>As a last touch, we are making the grid cell containing the content a <code class="highlighter-rouge">.panel</code> and also overriding its default white background with a slightly transparent one.<br />
+Notice also that in order to let the <code class="highlighter-rouge">html</code> background be visible through the page, we also need to make sure the <code class="highlighter-rouge">body</code> has a <code class="highlighter-rouge">background: transparent;</code>.</p>
+
+<pre><code class="language-markup">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Bootstrap In Practice - Landing Page Example&lt;/title&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+	&lt;!-- Bootstrap --&gt;
+	&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"&gt;
+	&lt;link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" /&gt;
+
+	&lt;link href="http://fonts.googleapis.com/css?family=Abel|Open+Sans:400,600" rel="stylesheet" /&gt;
+
+	&lt;style&gt;
+
+		/* http://css-tricks.com/perfect-full-page-background-image/ */
+		html {
+			background: url(img/6133364748_89f2365922_o.jpg) no-repeat center center fixed; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+
+		body {
+			padding-top: 20px;
+			font-size: 16px;
+			font-family: "Open Sans",serif;
+			background: transparent;
+		}
+
+		h1 {
+			font-family: "Abel", Arial, sans-serif;
+			font-weight: 400;
+			font-size: 40px;
+		}
+
+		/* Override B3 .panel adding a subtly transparent background */
+		.panel {
+			background-color: rgba(255, 255, 255, 0.9);
+		}
+
+		.margin-base-vertical {
+			margin: 40px 0;
+		}
+
+	&lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+
+	&lt;div class="container"&gt;
+		&lt;div class="row"&gt;
+			&lt;div class="col-md-6 col-md-offset-3 panel panel-default"&gt;
+
+				&lt;h1 class="margin-base-vertical"&gt;Have you ever seen the rain?&lt;/h1&gt;
+
+				&lt;p&gt;
+					Someone told me long ago there's a calm before the storm. I know, It's been comin for some time.
+				&lt;/p&gt;
+				&lt;p&gt;
+					When it's over, so they say, it'll rain a sunny day. I know,	Shinin down like water.
+				&lt;/p&gt;
+
+				&lt;p&gt;
+					I want to know, have you ever seen the rain?
+				&lt;/p&gt;
+
+				&lt;form class="margin-base-vertical"&gt;
+					&lt;p class="input-group"&gt;
+						&lt;span class="input-group-addon"&gt;&lt;span class="icon-envelope"&gt;&lt;/span&gt;&lt;/span&gt;
+						&lt;input type="text" class="form-control input-lg" name="email" placeholder="jonsnow@knowsnothi.ng" /&gt;
+					&lt;/p&gt;
+					&lt;p class="help-block text-center"&gt;&lt;small&gt;We won't send you spam. Unsubscribe at any time.&lt;/small&gt;&lt;/p&gt;
+					&lt;p class="text-center"&gt;
+						&lt;button type="submit" class="btn btn-success btn-lg"&gt;Keep me posted&lt;/button&gt;
+					&lt;/p&gt;
+					&lt;/span&gt;
+				&lt;/form&gt;
+
+				&lt;div class="margin-base-vertical"&gt;
+					&lt;small class="text-muted"&gt;&lt;a href="http://www.flickr.com/photos/erwlas/6133364748/"&gt;Background picture by erwlas @flickr&lt;/a&gt;. Used under &lt;a href="http://creativecommons.org/licenses/by/2.0/deed.en"&gt;Creative Commons - Attribution&lt;/a&gt;.&lt;/small&gt;
+				&lt;/div&gt;
+
+			&lt;/div&gt;&lt;!-- //main content --&gt;
+		&lt;/div&gt;&lt;!-- //row --&gt;
+	&lt;/div&gt; &lt;!-- //container --&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<figure class="text-center">
+	<img src="/images/posts/2013-08-04-bootstrap-in-practice-a-landing-page/landing-sshot4.png" alt=" " class="img-thumbnail" />
+</figure>
+
+<p><a href="/demos/b3-landing-page.html">Live Demo</a></p>
+
+<h2 id="and-its-done">And it’s done</h2>
+
+<p>A good starting point for your landing page, where content is king and has — pls stahp —.</p>
+
+<p><em>«rewind»</em></p>
+
+<p>A good starting point for your landing page, where content is easily put front and center thanks to Bootstrap 3 and a few styles get overridden for a greater cause.</p>
+
+<hr />
+
+<div class="panel panel-default padding-medium-top padding-medium-bottom">
+	<div class="panel-body">
+		<p class="text-center margin-bottom-none">
+			<em>Want to learn more about Bootstrap?<br />
+			<a href="/categories/bootstrap/">Take a look at these other posts.</a></em>
+		</p>
+	</div>
+</div>
+
+
+<!--
+
+  
+
+-->
+
+
+  <hr />
+
+  <footer>
+    <div class="vcard">
+      
+Posted by <address class="author"><a rel="author" href="https://plus.google.com/u/0/114169273981533817065?rel=author"><span class="fn">William Ghelfi</span></a></address>
+ &middot;
+      
+
+
+
+
+
+
+<time datetime="2013-08-04T17:55:00+02:00" class="published">
+
+
+
+Aug
+  
+4th,
+  
+2013
+</time>
+    </div>
+    
+
+<span class="pull-right">
+  
+	  
+	  	<a class="label label-info" href="/category/css/">CSS</a>
+
+	  
+	  	<a class="label label-info" href="/category/bootstrap/">BOOTSTRAP</a>
+
+	  
+  
+</span>
+<span class="clearfix"></span>
+
+
+    <hr/>
+    <!-- Insert tweet button here -->
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <ul class="pager">
+    
+      <li class="previous">
+        <a href="/blog/2013/06/28/why-you-should-submit-your-first-pull-request-now/" title="Previous Post: Why you should submit your first pull request now">&larr; Why you should submit your first pull request now</a>
+      </li>
+    
+    
+      <li class="next">
+        <a href="/blog/2013/08/11/bootstrap-in-practice-blogception/" title="Next Post: Bootstrap in practice: Blogception">Bootstrap in practice: Blogception &rarr;</a>
+      </li>
+    
+    </ul>
+  </footer>
+
+</article>
+
+  <footer role="contentinfo" class="col-xs-12 col-md-10 col-md-offset-1">
+    <p class="text-muted text-center">
+      Copyright &copy; 2018 &mdash; <a href="https://plus.google.com/u/0/114169273981533817065?rel=author">William Ghelfi</a> &mdash;
+      <span class="credit">Powered by <a href="http://jekyllrb.com/">Jekyll</a></span>
+    </p>
+    <p class="text-muted text-center">
+      The postings on this site are my own and don't necessarily represent my employer's positions, strategies or opinions.
+    </p>
+  </footer>
+  </div>
+</div>
+
+  <script src="/js/prism.js"></script>
+</body>
+</html>

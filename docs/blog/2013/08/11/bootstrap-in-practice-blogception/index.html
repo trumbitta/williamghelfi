@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrap in practice: Blogception - Born, Growing Up.</title>
+  <meta name="author" content="William Ghelfi" />
+  <meta charset="utf-8" />
+  
+  <meta name="description" content=" Bootstrap in practice: Blogception Aug 11th, 2013 Sorry Plauto: metablog just wasn’t cool enough.
+William Ghelfi in This very blog post. I have a plan Hello! Since I was going to redesign my blog using Bootstrap 3, I thought it would be fun to document my step-by-step progress in a blog post. Or..."/>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/css/screen.css" rel="stylesheet" />
+  <link href="/css/bootstrap-custom-utils.css" rel="stylesheet" />
+  <link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" />
+  <link href="/css/prism.css" rel="stylesheet" />
+
+  
+  <link rel="canonical" href="https://www.williamghelfi.com/blog/2013/08/11/bootstrap-in-practice-blogception/" />
+  <link href="/favicon.ico" rel="icon" />
+
+  <link href="/atom.xml" rel="alternate" title="Born, Growing Up." type="application/atom+xml" />
+
+</head>
+
+<body >
+
+<div class="container">
+
+  <div class="row">
+
+  <header role="banner" class="col-xs-12 col-md-10 col-md-offset-1 text-center">
+    <h1><a href="/">Born, Growing Up.</a></h1>
+    
+    <h2>William Ghelfi</h2>
+    
+  </header>
+  <nav role="navigation" class="col-xs-12 col-md-10 col-md-offset-1 navbar navbar-default">
+    <ul class="nav navbar-nav">
+      <!--
+      <li><a href="/">Blog</a></li>
+      -->
+      <li><a href="/bootstrap-in-practice"><span class="icon-book"></span>&#32;Bootstrap In Practice</a></li>
+      <li><a href="/blog/archives"><span class="icon-archive"></span>&#32;Archives</a></li>
+      <li><a href="/about?rel=me"><span class="icon-user"></span>&#32;About</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right">
+      <li><a href="https://twitter.com/trumbitta"><span class="icon-twitter"></span></a></li>
+      <li><a href="https://github.com/trumbitta"><span class="icon-github"></span></a></li>
+      <li><a href="https://it.linkedin.com/in/williamghelfi"><span class="icon-linkedin"></span></a></li>
+      <li><a rel="author" href="https://plus.google.com/114169273981533817065/about?rel=author"><span class="icon-google-plus"></span></a></li>
+      <li><a class="navbar-link" href="/atom.xml" rel="subscribe-rss" title="Subscribe via RSS"><span class="icon-rss"></span></a></li>
+    </ul>
+  </nav>
+
+  <article class="col-xs-12 col-md-10 col-md-offset-1" role="article">
+  
+  <header>
+    
+      <h1>Bootstrap in practice: Blogception</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+<time datetime="2013-08-11T21:13:00+02:00" class="published">
+
+
+
+Aug
+  
+11th,
+  
+2013
+</time>
+<!--
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+-->
+      </p>
+    
+  </header>
+
+<blockquote>
+  <p>Sorry <a href="http://lmgtfy.com/?q=plautus+metatheatre">Plauto</a>: <em>metablog</em> just wasn’t cool enough.
+<small>William Ghelfi in <cite title="This very blog post">This very blog post.</cite></small></p>
+</blockquote>
+
+<h2 id="i-have-a-plan">I have a plan</h2>
+
+<p>Hello! Since I was going to redesign my blog using Bootstrap 3, I thought it would be fun to document my step-by-step progress in a blog post. Or, in other words:</p>
+
+<figure class="text-center">
+<img src="/images/posts/2013-08-11-bootstrap-in-practice-blogception/yo-dawg-i-heard-you-like-blogs.jpg" class="img-thumbnail" />
+</figure>
+
+<p>So this is the plan, and this also why for some time you should expect discrepancies between blog posts’ look &amp; feel and the overall design of the website. as I rewrite the various layouts and includes in Octopress.</p>
+
+<h2 id="a-beginning">A beginning</h2>
+
+<p>Anyway. Here we have the minimum core of a proper blog post, and we also started to set it up with Bootstrap 3:</p>
+
+<pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Bootstrap In Practice - Blog example&lt;/title&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+&lt;!-- Bootstrap --&gt;
+&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class="container"&gt;
+	&lt;div class="row"&gt;
+		&lt;article class="col-12 col-lg-10 col-offset-1"&gt;
+
+			&lt;header&gt;
+				&lt;h1&gt;Blogception&lt;/h1&gt;
+				&lt;p class="meta"&gt;
+					&lt;time datetime="2013-08-11T17:55:00+02:00"&gt;Aug 11th, 2013&lt;/time&gt; |
+					&lt;a href="#disqus_thread"&gt;Comments&lt;/a&gt;
+				&lt;/p&gt;
+			&lt;/header&gt;
+
+			&lt;blockquote&gt;
+				&lt;p&gt;Sorry &lt;a href="http://lmgtfy.com/?q=plautus+metatheatre"&gt;Plauto&lt;/a&gt;: &lt;em&gt;metablog&lt;/em&gt; just wasn't cool enough.&lt;/p&gt;
+				&lt;small&gt;William Ghelfi in &lt;cite title="This very blog post"&gt;This very blog post.&lt;/cite&gt;&lt;/small&gt;
+			&lt;/blockquote&gt;
+
+			&lt;h2&gt;I have a plan&lt;/h2&gt;
+			&lt;p&gt;
+				Hello! Since I was going to redesign my blog using Bootstrap 3, I thought it would be fun to document my step-by-step progress in a blog post. Or, in other words:
+			&lt;/p&gt;
+
+			&lt;figure class="text-center"&gt;
+				&lt;img src="img/yo-dawg-i-heard-you-like-blogs.jpg" class="img-thumbnail" /&gt;
+			&lt;/figure&gt;
+
+			&lt;p&gt;
+				So this is the plan, and this also why for some time you should expect discrepancies between blog posts' look &amp; feel and the overall design of the website. as I rewrite the various layouts and includes in Octopress.
+			&lt;/p&gt;
+
+			&lt;h2&gt;A beginning&lt;/h2&gt;
+			&lt;p&gt;Anyway. Here we have the minimum core of a proper blog post, and we also started to set it up with Bootstrap 3:&lt;/p&gt;
+			&lt;ul&gt;
+				&lt;li&gt;Up there in the &lt;code&gt;head&lt;/code&gt;, Bootstrap from the great guys at NetDNA &mdash; hey, thanks again!&lt;/li&gt;
+				&lt;li&gt;An wide and centered article, slightly narrower at desktop sizes and which is containing the whole post&lt;/li&gt;
+				&lt;li&gt;A nerd&lt;em&gt;ish&lt;/em&gt; title for our post, followed by a publishing date and a pointer to the comments section. All of them packed into a &lt;code&gt;header&lt;/code&gt; element.&lt;/li&gt;
+				&lt;li&gt;An intro with accompanying picture&lt;/li&gt;
+			&lt;/ul&gt;
+
+		&lt;/article&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<ul>
+  <li>Up there in the <code class="highlighter-rouge">head</code>, Bootstrap from the great guys at NetDNA — hey, thanks again!</li>
+  <li>A wide and centered article, slightly narrower at desktop sizes and which is containing the whole post</li>
+  <li>A nerd<em>ish</em> title for our post, followed by a publishing date and a pointer to the comments section. All of them packed into a <code class="highlighter-rouge">header</code> element.</li>
+  <li>An intro with accompanying picture</li>
+</ul>
+
+<h2 id="easier-to-the-eyes">Easier to the eyes</h2>
+
+<p>Before proceeding further, let’s adjust the font size for an easier reading. We are all here on a blog, reading a blog post, after all.<br />
+I’m going to add some overriding styles using a <code class="highlighter-rouge">style</code> element into the <code class="highlighter-rouge">head</code> of this document.</p>
+
+<pre>
+<code class="language-css">&lt;style&gt;
+/* Overriding for fun and profit */
+
+body {
+  /* 17 is better than 16 is better than 14 */
+  font-size: 17px;
+}
+
+pre {
+  font-size: 16px;
+}
+&lt;/style&gt;
+</code></pre>
+
+<p>While this is perfect for showing all the code in a single place, for real world scenarios it’s always better to put the stylesheets into separated files and link them back into the document.</p>
+
+<p>A good name for such a file, would certainly be something like <code class="highlighter-rouge">bootstrap-override.css</code>.</p>
+
+<h2 id="highlight-my-fire">Highlight my fire</h2>
+
+<p>And, since nobody likes code snippets without syntax highlighting, we are now going to add <a href="http://prismjs.com/">Prism by Lea Verou</a> to our blog post. I’m leaving out line numbers, because I got some problems with vertical alignments.</p>
+
+<pre>
+<code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  ...
+  &lt;link href="prism.css" rel="stylesheet" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+  &lt;script src="prism.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Not much pain. We only needed to add the js library and our theme of choice — I chose <em>Twilight</em> — and now we are good to go.</p>
+
+<h2 id="closing-the-post">Closing the post</h2>
+
+<p>This <em>blogception</em> is coming to an end, so we need to add the closing bits:</p>
+
+<pre><code class="language-markup">&lt;div id="disqus_thread"&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;footer&gt;
+&lt;span class="vcard"&gt;
+	Posted by &lt;address class="author"&gt;&lt;span class="fn"&gt;William Ghelfi&lt;/span&gt;&lt;/address&gt; on
+	&lt;time datetime="2013-08-11T17:55:00+02:00" class="published"&gt;Aug 11th, 2013&lt;/time&gt;
+&lt;/span&gt;
+&lt;span class="pull-right"&gt;
+	&lt;a class="label label-info" href="/blog/categories/bootstrap/"&gt;Bootstrap&lt;/a&gt;
+	&lt;a class="label label-info" href="/blog/categories/css/"&gt;CSS&lt;/a&gt;
+&lt;/span&gt;
+&lt;hr /&gt;
+&lt;!-- Insert tweet button here --&gt;
+&lt;ul class="pager"&gt;
+	&lt;li class="previous"&gt;
+		&lt;a href="/blog/2013/08/04/bootstrap-in-practice-a-landing-page/" title="Previous Post: Bootstrap in Practice: A Landing Page"&gt;&larr; Bootstrap in Practice: A Landing Page&lt;/a&gt;
+	&lt;/li&gt;
+	&lt;li class="next"&gt;&lt;a href="/fakeurl" title="Next Post: Fake Title" &gt;Fake Title &rarr;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/footer&gt;
+</code></pre>
+
+<ul>
+  <li>A placeholder for the comments section using Disqus — but I’m not going to show you how to use Disqus</li>
+  <li>Who wrote the post, and when it was published</li>
+  <li>Categories this post is related to</li>
+  <li>A placeholder for the <em>tweet this</em> button — same as for Disqus above</li>
+  <li>A pager pointing to the previous or next post as needed</li>
+</ul>
+
+<h2 id="final-touches">Final touches</h2>
+<p>Before saying goodbye, we are going to prettify things a bit.</p>
+
+<p>Stay with me while we add a nicer font for the headings, push the opening date and the link to the commens above the main title, and adjust some margin and padding here and there:</p>
+
+<pre><code class="language-markup">&lt;head&gt;
+...
+	&lt;link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css" /&gt;
+...
+
+	&lt;style&gt;</code>
+	<code class="language-css">
+	/* Overriding for fun and profit */
+
+	body {
+		/* 17 is better than 16 is better than 14 */
+		font-size: 17px;
+	}
+
+	pre {
+	  font-size: 16px;
+	}
+
+	header {
+		position: relative;
+		margin-bottom: 1.5em;
+		padding: 1.8em 0 1em 0;
+	}
+
+	header h1 {
+		margin: 0;
+		padding: 0;
+	}
+
+	header .meta {
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin: 0;
+		padding: 0;
+		text-transform: uppercase;
+		font-size: 0.9em;
+		color: #aaa;
+	}
+
+	footer {
+		font-size: 0.9em;
+	}
+
+	h1, h2 {
+		font-family: "Fjalla One", Arial, serif;
+		font-weight: 400;
+		margin-bottom: 1em;
+	}
+
+	article h2 {
+		padding-top: 0.8em;
+	}
+
+	figure {
+		margin: 2em 0;
+	}
+
+	.author {
+		display: inline;
+	}</code><code class="language-markup">
+	&lt;/style&gt;
+
+&lt;/head&gt;
+</code></pre>
+
+<p>I’m not sure I won’t come back to the code and refine some edgy corners — for instance, I’m not quite happy with the overall vertical rythm — but the final result plays nicely with a Mobile First approach and I hope to have accomplished the mission: showing how to create a clean and readable blog post with Bootstrap 3!</p>
+
+<hr />
+
+<div class="panel panel-default padding-medium-top padding-medium-bottom">
+	<div class="panel-body">
+		<p class="text-center margin-bottom-none">
+			<em>Want to learn more about Bootstrap?<br />
+			<a href="/categories/bootstrap/">Take a look at these other posts.</a></em>
+		</p>
+	</div>
+</div>
+
+
+<!--
+
+  
+
+-->
+
+
+  <hr />
+
+  <footer>
+    <div class="vcard">
+      
+Posted by <address class="author"><a rel="author" href="https://plus.google.com/u/0/114169273981533817065?rel=author"><span class="fn">William Ghelfi</span></a></address>
+ &middot;
+      
+
+
+
+
+
+
+<time datetime="2013-08-11T21:13:00+02:00" class="published">
+
+
+
+Aug
+  
+11th,
+  
+2013
+</time>
+    </div>
+    
+
+<span class="pull-right">
+  
+	  
+	  	<a class="label label-info" href="/category/css/">CSS</a>
+
+	  
+	  	<a class="label label-info" href="/category/bootstrap/">BOOTSTRAP</a>
+
+	  
+  
+</span>
+<span class="clearfix"></span>
+
+
+    <hr/>
+    <!-- Insert tweet button here -->
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <ul class="pager">
+    
+      <li class="previous">
+        <a href="/blog/2013/08/04/bootstrap-in-practice-a-landing-page/" title="Previous Post: Bootstrap in practice: a landing page">&larr; Bootstrap in practice: a landing page</a>
+      </li>
+    
+    
+      <li class="next">
+        <a href="/blog/2013/09/01/bootstrap-in-practice-preview/" title="Next Post: Bootstrap in practice: A preview">Bootstrap in practice: A preview &rarr;</a>
+      </li>
+    
+    </ul>
+  </footer>
+
+</article>
+
+  <footer role="contentinfo" class="col-xs-12 col-md-10 col-md-offset-1">
+    <p class="text-muted text-center">
+      Copyright &copy; 2018 &mdash; <a href="https://plus.google.com/u/0/114169273981533817065?rel=author">William Ghelfi</a> &mdash;
+      <span class="credit">Powered by <a href="http://jekyllrb.com/">Jekyll</a></span>
+    </p>
+    <p class="text-muted text-center">
+      The postings on this site are my own and don't necessarily represent my employer's positions, strategies or opinions.
+    </p>
+  </footer>
+  </div>
+</div>
+
+  <script src="/js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrap buttons: bits beyond the docs - Born, Growing Up.</title>
+  <meta name="author" content="William Ghelfi" />
+  <meta charset="utf-8" />
+  
+  <meta name="description" content=" Bootstrap buttons: bits beyond the docs Mar 8th, 2015 1. A checkbox-driven single toggle button The official docs show us a stateful, single toggle, button: &lt;button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"&gt; Single toggle
+&lt;/button..."/>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/css/screen.css" rel="stylesheet" />
+  <link href="/css/bootstrap-custom-utils.css" rel="stylesheet" />
+  <link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" />
+  <link href="/css/prism.css" rel="stylesheet" />
+
+  
+  <link rel="canonical" href="https://www.williamghelfi.com/blog/2015/03/08/bootstrap-buttons-bits-beyond-the-docs/" />
+  <link href="/favicon.ico" rel="icon" />
+
+  <link href="/atom.xml" rel="alternate" title="Born, Growing Up." type="application/atom+xml" />
+
+</head>
+
+<body >
+
+<div class="container">
+
+  <div class="row">
+
+  <header role="banner" class="col-xs-12 col-md-10 col-md-offset-1 text-center">
+    <h1><a href="/">Born, Growing Up.</a></h1>
+    
+    <h2>William Ghelfi</h2>
+    
+  </header>
+  <nav role="navigation" class="col-xs-12 col-md-10 col-md-offset-1 navbar navbar-default">
+    <ul class="nav navbar-nav">
+      <!--
+      <li><a href="/">Blog</a></li>
+      -->
+      <li><a href="/bootstrap-in-practice"><span class="icon-book"></span>&#32;Bootstrap In Practice</a></li>
+      <li><a href="/blog/archives"><span class="icon-archive"></span>&#32;Archives</a></li>
+      <li><a href="/about?rel=me"><span class="icon-user"></span>&#32;About</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right">
+      <li><a href="https://twitter.com/trumbitta"><span class="icon-twitter"></span></a></li>
+      <li><a href="https://github.com/trumbitta"><span class="icon-github"></span></a></li>
+      <li><a href="https://it.linkedin.com/in/williamghelfi"><span class="icon-linkedin"></span></a></li>
+      <li><a rel="author" href="https://plus.google.com/114169273981533817065/about?rel=author"><span class="icon-google-plus"></span></a></li>
+      <li><a class="navbar-link" href="/atom.xml" rel="subscribe-rss" title="Subscribe via RSS"><span class="icon-rss"></span></a></li>
+    </ul>
+  </nav>
+
+  <article class="col-xs-12 col-md-10 col-md-offset-1" role="article">
+  
+  <header>
+    
+      <h1>Bootstrap buttons: bits beyond the docs</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+<time datetime="2015-03-08T21:53:00+01:00" class="published">
+
+
+
+Mar
+  
+8th,
+  
+2015
+</time>
+<!--
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+-->
+      </p>
+    
+  </header>
+
+<h2 id="1-a-checkbox-driven-single-toggle-button">1. A checkbox-driven single toggle button</h2>
+
+<p>The official docs show us a stateful, single toggle, button:</p>
+
+<pre><code class="language-markup">&lt;button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"&gt;
+  Single toggle
+&lt;/button&gt;
+</code></pre>
+
+<p>After that, it’s the turn of a checkbox group:</p>
+
+<pre><code class="language-markup">&lt;div class="btn-group" data-toggle="buttons"&gt;
+  &lt;label class="btn btn-primary active"&gt;
+    &lt;input type="checkbox" autocomplete="off" checked&gt; Checkbox 1 (pre-checked)
+  &lt;/label&gt;
+  &lt;label class="btn btn-primary"&gt;
+    &lt;input type="checkbox" autocomplete="off"&gt; Checkbox 2
+  &lt;/label&gt;
+  &lt;label class="btn btn-primary"&gt;
+    &lt;input type="checkbox" autocomplete="off"&gt; Checkbox 3
+  &lt;/label&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Cool. Let’s see what my friend S.C. Clarence has to say about it:</p>
+
+<figure class="text-center">
+    <img src="/images/posts/2015-03-08-bootstrap-buttons-bits-beyond-the-docs/clarence.jpg" alt="Ionic + Angular" class="img-thumbnail" />
+</figure>
+<!-- http://i.qkme.me/3vqegw.jpg -->
+
+<h3 id="single-toggle-checkbox">Single toggle checkbox!</h3>
+
+<p>Yep, thanks Clarence.<br />
+Anyway. Let’s just build a simple checkbox:</p>
+
+<pre><code class="language-markup">&lt;div class="checkbox"&gt;
+  &lt;label&gt;
+    &lt;input type="checkbox" value="" /&gt;
+    I have a thirst...
+  &lt;/label&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Then adding <code class="highlighter-rouge">data-toggle="buttons"</code> and making a button of it:</p>
+
+<pre><code class="language-markup">&lt;div class="checkbox" data-toggle="buttons"&gt;
+  &lt;label class="btn btn-danger"&gt;
+    &lt;span class="glyphicon glyphicon-fire"&gt;&lt;/span&gt;&#32;
+    &lt;input type="checkbox" value="" /&gt;
+    Orange Mocha Frappuccino!
+  &lt;/label&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>We now have a cool <em>– if somewhat dangerous –</em> toggleable single checkbox.</p>
+
+<h2 id="2-on--off-switch">2. On / Off switch</h2>
+
+<p>Finally, I’d like to introduce <strong>Bootstrap Switch</strong> by <a href="https://github.com/nostalgiaz">Mattia Larentis</a> and Peter Stein.<br />
+Now maintained by <a href="https://github.com/lostcrew">Emanuele Marchi</a>.</p>
+
+<p>I always liked switches, both in the real world and in computer / smartphone interfaces!</p>
+
+<p>Go take a look at the demo: <br />
+<a href="http://www.bootstrap-switch.org/">http://www.bootstrap-switch.org/</a></p>
+
+<p>Or read the docs, if you want to use it in your projects:<br />
+<a href="http://www.bootstrap-switch.org/options.html">http://www.bootstrap-switch.org/options.html</a></p>
+
+<p>That’s it. Hope you liked these pills :)</p>
+
+<hr />
+
+<p>P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs.</p>
+
+<p>I think it’s worth checking it out:<br />
+<a href="http://www.williamghelfi.com/bootstrap-in-practice">http://www.williamghelfi.com/bootstrap-in-practice</a></p>
+
+<hr />
+
+<div class="panel panel-default padding-medium-top padding-medium-bottom">
+	<div class="panel-body">
+		<p class="text-center margin-bottom-none">
+			<em>Want to learn more about Bootstrap?<br />
+			<a href="/categories/bootstrap/">Take a look at these other posts.</a></em>
+		</p>
+	</div>
+</div>
+
+
+<!--
+
+  
+
+-->
+
+
+  <hr />
+
+  <footer>
+    <div class="vcard">
+      
+Posted by <address class="author"><a rel="author" href="https://plus.google.com/u/0/114169273981533817065?rel=author"><span class="fn">William Ghelfi</span></a></address>
+ &middot;
+      
+
+
+
+
+
+
+<time datetime="2015-03-08T21:53:00+01:00" class="published">
+
+
+
+Mar
+  
+8th,
+  
+2015
+</time>
+    </div>
+    
+
+<span class="pull-right">
+  
+	  
+	  	<a class="label label-info" href="/category/bootstrap/">BOOTSTRAP</a>
+
+	  
+	  	<a class="label label-info" href="/category/pills/">PILLS</a>
+
+	  
+  
+</span>
+<span class="clearfix"></span>
+
+
+    <hr/>
+    <!-- Insert tweet button here -->
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <ul class="pager">
+    
+      <li class="previous">
+        <a href="/blog/2015/02/15/why-i-m-betting-on-angular-and-ionic/" title="Previous Post: Why I'm betting on angular and ionic">&larr; Why I'm betting on angular and ionic</a>
+      </li>
+    
+    
+      <li class="next">
+        <a href="/blog/2015/03/13/fun-with-labels/" title="Next Post: Bootstrap: fun with labels">Bootstrap: fun with labels &rarr;</a>
+      </li>
+    
+    </ul>
+  </footer>
+
+</article>
+
+  <footer role="contentinfo" class="col-xs-12 col-md-10 col-md-offset-1">
+    <p class="text-muted text-center">
+      Copyright &copy; 2018 &mdash; <a href="https://plus.google.com/u/0/114169273981533817065?rel=author">William Ghelfi</a> &mdash;
+      <span class="credit">Powered by <a href="http://jekyllrb.com/">Jekyll</a></span>
+    </p>
+    <p class="text-muted text-center">
+      The postings on this site are my own and don't necessarily represent my employer's positions, strategies or opinions.
+    </p>
+  </footer>
+  </div>
+</div>
+
+  <script src="/js/prism.js"></script>
+</body>
+</html>

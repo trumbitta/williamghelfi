@@ -1,0 +1,114 @@
+.text-uppercase {
+	text-transform: uppercase;
+}
+
+.text-strikethrough {
+	text-decoration: line-through;
+}
+
+.text-normal {
+	font-weight: normal;
+}
+
+.display-block {
+	display: block !important;
+}
+
+.display-inline-block {
+	display: inline-block !important;
+}
+
+.margin-none {
+	margin: 0 !important;
+}
+
+.margin-bottom-none {
+	margin-bottom: 0 !important;
+}
+
+.margin-top-none {
+	margin-top: 0 !important;
+}
+
+.margin-small-top {
+	margin-top: 0.5em;
+}
+
+.margin-small-bottom {
+	margin-bottom: 0.5em;
+}
+
+.padding-small-top {
+	padding-top: 0.5em;
+}
+
+.padding-small-vertical {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.margin-medium-vertical {
+	margin: 2em 0;
+}
+
+.margin-medium-all {
+	margin: 2em;
+}
+
+.margin-medium-top {
+	margin-top: 2em;
+}
+
+.margin-medium-bottom {
+	margin-bottom: 2em !important;
+}
+
+.padding-medium-vertical {
+	padding: 2em 0;
+}
+
+.padding-medium-all {
+	padding: 2em;
+}
+
+.padding-medium-top {
+	padding-top: 2em;
+}
+
+.padding-medium-bottom {
+	padding-bottom: 2em;
+}
+
+.margin-big-vertical {
+	margin-top: 4em;
+	margin-bottom: 4em;
+}
+
+.margin-big-all {
+	margin: 4em;
+}
+
+.margin-big-top {
+	margin-top: 4em;
+}
+
+.margin-big-bottom {
+	margin-bottom: 4em ;
+}
+
+.padding-big-vertical {
+	padding-top: 4em;
+	padding-bottom: 4em;
+}
+
+.paddign-big-all {
+	paddign: 4em;
+}
+
+.padding-big-top {
+	padding-top: 4em;
+}
+
+.padding-big-bottom {
+	padding-bottom: 4em;
+}

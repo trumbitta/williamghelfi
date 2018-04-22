@@ -1,0 +1,2161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Born, Growing Up.]]></title>
+  <link href="https://www.williamghelfi.com/atom.xml" rel="self"/>
+  <link href="https://www.williamghelfi.com/"/>
+  <updated>2018-04-22T15:00:00+02:00</updated>
+  <id>https://www.williamghelfi.com/</id>
+  <author>
+    <name><![CDATA[William Ghelfi]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to set up environment specific configurations with Ionic and Webpack]]></title>
+    <link href="https://www.williamghelfi.com/blog/2017/06/22/ionic-environments-webpack/"/>
+    <updated>2017-06-22T23:30:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2017/06/22/ionic-environments-webpack</id>
+    <content type="html"><![CDATA[<p>At the time of writing, Ionic hasn’t any official way to get environment specific configuration variables.</p>
+
+<p>There’s an <a href="https://github.com/ionic-team/ionic-app-scripts/issues/762">open discussion on GitHub</a>, but everyone is currently on their own about this.</p>
+
+<p>So of course I came up with my own solution.</p>
+
+<p>I’m going to describe it like it was the best solution in the world, like of course everyone should be doing this like I do.</p>
+
+<p>In fact, there’s plenty more ways to solve this problem. This is just how I chose to solve it.</p>
+
+<h2 id="1-how-many-environments">1. How many environments?</h2>
+
+<p>Two: <code class="highlighter-rouge">dev</code>(elopment) and <code class="highlighter-rouge">prod</code>(uction).<br />
+I’d really like to also have <code class="highlighter-rouge">stag</code>(ing) and <code class="highlighter-rouge">test</code>(ing), but first I’d have to find a better way to triage the current environment than the <code class="highlighter-rouge">IONIC_ENV</code> variable.</p>
+
+<h2 id="2-json-files-to-store-the-variables">2. JSON files to store the variables</h2>
+
+<p>JSON files are easy to read, and fairly easy to edit. They also are very easy to import into a node script.</p>
+
+<p>I have two of them:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">/config/config-dev.json</code></li>
+  <li><code class="highlighter-rouge">/config/config-prod.json</code></li>
+</ul>
+
+<h3 id="sample-configconfig-devjson-file">Sample <code class="highlighter-rouge">/config/config-dev.json</code> file:</h3>
+
+<pre class="margin-medium-bottom"><code class="language-json">
+{
+    foo: "bar",
+    baz: "fooBar"
+}
+</code></pre>
+
+<h2 id="3-custom-webpack-configuration-for-ionic">3. Custom Webpack configuration for Ionic</h2>
+
+<p>This is an important one: Ionic uses Webpack, and we can specify our own Webpack configuration file. But if we do, the next time we update <code class="highlighter-rouge">@ionic/app-scripts</code> Ionic might stop working because we are missing some new configuration detail.</p>
+
+<p>Instead we keep the official configuration, and expand it.</p>
+
+<ul>
+  <li>Add the following block to your <code class="highlighter-rouge">/package.json</code>:</li>
+</ul>
+
+<pre class="margin-medium-bottom"><code class="language-json">
+    "config": {
+        "ionic_webpack": "./config/webpack.config.js"
+    },
+</code></pre>
+
+<ul>
+  <li>Create <code class="highlighter-rouge">/config/webpack.config.js</code> and paste this code in it:</li>
+</ul>
+
+<pre class="margin-medium-bottom"><code class="language-javascript">
+const webpackConfig = require('../node_modules/@ionic/app-scripts/config/webpack.config');
+const webpack = require('webpack');
+
+const ENV = process.env.IONIC_ENV;
+const envConfigFile = require(`./config-${ENV}.json`);
+const fooConfig = envConfigFile.foo;
+const bazConfig = envConfigFile.baz;
+
+webpackConfig.plugins.push(
+    new webpack.DefinePlugin({
+        webpackGlobalVars: {
+            foo: JSON.stringify(fooConfig),
+            baz: JSON.stringify(bazConfig)
+        }
+    })
+);
+</code></pre>
+
+<p>As you can see, we are getting the official Webpack configuration and pushing a new plugin into it. No overrides, just an addition.</p>
+
+<h2 id="4-a-configuration-service">4. A configuration service</h2>
+
+<p>Create <code class="highlighter-rouge">/src/providers/configuration/configuration.service.ts</code>.<br />
+You may have noticed I don’t dig the Ionic CLI proposed convention of naming a service <em>“provider”</em>. I also like to always know what kind of file I’m about to open, hence the <code class="highlighter-rouge">.service</code> part of the name.</p>
+
+<p>This is where we use the newly defined <code class="highlighter-rouge">webpackGlobalVars</code> object to inject the environment-driven values into our Ionic / Angular code.</p>
+
+<pre class="margin-medium-bottom"><code class="language-typescript">
+import { Injectable } from '@angular/core';
+
+declare const webpackGlobalVars: any;
+
+@Injectable()
+export class ConfigurationService {
+    public static apiServer = webpackGlobalVars.foo;
+
+    public static fooBar = {
+        bazBaz: 'foo',
+        fooBar: webpackGlobalVars.baz
+    }
+
+    // Add more configuration variables as needed
+}
+</code></pre>
+
+<p>I chose to make them <code class="highlighter-rouge">static</code> out of sheer lazyness: this way, I don’t have to inject the service: I just <code class="highlighter-rouge">import</code> it and use it: <code class="highlighter-rouge">const myConst = ConfigurationService.fooBar</code>.</p>
+
+<p>Now that I think about it, the <code class="highlighter-rouge">@Injectable</code> decoration might be unnecessary. I’ll try to remove it one day or another.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>So this is how I tackle the problem of having environment specific variables in Ionic.</p>
+
+<p>Now I will have the values from <code class="highlighter-rouge">/config/config-dev.json</code> when I’m developing the app.<br />
+When I use the <code class="highlighter-rouge">--prod</code> flag, I will have the values from <code class="highlighter-rouge">/config/config-prod.json</code> instead.</p>
+
+<p>I think it’s fairly concise, effective, and as future proof as it gets.<br />
+If you give it a try, <a href="https://twitter.com/trumbitta">let me know</a>!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Angular Trumbitta 0.7.0 Released]]></title>
+    <link href="https://www.williamghelfi.com/blog/2016/07/09/angular-generator-release/"/>
+    <updated>2016-07-09T13:14:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2016/07/09/angular-generator-release</id>
+    <content type="html"><![CDATA[<p>Angular Trumbitta – my Yeoman generator for enterprise Angular apps – v0.7.0 is now available.</p>
+
+<h2 id="notable-changes">Notable changes:</h2>
+
+<ul>
+  <li>Added thin directive sub-generator</li>
+</ul>
+
+<h2 id="where-to-get-it">Where to get it</h2>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/generator-angular-trumbitta">NPM</a></li>
+  <li><a href="https://github.com/ngTrumbitta/generator-angular-trumbitta/tree/v0.7.0">GitHub</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Angular Trumbitta 0.6.0 Released]]></title>
+    <link href="https://www.williamghelfi.com/blog/2016/07/07/angular-generator-release/"/>
+    <updated>2016-07-07T00:01:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2016/07/07/angular-generator-release</id>
+    <content type="html"><![CDATA[<p>Angular Trumbitta – my Yeoman generator for enterprise Angular apps – v0.6.0 is now available.</p>
+
+<h2 id="notable-changes">Notable changes:</h2>
+
+<ul>
+  <li>Fixed Angular version to 1.4.11</li>
+  <li>Updated some npm dependencies to make the generated app work with Node.js v6.3.0</li>
+  <li>Now following more guidelines from <a href="https://github.com/johnpapa/angular-styleguide/blob/507600bb50c52096528d878fdbf7eaadd4f8d65f/a1/README.md">John Papa’s Angular 1 Style Guide</a></li>
+  <li>Simplified documentation samples, and removed auto-generation of browsable docs until I find a cleaner solution than <a href="https://github.com/m7r/grunt-ngdocs">grunt-ngdocs</a></li>
+</ul>
+
+<h2 id="where-to-get-it">Where to get it</h2>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/generator-angular-trumbitta">NPM</a></li>
+  <li><a href="https://github.com/ngTrumbitta/generator-angular-trumbitta/tree/v0.6.0">GitHub</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Heresy: put your sidebars to the right]]></title>
+    <link href="https://www.williamghelfi.com/blog/2016/05/15/heresy-right-hamburger-sidebar/"/>
+    <updated>2016-05-15T12:00:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2016/05/15/heresy-right-hamburger-sidebar</id>
+    <content type="html"><![CDATA[<figure class="text-center">
+    <img src="/images/posts/2016-05-15-heresy-right-hamburger-sidebar/bruno.jpg" alt=" " class="img-thumbnail" />
+    <caption><em>Haters gonna hate (6x)</em> – Giordano Bruno. Photo by <a href="https://www.flickr.com/photos/mjsmith01/">Mark Smith</a>, <a href="https://creativecommons.org/licenses/by-nd/2.0/">some rights reserved</a>.</caption>
+</figure>
+
+<p>Recently, the ever-insightful Luke Wroblewski – a.k.a. <em>Mr. Mobile First</em> – shared a couple LinkedIn statuses about how the hamburger menu and attached sidebar are going to vanish from mobile apps / views.</p>
+
+<p>Most comments went like:</p>
+
+<ul>
+  <li>Hamburger menus are evil and they should be avoided at all costs.</li>
+  <li>Data shows hamburger menus in mobile apps cause low ratings.</li>
+  <li>Hamburger menus are difficult to reach / activate in a mobile interface.</li>
+</ul>
+
+<p>I beg to differ, I have no data sheets to show you, I’m most certainly wrong, but here’s my thoughts on the subject at hand.</p>
+
+<h2 id="a-two-part-dogma-and-my-two-part-heresy">A two-part dogma, and my two-part heresy</h2>
+
+<h3 id="dogma1-hamburger-menus-are-evil-and-they-should-be-avoided-at-all-costs">DOGMA.1: hamburger menus are evil and they should be avoided at all costs</h3>
+
+<p>Hamburger menus effectively hide navigation. Users don’t know what they can do in the page, they see no options.<br />
+My mother doesn’t get what those stacked lines stand for, and she will successfully ignore them every single time.</p>
+
+<p>There are better options. If you give your navigation a proper structure, and organize it with a tap-bar / bottom-bar, cards, tabs, you should always be able to avoid the use of a hamburger menu.</p>
+
+<p>Hamburger menus are cheap. I mean, we even call them names. We don’t call them “menus”, or “sidebar activators”, nor “off-canvas navigation”; no, we call them “hamburger menus”.</p>
+
+<p>If something’s got itself such a silly name, it must be bad. Right?</p>
+
+<h3 id="heresy1-hamburger-menus-are-useful-and-they-should-be-used-whenever-possible">HERESY.1: hamburger menus are useful and they should be used whenever possible</h3>
+
+<p>The key here is the word <em>possible</em>. <strong>Off-canvas navigation</strong> exists for a reason, it’s a tool with a purpose. And you should use it.</p>
+
+<p>A mobile app, a website – anything dealing with information, really – should have some degree of well-thought information architecture. The basics are easy:</p>
+
+<ul>
+  <li>Expose the few – let’s just say 3 to 5 – most important bits (e.g.: a tap-bar / bottom-bar with actions, navigation items, …).</li>
+  <li>Organize the second most important ones (e.g.: tabs, cards, in-canvas navigation, carousels / wizards, …).</li>
+  <li><em>If some more remain</em>, put them in a off-canvas navigation menu and use a de-facto standard icon on the toggle button: <button class="btn btn-default icon icon-reorder"></button></li>
+</ul>
+
+<p><strong>You are not hiding any options.</strong> The most important actions are exposed, immediately recognizable, and easily reached. The second most-important ones are also exposed. But you have more, and you should use an off-canvas navigation for those.</p>
+
+<p>Wait, I’m playing heretic here, so <strong>I think you should actually use an off-canvas navigation for everything.</strong></p>
+
+<p>Yes, expose the important options, then repeat them in the off-canvas navigation alongside the other options.<br />
+Sitemaps are overkill in a mobile view, but thank god we have off-canvas navigation patterns and in mobile views we should use them instead of sitemaps.</p>
+
+<h3 id="dogma2-navigation-belongs-to-the-left-side-of-a-screen">DOGMA.2: navigation belongs to the left side of a screen</h3>
+
+<p>If you read this far, chances are you know about the <a href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/">F-Shaped Pattern For Reading Web Content</a>.</p>
+
+<ul>
+  <li><strong>Implication:</strong> navigation should go to the left, so users will easily notice it.</li>
+  <li><strong>Bonus:</strong> a left navigation sidebar offsets the main content, which ends up in more central, prominent, position.</li>
+</ul>
+
+<p>This is all so a win that one should never, ever, dare to question it. I mean, it’s as clear a fact as drinking water is necessary for staying alive.</p>
+
+<p>Fact: Navigation goes to the left. And this is it.</p>
+
+<h3 id="heresy2-navigation-belongs-to-the-right-side-of-a-screen">HERESY.2: navigation belongs to the right side of a screen</h3>
+
+<p>Fact: a year after the publication of “F-Shaped Pattern For Reading Web Content”, someone invented <a href="https://en.wikipedia.org/wiki/IPhone">modern smartphones</a> and now we are talking about <a href="http://www.lukew.com/ff/entry.asp?933">Mobile First</a>.</p>
+
+<p>On a <em>desktop</em> web page you can rightfully expect to see a menu / sidebar / navigation thing on the left, because:</p>
+
+<ol>
+  <li>That’s where you tend to look first: on the left.</li>
+  <li>Occupying some space on the left makes the main content end up in a more central position, and that’s certainly a win.</li>
+</ol>
+
+<p>But in a <em>mobile</em> app, or in a mobile version / view of a web page:</p>
+
+<ol>
+  <li>The narrower the screen, the more likely becomes that you’ll be able to quickly scan a whole row with just one glance, the less important becomes putting a menu to the left.<br />
+Think of how we often center logos in a mobile view, instead of putting them to the classic left side.</li>
+  <li>You don’t need to offset the main content to make it more central and prominent because it already spans the whole screen.</li>
+  <li>Statistically we are talking about right-handed users, who use their right thumb most of the time they spend on the page.<br />
+If you divide your phone’s screen in four quadrants, and try to reach each one of them with your right thumb while holding the phone with your right hand, you’ll find the <strong>least comfortable</strong> quadrant to reach <strong>is the top-left</strong> one and the <strong>most comfortable</strong> ones to reach <strong>are the top-right and bottom-right</strong> ones.</li>
+</ol>
+
+<p>And that’s why – whenever I have enough menu items to justify the use of <del>a hamburger menu</del> off-canvas navigation – I put it to the right.</p>
+
+<p>I’ve also been known to put navigation to the right in web page views destined to <em>desktop</em> browsers, but that story is for another time.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Angular Trumbitta 0.5.1 Released]]></title>
+    <link href="https://www.williamghelfi.com/blog/2016/02/20/angular-generator-release/"/>
+    <updated>2016-02-20T23:40:00+01:00</updated>
+    <id>https://www.williamghelfi.com/blog/2016/02/20/angular-generator-release</id>
+    <content type="html"><![CDATA[<p>Angular Trumbitta – my Yeoman generator for enterprise Angular apps – v0.5.1 is now available.</p>
+
+<h2 id="notable-changes">Notable changes:</h2>
+
+<ul>
+  <li>Fixed Angular version to 1.4.9, until I get better at Angular 1.5.0 :p</li>
+  <li>Added Andrea Dessì in <code class="highlighter-rouge">package.json</code> as a contributor, for the sheer amount of feedback and for having added ngdoc support</li>
+  <li>Added a <code class="highlighter-rouge">dist-package</code> grunt task, to get a packaged <em>dist</em> build in <code class="highlighter-rouge">tmp/build</code></li>
+</ul>
+
+<p>I spent a lot of time in starting a good <code class="highlighter-rouge">README</code>. Have a look at it if you’d like to know more about Angular Trumbitta!</p>
+
+<h2 id="where-to-get-it">Where to get it</h2>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/generator-angular-trumbitta">NPM</a></li>
+  <li><a href="https://github.com/ngTrumbitta/generator-angular-trumbitta/tree/v0.5.1">GitHub</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[William versus technical interviews]]></title>
+    <link href="https://www.williamghelfi.com/blog/2015/12/26/william-versus-technical-interviews/"/>
+    <updated>2015-12-26T11:00:00+01:00</updated>
+    <id>https://www.williamghelfi.com/blog/2015/12/26/william-versus-technical-interviews</id>
+    <content type="html"><![CDATA[<!-- [*(Discuss on HN)*](https://news.ycombinator.com/item?id=10403970) -->
+
+<figure class="text-center">
+    <img src="/images/posts/2015-12-26-william-versus-technical-interviews/laptop-eyes-technology-computer.jpg" alt=" " class="img-thumbnail" />
+    <caption>Not a carebear stare</caption>
+</figure>
+
+<p>I found out I’m not built for <em>classic</em> technical interviews. I’ll go a step farther and declare I, in fact, <em>hate</em> the aforementioned kind of interviews.</p>
+
+<p>And that’s because they are useless. Their uselessness always hit me with such strenght I just freeze.</p>
+
+<p><em>“But I just need to see how you think, how you approach a problem!”</em><br />
+Yeah, read my code on GitHub for that.</p>
+
+<p>Seriously, stop asking a candidate to sort an array of integers.</p>
+
+<p>Want to know how I approach the problem of sorting an array of integers?<br />
+Here’s a copy-paste of my thoughts, straight from my mind:</p>
+
+<p><strong>At work:</strong></p>
+
+<ol>
+  <li>Oh, this smells of <strong>solved</strong> problem</li>
+  <li>Yep, sorting an array of integers. Definitely a solved problem.</li>
+  <li><code class="highlighter-rouge">myarray.sort()</code></li>
+  <li>Ok, enough of this BS, let’s get back building things</li>
+</ol>
+
+<p><strong>In a technical interview:</strong></p>
+
+<ol>
+  <li>Oh, this smells of <strong>solved</strong> problem</li>
+  <li>Yep, sorting an array of integers. Definitely a solved problem.</li>
+  <li>I can’t believe you are asking me to solve a solved problem, this is is just useless.</li>
+  <li><em>Y U NO ASK ME REAL QUESTIONS?</em></li>
+  <li><strong>KERNEL PANIC</strong></li>
+</ol>
+
+<p>And don’t let me start with when I apply for a UX / front-end position, and not a single question about UX is asked. Just, you know, sorting arrays.</p>
+
+<p>Or finding duplicates.</p>
+
+<p>We are professionals, ask us to show you our work. Ask us to build things (and give us time to work on it without you staring at us).</p>
+
+<p>We are professionals, stop asking us to solve solved problems.</p>
+
+<p>There are only two kinds of people capable of brilliantly solving a solved problem:</p>
+
+<ol>
+  <li>Students, or freshly-graduated fellows</li>
+  <li>People who does <em>a lot</em> of technical interviews</li>
+</ol>
+
+<p>The majority of us is neither.</p>
+
+<p><em>pls, stahp</em></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Whishlist: Featured repository on GitHub]]></title>
+    <link href="https://www.williamghelfi.com/blog/2015/10/17/github-featured-repository/"/>
+    <updated>2015-10-17T12:00:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2015/10/17/github-featured-repository</id>
+    <content type="html"><![CDATA[<p><a href="https://news.ycombinator.com/item?id=10403970"><em>(Discuss on HN)</em></a></p>
+
+<p>You know that feeling. You stumble upon someone interesting at a conference, on Twitter, on Facebook, Reddit, Hacker News.
+And they are a developer.</p>
+
+<p>Next thing you know is you are staring at their GitHub profile, lost in dozens – and dozens – of repositories.
+And there you linger, wondering how many of them are just quick experiments, and where the real gems are.</p>
+
+<p>Where is that one repository this amazing developer is tenderly proud of?</p>
+
+<p>Why, at the top of the first page, front and center.</p>
+
+<figure class="text-center">
+    <img src="/images/posts/2015-10-17-github-featured-repository/contributions.png" alt=" " class="img-thumbnail" />
+    <caption>Wish this wasn't just the outcome of 30 minutes in Photoshop...</caption>
+</figure>
+
+<p>So hey GitHub, please allow me to pin a featured repository of mine.</p>
+
+<p>Also, I &lt;3 you GitHub, <a href="http://octohire.me">octohire me!</a></p>
+
+<p><a href="https://news.ycombinator.com/item?id=10403970"><em>(Discuss on HN)</em></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GitHub's home page, a study]]></title>
+    <link href="https://www.williamghelfi.com/blog/2015/06/04/github-home-redux/"/>
+    <updated>2015-06-04T12:00:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2015/06/04/github-home-redux</id>
+    <content type="html"><![CDATA[<p><a href="https://news.ycombinator.com/item?id=9658297"><em>(Discuss on HN)</em></a></p>
+
+<figure class="text-center">
+    <img src="/images/posts/2015-06-04-github-home-redux/home.png" alt=" " class="img-thumbnail" />
+</figure>
+
+<p>Quick post, this one.<br />
+Yesterday I envisioned some improvements to GitHub’s home page.</p>
+
+<p><a href="/attachments/GitHub_Home-Trumbtta_version.pdf">This PDF is the result</a>.</p>
+
+<p><a href="https://news.ycombinator.com/item?id=9658297"><em>(Discuss on HN)</em></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A survey view with Bootstrap]]></title>
+    <link href="https://www.williamghelfi.com/blog/2015/05/24/a-survey-view-with-bootstrap/"/>
+    <updated>2015-05-24T15:38:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2015/05/24/a-survey-view-with-bootstrap</id>
+    <content type="html"><![CDATA[<p>A survey view using progress bars, to be precise. In 4 simple steps.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul>
+  <li><a href="http://nodejs.org/">node.js</a></li>
+  <li>npm (which comes with node since v0.6.3)</li>
+  <li><a href="http://git-scm.com/">git</a> (prerequisite for bower)</li>
+  <li>bower: <code class="highlighter-rouge">npm install -g bower</code> (you may need to use <code class="highlighter-rouge">sudo</code>)</li>
+</ul>
+
+<p>We are not going to use <em>grunt</em>: a simple static server will suffice.<br />
+I like <code class="highlighter-rouge">serve</code> (see the <a href="http://www.williamghelfi.com/bootstrap-in-practice">free chapter from my ebook about Bootstrap for newcomers</a>), but <a href="https://www.npmjs.com/package/superstatic"><code class="highlighter-rouge">superstatic</code></a> by <a href="http://www.divshot.com">Divshot</a> is a great and more powerful alternative.</p>
+
+<h2 id="what-are-we-going-to-build">What are we going to build</h2>
+
+<p>We are going to build a simple survey-like view for a <em>dueling</em> web application, where people can vote for one of the contenders and leave a comment with their vote.</p>
+
+<p>The view will not be complete (no actual comment form, and so on…), but it will do the job it was designed for:</p>
+
+<ul>
+  <li>Showing how to use and customize progress bars in an unorthodox way</li>
+  <li>Showing the <a href="http://www.williamghelfi.com/blog/2013/09/12/my-first-bootstrap-theme-with-themestrap/">Themestrap theme I built</a> in action :p</li>
+  <li>Showing how to improve some details of a ready-made theme</li>
+</ul>
+
+<h2 id="step-1-of-4-all-the-content-in-place">Step 1 of 4: all the content in place</h2>
+
+<p>Here it goes the basic structure of our view:</p>
+
+<ul>
+  <li>Some nice icons</li>
+  <li>A yellow (just like a lightbulb) bar for Mr. Edison</li>
+  <li>A blue ( blue is the color of electricity) bar for Mr. Tesla</li>
+  <li>Voting buttons</li>
+  <li>The list of recent comments</li>
+</ul>
+
+<p>And a bunch of minor details.</p>
+
+<p>The code:</p>
+
+<pre class="margin-medium-bottom"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8" /&gt;
+  &lt;title&gt;The Duel - Edison vs Tesla&lt;/title&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;!-- Le styles --&gt;
+  &lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet"&gt;
+  &lt;link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;div class="row"&gt;
+      &lt;header class="text-center col-md-12"&gt;
+        &lt;h1 class="text-left"&gt;&lt;small&gt;THE &lt;span class="icon-exchange"&gt;&lt;/span&gt; DUEL&lt;/small&gt;&lt;/h1&gt;
+        &lt;h2 class="h1"&gt;Thomas Alva Edison &lt;span class="icon icon-lightbulb"&gt;&lt;/span&gt; &lt;span class="text-muted"&gt;&amp;middot;&lt;/span&gt; &lt;span class="icon-bolt"&gt;&lt;/span&gt; Nikola Tesla&lt;/h2&gt;
+      &lt;/header&gt;
+    &lt;/div&gt;
+    &lt;div role="main" class="row"&gt;
+      &lt;div class="col-md-1"&gt;
+        &lt;a href="/voteA" class="btn btn-primary btn-block"&gt;+1 &lt;span class="icon icon-lightbulb"&gt;&lt;/span&gt;&lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class="col-md-10"&gt;
+        &lt;div class="progress"&gt;
+          &lt;div class="progress-bar progress-bar-warning" style="width: 40%;"&gt;Edison 40%&lt;/div&gt;
+          &lt;div class="progress-bar progress-bar-info" style="width: 60%;"&gt;60% Tesla&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="col-md-1"&gt;
+        &lt;a href="/voteB" class="btn btn-primary btn-block"&gt;&lt;span class="icon icon-bolt"&gt;&lt;/span&gt; +1&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="row"&gt;
+      &lt;div class="col-md-12"&gt;
+        &lt;div class="panel panel-default"&gt;
+          &lt;p class="panel-heading text-center"&gt;
+            &lt;small&gt;
+              Total: &lt;strong&gt;Edison&lt;/strong&gt; 197 &ndash; 221 &lt;strong&gt;Tesla&lt;/strong&gt;
+            &lt;/small&gt;
+          &lt;/p&gt;
+          &lt;div class="panel-body"&gt;
+            &lt;ul class="list-unstyled"&gt;
+              &lt;li&gt;
+                &lt;p&gt;
+                  &lt;span class="label label-default col-sm-1"&gt;Nick&lt;/span&gt;&amp;nbsp;
+                  &lt;em&gt;I know for sure Mr. Tesla should win this duel.&lt;/em&gt; &amp;middot; +1 Tesla
+                &lt;/p&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                &lt;p&gt;
+                  &lt;span class="label label-default col-sm-1"&gt;T.J.&lt;/span&gt;&amp;nbsp;
+                  &lt;em&gt;Dad says Mr. Edison is the smartest guy in town.&lt;/em&gt; &amp;middot; +1 Edison
+                &lt;/p&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                &lt;p&gt;
+                  &lt;span class="label label-default col-sm-1"&gt;John&lt;/span&gt;&amp;nbsp;
+                  &lt;em&gt;The boss... Uhm... a friend of mine asked me to come and vote for Mr. E&lt;/em&gt; &amp;middot; +1 Edison
+                &lt;/p&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                &lt;p&gt;
+                  &lt;span class="label label-default col-sm-1"&gt;Elon&lt;/span&gt;&amp;nbsp;
+                  &lt;em&gt;I like Tesla, good name.&lt;/em&gt; &amp;middot; +1 Tesla
+                &lt;/p&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                &lt;p&gt;
+                  &lt;span class="label label-default col-sm-1"&gt;Pidgeon&lt;/span&gt;&amp;nbsp;
+                  &lt;em&gt;&lt;3 &lt;3 &lt;3&lt;/em&gt; &amp;middot; +1 Tesla
+                &lt;/p&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+          &lt;div class="panel-footer"&gt;
+            &lt;p&gt;&lt;a href="/more"&gt;More &lt;span class="icon icon-ellipsis-horizontal"&gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="row"&gt;
+      &lt;footer class="col-md-12"&gt;
+        &lt;ul class="pager"&gt;
+          &lt;li class="previous"&gt;
+            &lt;a href="/results"&gt;JSON&lt;/a&gt;
+          &lt;/li&gt;
+          &lt;li class="next"&gt;
+            &lt;a href="/disclaimer.html"&gt;About&lt;/a&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;p class="clearfix text-center"&gt;
+          &lt;small&gt;&copy; &lt;a href="#"&gt;ACME, inc&lt;/a&gt; 2013&lt;/small&gt;
+        &lt;/p&gt;
+      &lt;/footer&gt;
+    &lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /container --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>And it should be like this:</p>
+
+<figure class="text-center">
+    <img src="/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step1.png" alt="Step 1: just the content and basic Bootstrap" class="img-thumbnail" />
+</figure>
+
+<p>Hey, not bad at all! <strong>Ok, my job here is done, goodbye…</strong> Wait! There’s more :)</p>
+
+<h2 id="step-2-of-4-apply-the-theme">Step 2 of 4: apply the theme</h2>
+
+<p>First of all, install <code class="highlighter-rouge">bootstrap-theme-supervillain</code> with bower:</p>
+
+<pre class="margin-medium-bottom"><code class="language-markup">bower install bootstrap-theme-supervillain
+</code></pre>
+
+<p>Then, add the theme into the head section of the page, just after the original Bootstrap CSS:</p>
+
+<pre class="margin-medium-bottom"><code class="language-markup">&lt;!-- Le styles --&gt;
+  &lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet"&gt;
+  &lt;link href="/bower_components/bootstrap-theme-supervillain/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+  &lt;link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet"&gt;
+&lt;/head&gt;
+</code></pre>
+
+<p>Resulting in this pretty page:</p>
+
+<figure class="text-center">
+    <img src="/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step2.png" alt="Step 2: applying bootstrap-theme-supervillain" class="img-thumbnail" />
+</figure>
+
+<p>Ok. But we can – and will – do better!</p>
+
+<h2 id="step-3-of-4-customize">Step 3 of 4: customize</h2>
+
+<p>Adding some custom classes and an id, we will obtain this improved page with gorgeous big progress bars featuring the two gentlemen facing off:</p>
+
+<figure class="text-center">
+    <img src="/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step3.png" alt="Step 3: simple customization" class="img-thumbnail" />
+</figure>
+
+<p>Here’s the code, the images must be <code class="highlighter-rouge">100x100</code>:</p>
+
+<pre class="margin-medium-bottom"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8" /&gt;
+  &lt;title&gt;The Duel - Edison vs Tesla&lt;/title&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;!-- Le styles --&gt;
+  &lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet"&gt;
+  &lt;link href="/bower_components/bootstrap-theme-supervillain/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+  &lt;link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet"&gt;
+  &lt;style&gt;
+  #survey .progress {
+    height: 110px;
+    line-height: 110px;
+  }
+  #survey .progress img {
+    margin-top: -5px;
+  }
+  #survey .progress .progress-bar {
+    font-size: 20px;
+    font-family: "Yanone Kaffeesatz", Georgia, serif;
+    line-height: inherit;
+  }
+  #survey .progress .progress-bar.text-left {
+    text-align: left;
+    padding-left: 10px;
+  }
+  #survey .progress .progress-bar.text-right {
+    text-align: right;
+    padding-right: 10px;
+  }
+  #survey .vote {
+    font-family: "Yanone Kaffeesatz", Georgia, serif;
+    line-height: 70px;
+    margin-top: 29px; /* (( 110[height .progress] - 92[height .btn-lg .vote] ) / 2 ) + 20px margin-top .progress */
+  }
+  .margin-medium-vertical {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .margin-medium-bottom {
+    margin-bottom: 20px;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;div class="row"&gt;
+      &lt;header class="text-center col-md-12"&gt;
+        &lt;h1 class="text-left"&gt;&lt;small&gt;THE &lt;span class="icon-exchange"&gt;&lt;/span&gt; DUEL&lt;/small&gt;&lt;/h1&gt;
+        &lt;h2 class="h1"&gt;Thomas Alva Edison &lt;span class="icon icon-lightbulb"&gt;&lt;/span&gt; &lt;span class="text-muted"&gt;&amp;middot;&lt;/span&gt; &lt;span class="icon-bolt"&gt;&lt;/span&gt; Nikola Tesla&lt;/h2&gt;
+      &lt;/header&gt;
+    &lt;/div&gt;
+    &lt;div role="main" class="row margin-medium-bottom" id="survey"&gt;
+      &lt;div class="col-md-1"&gt;
+        &lt;a href="/voteA" class="btn btn-primary btn-lg btn-block vote"&gt;+1 &lt;span class="icon icon-lightbulb"&gt;&lt;/span&gt;&lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class="col-md-10"&gt;
+        &lt;div class="progress margin-medium-vertical"&gt;
+          &lt;div class="progress-bar progress-bar-warning text-right" style="width: 40%;"&gt;
+            &lt;span class="progress-bar-candidate"&gt;Edison 40%&lt;/span&gt;
+            &lt;img src="edison.png" /&gt;
+          &lt;/div&gt;
+          &lt;div class="progress-bar progress-bar-info text-left" style="width: 60%;"&gt;
+            &lt;img src="tesla.png" /&gt;
+            &lt;span class="progress-bar-candidate"&gt;60% Tesla&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="col-md-1"&gt;
+        &lt;a href="/voteB" class="btn btn-primary btn-lg btn-block vote"&gt;&lt;span class="icon icon-bolt"&gt;&lt;/span&gt; +1&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="row margin-medium-vertical"&gt;
+      &lt;div class="col-md-12"&gt;
+        &lt;div class="panel panel-default"&gt;
+          &lt;p class="panel-heading text-center"&gt;
+            &lt;small&gt;
+              Total: &lt;strong&gt;Edison&lt;/strong&gt; 197 &ndash; 221 &lt;strong&gt;Tesla&lt;/strong&gt;
+            &lt;/small&gt;
+          &lt;/p&gt;
+          &lt;div class="panel-body"&gt;
+            &lt;ul class="list-unstyled"&gt;
+              &lt;li&gt;
+                &lt;p&gt;
+                  &lt;span class="label label-default col-sm-1"&gt;Nick&lt;/span&gt;&amp;nbsp;
+                  &lt;em&gt;I know for sure Mr. Tesla should win this duel.&lt;/em&gt; &amp;middot; +1 Tesla
+                &lt;/p&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                &lt;p&gt;
+                  &lt;span class="label label-default col-sm-1"&gt;T.J.&lt;/span&gt;&amp;nbsp;
+                  &lt;em&gt;Dad says Mr. Edison is the smartest guy in town.&lt;/em&gt; &amp;middot; +1 Edison
+                &lt;/p&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                &lt;p&gt;
+                  &lt;span class="label label-default col-sm-1"&gt;John&lt;/span&gt;&amp;nbsp;
+                  &lt;em&gt;The boss... Uhm... a friend of mine asked me to come and vote for Mr. E&lt;/em&gt; &amp;middot; +1 Edison
+                &lt;/p&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                &lt;p&gt;
+                  &lt;span class="label label-default col-sm-1"&gt;Elon&lt;/span&gt;&amp;nbsp;
+                  &lt;em&gt;I like Tesla, good name.&lt;/em&gt; &amp;middot; +1 Tesla
+                &lt;/p&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                &lt;p&gt;
+                  &lt;span class="label label-default col-sm-1"&gt;Pidgeon&lt;/span&gt;&amp;nbsp;
+                  &lt;em&gt;&lt;3 &lt;3 &lt;3&lt;/em&gt; &amp;middot; +1 Tesla
+                &lt;/p&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+          &lt;div class="panel-footer"&gt;
+            &lt;p&gt;&lt;a href="/more"&gt;More &lt;span class="icon icon-ellipsis-horizontal"&gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="row"&gt;
+      &lt;footer class="col-md-12"&gt;
+        &lt;ul class="pager"&gt;
+          &lt;li class="previous"&gt;
+            &lt;a href="/results"&gt;JSON&lt;/a&gt;
+          &lt;/li&gt;
+          &lt;li class="next"&gt;
+            &lt;a href="/disclaimer.html"&gt;About&lt;/a&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;p class="clearfix text-center"&gt;
+          &lt;small&gt;&copy; &lt;a href="#"&gt;ACME, inc&lt;/a&gt; 2013&lt;/small&gt;
+        &lt;/p&gt;
+      &lt;/footer&gt;
+    &lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /container --&gt;
+&lt;!--
+  Tesla:  http://en.wikipedia.org/wiki/File:Tesla_circa_1890.jpeg
+  Edison: http://en.wikipedia.org/wiki/File:Thomas_Edison2.jpg
+--&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h2 id="step-4-of-4-embellish">Step 4 of 4: embellish</h2>
+
+<p>Just a bit more styling to the voting buttons and progress bars, borrowing 4 classes from <code class="highlighter-rouge">bower_components/bootstrap/dist/css/bootstrap-theme.css</code> and properly adapting the colors to match <strong>Supervillain</strong>:</p>
+
+<pre class="margin-medium-bottom"><code class="language-markup">&lt;style&gt;
+...
+  .btn-primary {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+  }
+  .progress-bar {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
+  .progress-bar-info {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#5bc0de), to(#31b0d5));
+    background-image: -webkit-linear-gradient(top, #5bc0de, 0%, #31b0d5, 100%);
+    background-image: -moz-linear-gradient(top, #5bc0de 0%, #31b0d5 100%);
+    background-image: linear-gradient(to bottom, #5bc0de 0%, #31b0d5 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=&#39;#ff5bc0de&#39;, endColorstr=&#39;#ff31b0d5&#39;, GradientType=0);
+  }
+  .progress-bar-warning {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#ffeb54), to(#e6c92e));
+    background-image: -webkit-linear-gradient(top, #ffeb54, 0%, #e6c92e, 100%);
+    background-image: -moz-linear-gradient(top, #ffeb54 0%, #e6c92e 100%);
+    background-image: linear-gradient(to bottom, #ffeb54 0%, #e6c92e 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=&#39;#ffffeb54&#39;, endColorstr=&#39;#ffe6c92e&#39;, GradientType=0);
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+</code></pre>
+
+<p>And it’s done! No, really: done as in done!</p>
+
+<figure class="text-center">
+    <img src="/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step4.png" alt="Step 4: finishing touches" class="img-thumbnail" />
+</figure>
+
+<p><strong>Bonus:</strong> of course it’s responsive, and in its smaller form it only shows the picture of the current winner ;-)</p>
+
+<figure class="text-center">
+    <img src="/images/posts/2015-05-24-a-survey-view-with-bootstrap/responsive.png" alt="The survey view is also responsive" class="img-thumbnail" />
+</figure>
+
+<h2 id="closing-thoughts">Closing thoughts</h2>
+
+<p><a href="http://www.williamghelfi.com/categories/bootstrap/">Once again we used a Bootstrap component</a> in a way that was not explicitly showcased in the official docs.<br />
+This time we also applied a ready-made theme and we built our customizations upon it, until we obtained a good-enough finished page.</p>
+
+<p>This is an example of what Mark and Jacob mean for “intended use of Bootstrap”.<br />
+And this is what you should always try to do when using it.</p>
+
+<p>Also, this is what you’ll want to do after reading an upcoming blog post, where I’ll be introducing <a href="https://wrapbootstrap.com/">WrapBootstrap</a> both as a resource and as a way to profit.</p>
+
+<hr />
+
+<div class="panel panel-default padding-medium-top padding-medium-bottom">
+	<div class="panel-body">
+		<p class="text-center margin-bottom-none">
+			<em>Want to learn more about Bootstrap?<br />
+			<a href="/categories/bootstrap/">Take a look at these other posts.</a></em>
+		</p>
+	</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bootstrap: fun with labels]]></title>
+    <link href="https://www.williamghelfi.com/blog/2015/03/13/fun-with-labels/"/>
+    <updated>2015-03-13T21:09:00+01:00</updated>
+    <id>https://www.williamghelfi.com/blog/2015/03/13/fun-with-labels</id>
+    <content type="html"><![CDATA[<p>Labels in the official docs are quickly introduced and dismissed. They might seem not much useful, besides for adding the occasional “New!” next to an item.</p>
+
+<p>But with a bit of imagination, you can take advantage of labels in quite more interesting ways.<br />
+Let’s see 3 of them.</p>
+
+<h2 id="1-labels-as-removable-tags">1. Labels as removable tags</h2>
+
+<p>Imagine you have a part of a web application, where you can choose tags and apply them to an item like - uhm - an X-Man!</p>
+
+<p>Using labels as we know them from the docs, we’d have a situation similar to the following:</p>
+
+<pre><code class="language-markup">&lt;select name="superpower"&gt;
+&lt;!-- superpower options --&gt;
+&lt;/select&gt;
+
+&lt;p&gt;Superpowers:&lt;/p&gt;
+&lt;span class="label label-info"&gt;Huge Whiskers&lt;/span&gt;
+&lt;span class="label label-info"&gt;Blue Skin&lt;/span&gt;
+...
+&lt;span class="label label-info"&gt;Dumbass Glasses&lt;/span&gt;
+</code></pre>
+
+<p>Well, yes. But we can do better.<br />
+Let’s make real tags of them, with a proper icon and a remove link.</p>
+
+<pre><code class="language-markup">&lt;select name="superpower"&gt;
+&lt;!-- superpower options --&gt;
+&lt;/select&gt;
+
+&lt;p&gt;Superpowers:&lt;/p&gt;
+&lt;span class="label label-info"&gt;
+  &lt;strong&gt;&lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&lt;/strong&gt;&#32;
+  Huge Whiskers&#32;
+  &lt;strong&gt;&lt;a href="/remove-tag" class="text-danger"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;&lt;/strong&gt;
+&lt;/span&gt;
+&lt;span class="label label-info"&gt;
+  &lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&#32;
+  Blue Skin&#32;
+  &lt;a href="/remove-tag" class="text-danger"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/span&gt;
+...
+&lt;span class="label label-info"&gt;
+  &lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&#32;
+  Dumbass Glasses&#32;
+  &lt;a href="/remove-tag" class="text-danger"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/span&gt;
+</code></pre>
+
+<p>Better. But there’s something even more unusual we can do if we want to improve this.</p>
+
+<p>##2. Labels + badges</p>
+
+<p>Yep, using badges.</p>
+
+<p>The remove link will become a badge, and also a button for better styling.<br />
+As a finishing touch, we need a custom class to let the labels properly wrap the new elements:</p>
+
+<pre><code class="language-markup">&lt;style&gt;
+.label-fatter {
+  padding: 0.8em;
+}
+&lt;/style&gt;
+
+&lt;span class="label label-info label-fatter"&gt;
+  &lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&#32;
+  Huge Whiskers&#32;
+  &lt;a href="/remove-tag" class="btn btn-warning badge"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/span&gt;
+&lt;span class="label label-info label-fatter"&gt;
+  &lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&#32;
+  Blue Skin&#32;
+  &lt;a href="/remove-tag" class="btn btn-default badge"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/span&gt;
+...
+&lt;span class="label label-info label-fatter"&gt;
+  &lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&#32;
+  Dumbass Glasses&#32;
+  &lt;a href="/remove-tag" class="btn btn-default badge"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/span&gt;
+</code></pre>
+
+<p>Not bad, and you should be able to see where this is going to with just a bit more work on the CSS side :)</p>
+
+<p>##3. Labels as squared badges</p>
+
+<p>In certain situations, you could prefer a squared look instead of the rounded one of badges.<br />
+One way to obtain it, is to add a custom CSS class and override the rounded borders of badges.</p>
+
+<p>Or, you could just use labels.</p>
+
+<p>Let’s see them in action:</p>
+
+<pre><code class="language-markup">&lt;h4&gt;Translations&lt;/h4&gt;
+&lt;ul class="list-unstyled"&gt;
+  &lt;li&gt;&lt;code class="label label-info"&gt;it_IT&lt;/code&gt; Calcio&lt;/li&gt;
+  &lt;li&gt;&lt;code class="label label-info"&gt;en_US&lt;/code&gt; Soccer&lt;/li&gt;
+  &lt;li&gt;&lt;code class="label label-info"&gt;en_GB&lt;/code&gt; Football&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>Did you ever think about making labels out of <code class="highlighter-rouge">&lt;code&gt;</code> elements?</p>
+
+<h2 id="closing-thoughts">Closing Thoughts</h2>
+
+<p>I hope you are starting to see that Bootstrap is far more versatile than it may seem at first sight.</p>
+
+<p>When I was starting with it, back in 2011, I was too much focused on grasping it as a whole and getting productive as quickly as I could.<br />
+Because if you are going to invest time into learning a new framework which can boost your productivity, that’s what you want: get productive, and fast.</p>
+
+<p>But now that I know more of Bootstrap, I am able to use it as I want and go beyond the <em>natural</em> ways of using its components.</p>
+
+<p>Those first weeks, or months, are the most important because you are learning the basics. But at the same time those are the ones you wish you could skip in a minute.</p>
+
+<p>I still feel this pain when I think of it.</p>
+
+<p>Hell, I even wrote <a href="http://www.williamghelfi.com/bootstrap-in-practice">an ebook</a> to help newcomers in learning the basics as quickly as possible and go back to the funnier and more productive things.</p>
+
+<p>But I digress, and it’s time to say goodbye.<br />
+Until next time!</p>
+
+<hr />
+
+<div class="panel panel-default padding-medium-top padding-medium-bottom">
+	<div class="panel-body">
+		<p class="text-center margin-bottom-none">
+			<em>Want to learn more about Bootstrap?<br />
+			<a href="/categories/bootstrap/">Take a look at these other posts.</a></em>
+		</p>
+	</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bootstrap buttons: bits beyond the docs]]></title>
+    <link href="https://www.williamghelfi.com/blog/2015/03/08/bootstrap-buttons-bits-beyond-the-docs/"/>
+    <updated>2015-03-08T21:53:00+01:00</updated>
+    <id>https://www.williamghelfi.com/blog/2015/03/08/bootstrap-buttons-bits-beyond-the-docs</id>
+    <content type="html"><![CDATA[<h2 id="1-a-checkbox-driven-single-toggle-button">1. A checkbox-driven single toggle button</h2>
+
+<p>The official docs show us a stateful, single toggle, button:</p>
+
+<pre><code class="language-markup">&lt;button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"&gt;
+  Single toggle
+&lt;/button&gt;
+</code></pre>
+
+<p>After that, it’s the turn of a checkbox group:</p>
+
+<pre><code class="language-markup">&lt;div class="btn-group" data-toggle="buttons"&gt;
+  &lt;label class="btn btn-primary active"&gt;
+    &lt;input type="checkbox" autocomplete="off" checked&gt; Checkbox 1 (pre-checked)
+  &lt;/label&gt;
+  &lt;label class="btn btn-primary"&gt;
+    &lt;input type="checkbox" autocomplete="off"&gt; Checkbox 2
+  &lt;/label&gt;
+  &lt;label class="btn btn-primary"&gt;
+    &lt;input type="checkbox" autocomplete="off"&gt; Checkbox 3
+  &lt;/label&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Cool. Let’s see what my friend S.C. Clarence has to say about it:</p>
+
+<figure class="text-center">
+    <img src="/images/posts/2015-03-08-bootstrap-buttons-bits-beyond-the-docs/clarence.jpg" alt="Ionic + Angular" class="img-thumbnail" />
+</figure>
+<!-- http://i.qkme.me/3vqegw.jpg -->
+
+<h3 id="single-toggle-checkbox">Single toggle checkbox!</h3>
+
+<p>Yep, thanks Clarence.<br />
+Anyway. Let’s just build a simple checkbox:</p>
+
+<pre><code class="language-markup">&lt;div class="checkbox"&gt;
+  &lt;label&gt;
+    &lt;input type="checkbox" value="" /&gt;
+    I have a thirst...
+  &lt;/label&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Then adding <code class="highlighter-rouge">data-toggle="buttons"</code> and making a button of it:</p>
+
+<pre><code class="language-markup">&lt;div class="checkbox" data-toggle="buttons"&gt;
+  &lt;label class="btn btn-danger"&gt;
+    &lt;span class="glyphicon glyphicon-fire"&gt;&lt;/span&gt;&#32;
+    &lt;input type="checkbox" value="" /&gt;
+    Orange Mocha Frappuccino!
+  &lt;/label&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>We now have a cool <em>– if somewhat dangerous –</em> toggleable single checkbox.</p>
+
+<h2 id="2-on--off-switch">2. On / Off switch</h2>
+
+<p>Finally, I’d like to introduce <strong>Bootstrap Switch</strong> by <a href="https://github.com/nostalgiaz">Mattia Larentis</a> and Peter Stein.<br />
+Now maintained by <a href="https://github.com/lostcrew">Emanuele Marchi</a>.</p>
+
+<p>I always liked switches, both in the real world and in computer / smartphone interfaces!</p>
+
+<p>Go take a look at the demo: <br />
+<a href="http://www.bootstrap-switch.org/">http://www.bootstrap-switch.org/</a></p>
+
+<p>Or read the docs, if you want to use it in your projects:<br />
+<a href="http://www.bootstrap-switch.org/options.html">http://www.bootstrap-switch.org/options.html</a></p>
+
+<p>That’s it. Hope you liked these pills :)</p>
+
+<hr />
+
+<p>P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs.</p>
+
+<p>I think it’s worth checking it out:<br />
+<a href="http://www.williamghelfi.com/bootstrap-in-practice">http://www.williamghelfi.com/bootstrap-in-practice</a></p>
+
+<hr />
+
+<div class="panel panel-default padding-medium-top padding-medium-bottom">
+	<div class="panel-body">
+		<p class="text-center margin-bottom-none">
+			<em>Want to learn more about Bootstrap?<br />
+			<a href="/categories/bootstrap/">Take a look at these other posts.</a></em>
+		</p>
+	</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Why I'm betting on angular and ionic]]></title>
+    <link href="https://www.williamghelfi.com/blog/2015/02/15/why-i-m-betting-on-angular-and-ionic/"/>
+    <updated>2015-02-15T21:00:00+01:00</updated>
+    <id>https://www.williamghelfi.com/blog/2015/02/15/why-i-m-betting-on-angular-and-ionic</id>
+    <content type="html"><![CDATA[<figure class="text-center">
+    <img src="/images/posts/2015-02-15-why-i-m-betting-on-angular-and-ionic/ionic-angular.png" alt="Ionic + Angular" class="img-thumbnail" />
+</figure>
+
+<p>As I start writing down this post, I know it will be fairly short: I have just a couple things to say, and one can only add a finite number of fillers to lengthen a couple concepts.</p>
+
+<p>Consider yourself warned :)</p>
+
+<h1 id="evidence-a-web-components">Evidence A: Web Components</h1>
+
+<p>If you don’t know what <em>Web Components</em> are, please take a quick detour to <a href="http://css-tricks.com/modular-future-web-components/">this nice and rather hands-on introduction at CssTricks.com</a>.</p>
+
+<p>But - <em>Hey!</em> – I’m here to help, so here’s a definition of Web Components straight from that introduction:</p>
+
+<blockquote>
+  <p>Web Components are a collection of standards which are working their way through the W3C and landing in browsers as we speak. In a nutshell, they allow us to bundle markup and styles into custom HTML elements. What’s truly amazing about these new elements is that they fully encapsulate all of their HTML and CSS. That means the styles that you write always render as you intended, and your HTML is safe from the prying eyes of external JavaScript.</p>
+</blockquote>
+
+<p>Web Components are the future of the web, and we are starting to get there (see the next evidence).</p>
+
+<h1 id="evidence-b-google-chrome">Evidence B: Google Chrome</h1>
+
+<p>Chrome 36 was the first web browser shipping with a stable implementation of all 4 specifications of which Web Components are composed of.</p>
+
+<p>Opera has since joined the ball, and Firefox is also improving.</p>
+
+<h1 id="evidence-c-angularjs">Evidence C: AngularJS</h1>
+
+<ul>
+  <li>Angular is maintained by Google <em>and</em> the community.</li>
+  <li>Angular 2.0 will force us developers to refactor our code and rethink our approach to the problems we try to solve.</li>
+</ul>
+
+<p>Things will be removed, things will be changed and transformed.</p>
+
+<p><strong>The result will be something very very similar to a developer using Web Components to build their app.</strong></p>
+
+<h1 id="conclusion-1">Conclusion 1</h1>
+
+<p>Google is shaping the future of the web with Chrome and Angular.</p>
+
+<p>That’s why I’m betting on Angular, and I think you should too.</p>
+
+<h1 id="evidence-d-ionic">Evidence D: Ionic</h1>
+
+<p><a href="http://ionicframework.com/">Ionic</a> is a front-end SDK for developing hybrid mobile apps with HTML5.</p>
+
+<p>And there’s Angular at its core.</p>
+
+<h1 id="evidence-e-material-design-and-ngmaterial">Evidence E: Material design and ngMaterial</h1>
+
+<p><em>Material design</em> is the new design philosophy and visual language by Google.</p>
+
+<p><em>ngMaterial</em> – or, <em>Angular Material</em> – is the official Material design reference implementation.</p>
+
+<p>It is supported internally at Google by the Angular.js, Material Design UX and other product teams.</p>
+
+<p>Also, main contributors of ngMaterial by Google are Ionic devs.</p>
+
+<h1 id="conclusion-2">Conclusion 2</h1>
+
+<p>Ionic is here to stay, its peak is far away, and it will grow in prominence over the next couple years.</p>
+
+<p>That’s why I’m betting on Angular and Ionic, and I think you should too.</p>
+
+<h1 id="addendum">Addendum</h1>
+
+<ul>
+  <li>Yes, Angular is not technically perfect.</li>
+  <li>Yes, hybrid apps (see Ionic) can’t technically compete with native apps.</li>
+  <li>Yes, Google is technically != the web</li>
+  <li>Starting to <em>technically</em> see a pattern here?</li>
+</ul>
+
+<p>All you technical points are good. Maybe they’re even <em>perfect</em>.</p>
+
+<p>Angular and Ionic will win the JavaScript and mobile framework wars, nonetheless.</p>
+
+<p>Because strategy and alliances are how you win a war, not your <em>technical</em> level.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[4 habits that could make you win]]></title>
+    <link href="https://www.williamghelfi.com/blog/2014/06/09/4-habits-that-could-make-you-win/"/>
+    <updated>2014-06-09T22:00:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2014/06/09/4-habits-that-could-make-you-win</id>
+    <content type="html"><![CDATA[<h2 id="am-i-special">Am I special?</h2>
+
+<p>Yes you are. And I am special, too.</p>
+
+<p>I think every human being is special, but only a few among us stand out of the crowd. Why?</p>
+
+<p>Let’s simplify things a bit and say we are talking about my own little niche of human beings: tech specialists, where <em>tech</em> is somewhat equal to <em>Computer Science</em>.</p>
+
+<p>Why do I usually stand out of the crowd, when it comes to my work as a tech specialist?</p>
+
+<p>Here are some of the reasons people come up with, when talking about me:</p>
+
+<ul>
+  <li>He’s a creative genius: he just spends all the day watching Star Wars movies, then suddenly come up with a new crazy idea that actually works!</li>
+  <li>He’s the brain in the room. Mother nature has been very generous with him.</li>
+  <li>He’s sort of a clairvoyant! Always ahead of the curve.</li>
+  <li>He knows everything, remembers everything. I can’t do it.</li>
+</ul>
+
+<p>Bullshit.</p>
+
+<p>I’ve been training all my life. Literally, all my life. In fact, I’ve been training since I was a kid of 3.</p>
+
+<p>I want to unveil the secret behind my superpowers, and I hope to make you start thinking about the power of good habits you keep on training all your life.</p>
+
+<h2 id="be-contemplative">Be contemplative</h2>
+
+<p>Ok I cheated. Being contemplative at age 3 isn’t something you can just learn when you are – in fact – 3 years old.</p>
+
+<p>But it’s something I know where it comes from: my mother loved me dearly. She was my rock, she never lost her nerve with me. I was free to experiment and play, and all the time I felt safe.</p>
+
+<p>She quit <strong>everything</strong> while she was pregnant and over the months after I was born. Alcohol, some cosmetics, everything. I didn’t get any risky molecule before I was born, nor through her milk.</p>
+
+<p>She cared for my alimentation. Lot’s of cod and healthy food in general. I had my first bag of chips around 10.</p>
+
+<p>And that’s also why I remember so much about my first years.</p>
+
+<p>The first time I came to know I was special happened when I was in kindergarten.</p>
+
+<p>In a class full of kids of 3, you would expect a lot of noise at any given second. And noisy we were.</p>
+
+<p>Our teacher, Miss Susanna, introduced us to Tom &amp; Jerry.</p>
+
+<figure class="text-center">
+	<img src="/images/posts/2014-06-09-4-habits-that-could-make-you-win/Tom-and-Jerry-4.jpg" alt="Tom and Jerry" class="img-thumbnail" />
+</figure>
+
+<p>Everybody was excited while she pointed at Tom on her illustrated book, then Jerry.</p>
+
+<p>Noise, laughs, kids running everywhere.</p>
+
+<p>Not me. I was seated at my desk, silent, and stared at the book for a minute then lowered my head and started playing with some toy I had picked in the classroom.</p>
+
+<p>Miss Susanna noticed that, decided I was the only one who wasn’t paying attention, and asked my parents to come visit and talk about <em>my problems</em>.</p>
+
+<p>It happened during a normal day, in the classroom. Noise, laughs, and stuff.
+Seeing my parents there, I knew there was something strange going on. So I decided to pretend I was playing but instead pay attention at what they where saying.</p>
+
+<p><em>“The boy is not normal, you should have him see some professional for – you know – help. I was talking about Tom &amp; Jerry and everyone else was excited about them but little William.”</em> – she started.</p>
+
+<p>Then she continued – <em>“See? Sweeties, do you remember Tom &amp; Jerry? Who are they?”</em> – she asked to the class, to demonstrate her point.</p>
+
+<p>Noise, laughs, and stuff.</p>
+
+<p><em>“No one? Come on, who’s Tom and who’s Jerry?”</em></p>
+
+<p>Noise, laughs, and stuff.</p>
+
+<p>Nobody knew who they where, because nobody was paying attention when she was talking about them.</p>
+
+<p>Nobody but one.</p>
+
+<p>I raised my head, joyfully said something like <em>“Tom is the cat and Jerry is the mouse! I like Jerry: he makes me laugh when he tricks Tom!”</em> and continued to play with whatever I was pretending to play with.</p>
+
+<p>Miss Susanna almost fainted, my mother politely thanked her and just walked away with my father, and nobody else ever thought I wasn’t paying attention at anything.</p>
+
+<p>Be contemplative. Always pay attention at what happens around you. Always.</p>
+
+<h2 id="lateral-thinking">Lateral thinking</h2>
+
+<p>Or, <a href="http://tvtropes.org/pmwiki/pmwiki.php/Main/EurekaMoment">Eureka moments</a> aka “<em>Doctor Gregory House</em> effect”.</p>
+
+<p>If you’ve started being contemplative and paying attention at what happens around you, it will pay out in the long run.</p>
+
+<p>Eureka moments happen when you let third-party random inputs help you in solving a problem at hand, or come up with some new great idea.</p>
+
+<p>Talk about connecting the dots.</p>
+
+<p>This is not some magic or superpower, you must train for it. And it actually is easier than you think.</p>
+
+<p>Look at comedians. They take a seemingly normal everyday fact, let it permeate their other thoughts, then <em>BOOM!</em> you are laughing.</p>
+
+<p>Of course professional comedians are masters in this art, but even they started with the first step, right?</p>
+
+<p>Your life is full of inspiration. Train your brain at being influenced by what happens around you. Take mental or real notes of whatever you experience and it’s interesting: a flower, a word, a videogame, a story read while waiting for your turn at the barber shop, a song, really whatever entices your brain.</p>
+
+<p>Someday they will start flowing back just when needed, and you won’t have to do nothing but saying out loud: <em>“Of course! I <strong>knew it!</strong>“</em>.</p>
+
+<h2 id="know-thyself">Know Thyself</h2>
+
+<p>My wife says I know myself way more than the average Joe. And she’s right: I’ve been training all my life for that.</p>
+
+<p>When I’ve being lazy, unpolite, motivated, strangely happy, I can explain exactly why, if I want.</p>
+
+<p>And just like with the other three points in this post, it’s easy to start: for example, being contemplative about me I noticed that it’s better for me to speak less after a glass of beer because I tend to instantly lose my politically correct self.</p>
+
+<p>The beer thing is a start, but knowing myself allows me to act like a superhero at work now that I’m starting to master the art.</p>
+
+<p>A couple years ago I was given the task of designing the UX for a new product in a market space I knew nothing about. In 4 hours. For a meeting with the big wigs.</p>
+
+<p>Well, s**t happens.</p>
+
+<p>So I grabbed the documents we had, and spent the first hour reading them and paying attention at every detail.</p>
+
+<p><strong>Then I fired up Bejeweled on Facebook and played for the whole second hour.</strong></p>
+
+<figure class="text-center">
+	<img src="/images/posts/2014-06-09-4-habits-that-could-make-you-win/bejeweled.jpg" alt="A bejeweled screen" class="img-thumbnail" />
+</figure>
+
+<p>The remaining two hours I spent working at the UX in Balsamiq Mockups and then at the meeting I blew everyone’s mind.</p>
+
+<p>What happened?</p>
+
+<p>There was chaos all around me, I was in a hurry, and felt the pressure of an incoming meeting with the big brasses.</p>
+
+<p>But I knew myself, and I knew what I needed to do in such a messy situation:</p>
+
+<ul>
+  <li>Get input, all of it, in the little to nothing time available.</li>
+  <li>Let it sink, let it settle, protect those barely forming ideas from the surrounding chaos. Hypnotize myself with a <strong>repetitive</strong>, <strong>calming</strong>, somewhat pleasurable activity (playing Bejeweled) while the input is being processed by my lateral thinking chops.</li>
+  <li>Ship.</li>
+  <li>Win.</li>
+</ul>
+
+<h2 id="keep-on-reading">Keep on reading</h2>
+
+<p>Impressed coworkers and bosses often ask me how can I know so much about almost everything.</p>
+
+<p>That’s what they think, at least.</p>
+
+<p>To be honest, I know a little about a vast amount of relevant topics, plus a lot about a couple ones.</p>
+
+<p>The fact is, my little is still way better then their almost nothing. And these are highly skilled people who know a lot about their couple main topics.</p>
+
+<p>Why is that?</p>
+
+<p>Because I read. I read like a freak since I learned how to (at 6, like everyone else).</p>
+
+<p>I read comics, novels, newspapers, programming books, song lyrics, blog posts, elevator signs, flyers, tweets, <strong>even</strong> videogame instruction booklets!</p>
+
+<p>Well, honestly, who wouldn’t read the <a href="http://blog.ihobo.com/2007/02/discworld-noir.html"><em>Discworld Noir</em> instruction booklet</a>?</p>
+
+<p>I read when I am in the toilet, I read during breaks in a TV show or even during the TV show itself if it’s boring.</p>
+
+<p>I read before getting asleep, and this is a pro-tip: what you read before getting asleep, your brain will better assimilate and it will put it aside for the exact moment you will need it.</p>
+
+<p>I read. All that information is there for you to read it.</p>
+
+<p>Time will come for some lateral thinking, and that Eureka Moment you were waiting for.</p>
+
+<h2 id="so-heres-the-secret-sauce-for-my-superpowers">So, here’s the secret sauce for my superpowers</h2>
+
+<ol>
+  <li>Be contemplative</li>
+  <li>Train lateral thinking</li>
+  <li>Know Thyself</li>
+  <li>Keep on reading</li>
+</ol>
+
+<p>If you’ll start doing all this things right now, time will come when you’ll be in need for the right idea, or the right bit of information, at the right time.</p>
+
+<p>And you’ll just know it.</p>
+
+<p>Like I just know it. <em>Out of magic</em>, no less.</p>
+
+<figure class="text-center">
+	<img src="/images/posts/2014-06-09-4-habits-that-could-make-you-win/magic.jpg" alt="Lighting up a lightbulb with magic" class="img-thumbnail" />
+</figure>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A SELECT form field bad practice, and 4 ways of fixing it]]></title>
+    <link href="https://www.williamghelfi.com/blog/2014/05/24/select-form-field-bad-practices-and-how-to-fix-it/"/>
+    <updated>2014-05-24T12:00:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2014/05/24/select-form-field-bad-practices-and-how-to-fix-it</id>
+    <content type="html"><![CDATA[<h2 id="the-firestarter">The firestarter</h2>
+
+<p>Yesterday, a younger colleague of mine and extremely talented designer, shared his latest mockup on our Basecamp.</p>
+
+<p>As always, it was beatiful and well balanced… until my heart suddenly started to bleed while my inner Caesar was screaming: <em>“Et tu, Brute?”</em></p>
+
+<p>This is what I tweeted shortly after:</p>
+
+<blockquote class="twitter-tweet" align="center" lang="en"><p>Having a &quot;Choose&quot; on top of a select form field, is like having a wood panel with a &quot;Choose&quot; sticker on top of your socks inside a drawer.</p>&mdash; William Ghelfi (@trumbitta) <a href="https://twitter.com/trumbitta/statuses/469399930738835456">May 22, 2014</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<h2 id="challenge-accepted">Challenge accepted</h2>
+
+<p>Over the years, I ofter found myself having to explain to interns and young colleagues why this:</p>
+
+<p><select>
+	<option value=" ">Choose one...</option>
+	<option value="foo">First choice</option>
+	<option value="bar">Second choice</option>
+</select></p>
+
+<p>it’s in fact always a bad practice, and how to avoid it in a bunch of different situations.</p>
+
+<p>This time I’m trying to explain my opinion on the topic once and for all, really just hoping to end up having a handy link to point people to when needed.</p>
+
+<h2 id="why-choose-one-is-bad">Why <code class="highlighter-rouge">Choose one...</code> is bad</h2>
+
+<p>Let’s examine the following HTML code:</p>
+
+<pre><code class="language-markup">&lt;select name="icecream"&gt;
+	&lt;option value=" "&gt;Choose one...&lt;/option&gt;
+	&lt;option value="banana"&gt;Banana&lt;/option&gt;
+	&lt;option value="cream"&gt;Cream&lt;/option&gt;
+	&lt;option value="smurf"&gt;Smurf&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+
+<p>The problem is, that first option doesn’t have any purpose which is suitable for an option.</p>
+
+<p>That first <code class="highlighter-rouge">Choose one...</code> option is there <em>just to make you choose the <strong>actual option you wanted to choose in the first place!</strong></em></p>
+
+<figure class="text-center">
+	<img src="/images/posts/2014-05-24-select-form-field-bad-practices-and-how-to-fix-it/madness.jpg" alt="This is madness!" class="img-thumbnail" />
+	<figcaption>
+		<p>This is madness, and I promise you no Spartan ain't going to kick me in a well for writing it.</p>
+	</figcaption>
+</figure>
+
+<p>It doesn’t make any sense to have it as an option.</p>
+
+<p>Making you want to choose an <code class="highlighter-rouge">&lt;option&gt;</code>, is the job of a <code class="highlighter-rouge">&lt;label&gt;</code>. Not of another <code class="highlighter-rouge">&lt;option&gt;</code>.</p>
+
+<h2 id="and-how-to-fix-it">And how to fix it</h2>
+
+<h3 id="the-basics">The basics</h3>
+
+<p>The first rule of the <strong>Fight <em>the <code class="highlighter-rouge">Choose one...</code> madness</em> Club</strong> is you always talk about it and you also use a <code class="highlighter-rouge">&lt;label&gt;</code>.</p>
+
+<p><label for="icecream">Choose an icecream:</label><br />
+<select name="icecream" id="icecream">
+	<option value="banana">Banana</option>
+	<option value="cream">Cream</option>
+	<option value="smurf">Smurf</option>
+</select></p>
+
+<pre><code class="language-markup">&lt;label for="icecream"&gt;Choose an icecream:&lt;/label&gt;&lt;br /&gt;
+&lt;select name="icecream" id="icecream"&gt;
+	&lt;option value="banana"&gt;Banana&lt;/option&gt;
+	&lt;option value="cream"&gt;Cream&lt;/option&gt;
+	&lt;option value="smurf"&gt;Smurf&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+
+<p>The second rule being: if you just <strong>have</strong> to use the word <em>“Choose”</em>, use it inside the <code class="highlighter-rouge">&lt;label&gt;</code>.</p>
+
+<p>Now that we know the basics, let’s see it in action in a couple different scenarios and how you can choose proper <em>first options</em> in each one.</p>
+
+<h3 id="a-filter-like-select-mandatory-choice">A filter-like <code class="highlighter-rouge">&lt;select&gt;</code>, mandatory choice</h3>
+
+<p>When the <code class="highlighter-rouge">&lt;select&gt;</code> is used to filter a list of possible items, you nearly always have to include a first <em>show them all</em> option.</p>
+
+<p><label for="superheroes">Show superheroes:</label><br />
+<select name="superheroes" id="superheroes">
+	<option value="all">All</option>
+	<option value="flying">Flying</option>
+	<option value="super-force">Super-force</option>
+	<option value="super-sight">Super-sight</option>
+</select></p>
+
+<pre><code class="language-markup">&lt;label for="superheroes"&gt;Show superheroes:&lt;/label&gt;&lt;br /&gt;
+&lt;select name="superheroes" id="superheroes"&gt;
+	&lt;option value="all"&gt;All&lt;/option&gt;
+	&lt;option value="flying"&gt;Flying&lt;/option&gt;
+	&lt;option value="super-force"&gt;Super-force&lt;/option&gt;
+	&lt;option value="super-sight"&gt;Super-sight&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+
+<p>Notes:</p>
+
+<ol>
+  <li>The <code class="highlighter-rouge">value</code> of the <em>show them all</em> <code class="highlighter-rouge">&lt;option&gt;</code> could also be empty. It depends on your backend implementation and coding style.</li>
+  <li>Since in this example the choice is mandatory, having the <em>show them all</em> option as the first one perfectly fits the requirement.<br />
+A <em>don’t actually filter anything</em> option is often a good default one in such a situation.</li>
+</ol>
+
+<h3 id="a-filter-like-select-not-mandatory-choice">A filter-like <code class="highlighter-rouge">&lt;select&gt;</code>, not mandatory choice</h3>
+
+<p>Ok, I cheated.</p>
+
+<p>The first example is valid in both cases.<br />
+It doesn’t really matter if the choice is mandatory or not: when you have a filter-like <code class="highlighter-rouge">&lt;select&gt;</code>, you can always avoid using the dreadful <code class="highlighter-rouge">Choose one...</code> first option and stick with the winning <em>label + show-them-all first option</em> combo.</p>
+
+<h3 id="a-simple-choose-one-select-mandatory-choice">A simple choose-one <code class="highlighter-rouge">&lt;select&gt;</code>, mandatory choice</h3>
+
+<p>When the <code class="highlighter-rouge">&lt;select&gt;</code> is used inside a form to make you choose one out of some possible options, things can get tricky for the inexperienced Padawan.</p>
+
+<p>Good for us all I’m writing this very blog post.</p>
+
+<p>Consider this:</p>
+
+<p><label for="opponent">Choose your opponent:</label><br />
+<select name="opponent" id="opponent">
+	<option value="godzilla">Godzilla</option>
+	<option value="optimus_prime">Optimus Prime</option>
+	<option value="shaq">Shaq</option>
+	<option value="batman">Batman</option>
+	<option value="chuck_norris">Chuck Norris</option>
+	<option value="indiana_jones">Indiana Jones</option>
+</select></p>
+
+<pre><code class="language-markup">&lt;label for="opponent"&gt;Choose your opponent:&lt;/label&gt;&lt;br /&gt;
+&lt;select name="opponent" id="opponent"&gt;
+	&lt;option value="godzilla"&gt;Godzilla&lt;/option&gt;
+	&lt;option value="optimus_prime"&gt;Optimus Prime&lt;/option&gt;
+	&lt;option value="shaq"&gt;Shaq&lt;/option&gt;
+	&lt;option value="batman"&gt;Batman&lt;/option&gt;
+	&lt;option value="chuck_norris"&gt;Chuck Norris&lt;/option&gt;
+	&lt;option value="indiana_jones"&gt;Indiana Jones&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+
+<p>If Godzilla is the default opponent you want poor human fighters go against every time, your job here is done.</p>
+
+<p>But you could also be a bit less evil and let those warriors try themselves against Indiana Jones by default – <a href="https://www.youtube.com/watch?v=4DzcOCyHDqc">beware that gun, though!</a></p>
+
+<p>Nothing easier than that. Just add a <code class="highlighter-rouge">selected="selected"</code> attribute (or just <code class="highlighter-rouge">selected</code>) to the desired <code class="highlighter-rouge">&lt;option&gt;</code>:</p>
+
+<p><label for="opponent">Choose your opponent:</label><br />
+<select name="opponent" id="opponent">
+	<option value="godzilla">Godzilla</option>
+	<option value="optimus_prime">Optimus Prime</option>
+	<option value="shaq">Shaq</option>
+	<option value="batman">Batman</option>
+	<option value="chuck_norris">Chuck Norris</option>
+	<option value="indiana_jones" selected="selected">Indiana Jones</option>
+</select></p>
+
+<pre><code class="language-markup">&lt;label for="opponent"&gt;Choose your opponent:&lt;/label&gt;&lt;br /&gt;
+&lt;select name="opponent" id="opponent"&gt;
+	&lt;option value="godzilla"&gt;Godzilla&lt;/option&gt;
+	&lt;option value="optimus_prime"&gt;Optimus Prime&lt;/option&gt;
+	&lt;option value="shaq"&gt;Shaq&lt;/option&gt;
+	&lt;option value="batman"&gt;Batman&lt;/option&gt;
+	&lt;option value="chuck_norris"&gt;Chuck Norris&lt;/option&gt;
+	&lt;option value="indiana_jones" selected="selected"&gt;Indiana Jones&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+
+<p>Et voilà! Indy is the first opponent.</p>
+
+<h3 id="a-simple-choose-one-select-not-mandatory-choice">A simple choose-one <code class="highlighter-rouge">&lt;select&gt;</code>, not mandatory choice</h3>
+
+<p>Now what if the choice is <strong>not</strong> mandatory, what if I can skip it and walk away without fighting vs anyone?</p>
+
+<p>You add a <em>Monty Brewster</em> option and call it a day.</p>
+
+<figure class="text-center">
+	<img src="/images/posts/2014-05-24-select-form-field-bad-practices-and-how-to-fix-it/None-of-the-above.jpg" alt="None of the above" class="img-thumbnail" />
+	<figcaption>
+		<p>Sometimes a choice can be a non-choice – Confucius.</p>
+	</figcaption>
+</figure>
+
+<p>Wait, what’s a <em>Monty Brewster</em> option?</p>
+
+<p>The following is a simple choose-one <code class="highlighter-rouge">&lt;select&gt;</code> with a not mandatory choice, which uses a <em>Monty Brewster</em> option instead of a that bad bad bad <em>Choose one…</em> option.</p>
+
+<p><label for="opponent-2">Choose your opponent:</label><br />
+<select name="opponent-2" id="opponent-2">
+	<option value=" ">None</option>
+	<option value="godzilla">Godzilla</option>
+	<option value="optimus_prime">Optimus Prime</option>
+	<option value="shaq">Shaq</option>
+	<option value="batman">Batman</option>
+	<option value="chuck_norris">Chuck Norris</option>
+	<option value="indiana_jones">Indiana Jones</option>
+</select></p>
+
+<pre><code class="language-markup">&lt;label for="opponent"&gt;Choose your opponent:&lt;/label&gt;&lt;br /&gt;
+&lt;select name="opponent-2" id="opponent-2"&gt;
+	&lt;option value=" "&gt;None&lt;/option&gt;
+	&lt;option value="godzilla"&gt;Godzilla&lt;/option&gt;
+	&lt;option value="optimus_prime"&gt;Optimus Prime&lt;/option&gt;
+	&lt;option value="shaq"&gt;Shaq&lt;/option&gt;
+	&lt;option value="batman"&gt;Batman&lt;/option&gt;
+	&lt;option value="chuck_norris"&gt;Chuck Norris&lt;/option&gt;
+	&lt;option value="indiana_jones"&gt;Indiana Jones&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+
+<p>Notes:</p>
+
+<ol>
+  <li>Just like above, the <code class="highlighter-rouge">value</code> of the <em>Monty Brewster</em> <code class="highlighter-rouge">&lt;option&gt;</code> can be anything you want. It depends on your backend implementation and coding style.</li>
+  <li>If you want to be super-sure that any browser will always render your desired option as the default one, just add the <code class="highlighter-rouge">selected="selected"</code> attribute.</li>
+</ol>
+
+<h2 id="closing-thoughts">Closing thoughts</h2>
+
+<p>As I hope to have demonstrated, it is always possible to avoid the use of the <em>Choose one…</em> first option in a <code class="highlighter-rouge">&lt;select&gt;</code>.</p>
+
+<p>Using it is cheap, lazy, confusing to newcomers, and now you have this blog post with examples on how to implement the right thing.</p>
+
+<p>What do you think about it?<br />
+Did you find a use case I forgot to cover?</p>
+
+<p>Let me know on <a href="https://twitter.com/trumbitta">Twitter</a>, or leave a comment below.</p>
+
+<p>And if you are just starting with HTML (and CSS), I’m writing an ebook you might be interested in:</p>
+
+<div class="text-center">
+<iframe width="96%" height="400" src="https://leanpub.com/easyhtmlcss/embed" frameborder="0" allowtransparency="true"></iframe>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[New book: HTML & CSS - The easy path]]></title>
+    <link href="https://www.williamghelfi.com/blog/2014/02/20/new-book-html-css-the-easy-path/"/>
+    <updated>2014-02-20T19:00:00+01:00</updated>
+    <id>https://www.williamghelfi.com/blog/2014/02/20/new-book-html-css-the-easy-path</id>
+    <content type="html"><![CDATA[<p><strong>Did you know you can write web pages, too?</strong></p>
+
+<p>New year, new book!</p>
+
+<p>During the last holiday season this winter, some friends of mine started to ask about my job and I ended up telling them HTML and CSS can be pretty easy to learn and fun to work with.</p>
+
+<p>They didn’t believe me, and challenged me to show them I was telling the truth.</p>
+
+<p>Since I like challenges, if they are about something I love, I doubled up and decided to write a new ebook.</p>
+
+<figure class="text-center">
+	<a href="https://leanpub.com/easyhtmlcss"><img src="/images/easyhtmlcss.png" class="img-responsive display-inline-block" alt="HTML &amp; CSS - The easy path." /></a>
+	<figcaption>
+		<p>HTML &amp; CSS - The easy path. <a href="https://leanpub.com/easyhtmlcss">Get it on Leanpub.com.</a></p>
+	</figcaption>
+</figure>
+
+<p>Let me explain it better with an abstract from the introduction of the book, which you can download for free – along with the first two chapters – from <a href="https://leanpub.com/easyhtmlcss">its page on Leanpub</a>.</p>
+
+<h2 id="baby-steps-or-introduction">Baby steps, or: Introduction</h2>
+
+<figure class="text-center">
+	<img src="/images/posts/2014-02-20-new-book-html-css-the-easy-path/baby-computer.jpg" alt=" " class="img-thumbnail" />
+	<figcaption>
+		<p>Image by Paul Inkles: <a href="http://www.visioncreation.co.uk/">http://www.visioncreation.co.uk/</a> used under <a href="http://creativecommons.org/licenses/by/2.0/">http://creativecommons.org/licenses/by/2.0/</a></p>
+	</figcaption>
+</figure>
+
+<p>I started being online, on the Internet, in 1996.<br />
+I also started learning HTML, the HyperText Markup Language, in 1996.</p>
+
+<p>Those were the days of <em>“Wow! How is it done?”</em> and of <em>“Let me check what happens if I right click… just… here.”</em> and then a promising <code class="highlighter-rouge">View HTML</code> menu item would appear to bring you in the realm of the unknown.</p>
+
+<p>As it happens, nothing has changed.</p>
+
+<p>HTML is still there – although now tightly coupled with its <em>Best Friend Forever</em> the CSS, Cascading Style Sheets – and its importance has not decreased.</p>
+
+<p>You learn HTML and CSS because:</p>
+
+<ul>
+  <li>you want to know how websites are done</li>
+  <li>you want to tame any tool which writes HTML and CSS for you</li>
+  <li>you want to learn from the masters, reading their code</li>
+  <li>you want <strong>that feel</strong> only a true creator really experiences</li>
+</ul>
+
+<p>In 2014, if you want to learn HTML and CSS you have great resources at your disposal all over the web. Both free and on sale.</p>
+
+<p>What you didn’t have, it’s a guide which is pragmatic and to-the-point, somewhat funny to go through, and puts together your first steps with HTML and CSS in a single, easy, path.</p>
+
+<p>If that’s what you think you need to learn something new, and that something is HTML and CSS, I’m writing this book for you.</p>
+
+<p>To let you learn the basics, being able to create something which is yours and it’s a <strong>good</strong> start, and have some fun in the process.</p>
+
+<h3 id="whats-ahead">What’s ahead</h3>
+
+<p>First things first, by Chapter 2 you’ll have put together the tools of the trade and then used them to publish online your first simple page, because <strong>that’s what this is all about</strong>.</p>
+
+<p>The next couple chapters will focus on what defines a minimal HTML document, but they will also quickly go on showing the first group of useful HTML elements.<br />
+Those you’ll use well and often, and soon enough they will become like a second language to you.</p>
+
+<p>Meanwhile, throughout the whole book you’ll also keep excercising with simple hands-on tasks which will immediately give you the opportunity to put to good use what you just learned.</p>
+
+<p>It will be then time to introduce the CSS, quickly showing the most useful properties in the topics of <em>typography</em>, <em>positioning</em>, and more.<br />
+Then, having learned about positioning, you’ll see the common elements of a classic layout, the <em>not-so-common</em> elements of a classic layout, and a solid introduction to some – guess what? – <em>classic types of layout</em>.</p>
+
+<figure class="text-center">
+	<img src="/images/posts/2014-02-20-new-book-html-css-the-easy-path/enterprise-blueprint.jpg" alt=" " class="img-thumbnail" />
+	<figcaption>
+		<p><em>"Understanding CSS layouts is way easier than intergalactic rocket science." – James T. Kirk.</em> Image by <a href="http://www.flickr.com/photos/cardoso/">http://www.flickr.com/photos/cardoso/</a> used under <a href="http://creativecommons.org/licenses/by/2.0/">http://creativecommons.org/licenses/by/2.0/</a></p>
+	</figcaption>
+</figure>
+
+<p>By the following chapter it will be about time to cheat a bit, and you’ll encounter the magic of CSS grid systems which basically do all the dirty work from the previous chapter and leave only the fun parts for you to enjoy.</p>
+
+<p>After a couple more useful HTML elements like forms, tables, and others, there will come my favorite chapter – with subsequent <em>hands-on time</em> – where you’ll have some fun with background images, gradients, borders, and shadows.</p>
+
+<p>Next to the end you’ll learn about web fonts and icon fonts, which are two of my favorite innovations of the last years and together can greatly improve the beauty and usability of any web page.</p>
+
+<p>I’ll bid you farewell with a chapter about the next steps, where to go after you close this book and how to keep on learning and having fun with HTML and CSS.</p>
+
+<h4 id="oh-one-more-thing--">Oh. One more thing ™ …</h4>
+
+<p>There are also three appendixes:</p>
+
+<ol>
+  <li>An introduction to Responsive Web Design and Mobile First.<br />
+Devised for the first time in 2010 by Ethan Marcotte, the Responsive Web Design approach changed for ever how we think of a web pages and pushed the whole industry forward with a renewed thirst for a universal web where devices of various sizes and capabilities coexist to form a digital ecosystem.</li>
+  <li>An introduction to Bootstrap, the CSS framework<br />
+Bootstrap is the most popular front-end framework for developing responsive, mobile first projects on the web.</li>
+  <li>An introduction to JavaScript<br />
+JavaScript is a scripting language every major browser understands. It is primarly used to add a <em>behavioral</em> layer on top of the <em>semantic</em> and <em>presentational</em> layers provided by HTML and CSS.<br />
+This separation of concerns, is one of the pillars of <em>progressive enhancement</em>.</li>
+</ol>
+
+<figure class="text-center">
+	<img src="/images/posts/2014-02-20-new-book-html-css-the-easy-path/m-m.jpg" alt=" " class="img-thumbnail" />
+	<figcaption>
+		<p>Progressive enhancement as in <a href="http://alistapart.com/article/understandingprogressiveenhancement">http://alistapart.com/article/understandingprogressiveenhancement</a> by Aaron Gustafson</p>
+	</figcaption>
+</figure>
+
+<p>You know, just to give you an idea of what’s still out there for you to conquer.</p>
+
+<p>And now… action!</p>
+
+<div class="text-center">
+<iframe width="96%" height="400" src="https://leanpub.com/easyhtmlcss/embed" frameborder="0" allowtransparency="true"></iframe>
+</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How I wrote Bootstrap In Practice]]></title>
+    <link href="https://www.williamghelfi.com/blog/2013/11/04/how-i-wrote-bootstrap-in-practice/"/>
+    <updated>2013-11-04T23:00:00+01:00</updated>
+    <id>https://www.williamghelfi.com/blog/2013/11/04/how-i-wrote-bootstrap-in-practice</id>
+    <content type="html"><![CDATA[<p>Today I got a very kind email from a reader of <a href="/bootstrap-in-practice">Bootstrap In Practice, my ebook about Bootstrap 3 for starters</a>.</p>
+
+<blockquote>
+  <p>Hi William,</p>
+
+  <p>I recently bought your book. I think its great! Very useful information 
+and you didn’t hold back on examples.</p>
+
+  <p>I am writing a book on Clinical Documentation. It’s focused on teaching doctors
+how to write patient notes or their findings.</p>
+
+  <p>Would you suggest using a template?
+What e-book software did you use?</p>
+
+  <p>Do you have any ideas on free options for drawing up an e-book?</p>
+
+  <p>Best,
+Vic Phillips</p>
+</blockquote>
+
+<p>He’s also writing a book, and asked me what tools I used for mine. I thought it would have been nice to write down something about my toolchain, hence this blog post.</p>
+
+<h2 id="hardware">Hardware</h2>
+
+<p>I wouldn’t be able to make any progress without my retina MacBook Pro. Its awesome battery life, CPU power, SSD storage and 16GB RAM really made the difference.</p>
+
+<p>I was able to use all the software you are going to read about and keep them all open at the same time without any problems ever.</p>
+
+<h2 id="backups">Backups</h2>
+
+<p>I kept the whole project in a private git repository on BitBucket.<br />
+Using git allowed me to test some variations and to better organize the progress of the work, but also saved me some bandwidth thanks to its good-enough use of deltas also for binary files.</p>
+
+<h2 id="writing">Writing</h2>
+
+<p>I wrote the whole thing in Markdown on <a href="http://www.sublimetext.com/">Sublime Text</a>. I chose Markdown because it’s a simple enough plain text format <strong>and</strong> gets nicely formatted once I need a <a href="https://github.com/revolunet/sublimetext-markdown-preview">quick preview</a>.</p>
+
+<p>I wrote an outline, then a file per chapter. The order of the chapters changed a bit during the final revisions and I also ended up splitting the book into two sections: <em>Knowing Bootstrap</em> and <em>Using Bootstrap</em>.</p>
+
+<p>You can find the final <a href="/blog/2013/09/06/bootstrap-in-practice-tomorrow/">table of contents in a previous blog post</a>.</p>
+
+<h2 id="screenshots">Screenshots</h2>
+
+<p>The screenshots were all taken from Safari. Its iconic visual design is just the perfect kinda <em>neutral</em> chrome for screenshots.</p>
+
+<p>I then cropped and adjusted them a bit in Photoshop whenever needed.</p>
+
+<h2 id="actual-ebook-authoring">Actual ebook authoring</h2>
+
+<p>The actual ebook was then composed in <a href="http://www.apple.com/ibooks-author/">iBooks Author</a>.</p>
+
+<p>iBooks Author comes with a good, if tiny, collection of templates. If you need more, there’s plenty on <a href="http://www.ibooksauthortemplates.com/">iBooks Author Templates</a>.</p>
+
+<p>By the way, I wanted my ebook to be personal, simple, and different from any other book out there. So I just took one of the default templates and stripped it down of every color and shenanigan.</p>
+
+<p>Once I obtained a clean foundation, I started adding my own styling for the Chapter, Section and Page layouts.</p>
+
+<p>I also created my own styles for the various textual components: headings, paragraphs, and the like.</p>
+
+<p>When I was ok with the results, I started copying the markdown text into iBooks Author and applying my styles to it.</p>
+
+<p>For the code snippets the book is filled with, I used a dirty trick: I set Xcode to my syntax highlighting style of choice, copied a code snippet, then used <em>Paste and Retain Style</em> inside iBooks Author.<br />
+Since I chose a dark color for the background, I just had to set it again for the paragraph because it doesn’t get retained when you copy it from Xcode.</p>
+
+<p>Once the book was done, I just exported it in PDF.</p>
+
+<p>Last but not least, my ebook has a landscape layout but iBooks Author only knows how to deal with portrait covers. So I had to design my cover in Photoshop and replace it using Adobe Acrobat Pro.</p>
+
+<p>Thanks Adobe for your 30-day free trials!</p>
+
+<h2 id="marketing-and-all-the-rest">Marketing and all the rest</h2>
+
+<p>Just a quick list here:</p>
+
+<ul>
+  <li>This blog: <a href="http://octopress.org/">Octopress</a> with a <a href="/blog/2013/08/11/bootstrap-in-practice-blogception/">self made Bootstrap 3 template</a></li>
+  <li>Mailing list while I was writing: <a href="http://mailchimp.com/">Mailchimp</a></li>
+  <li>30 day free course with additional tips: <a href="https://convertkit.com/">ConvertKit</a></li>
+  <li>Sales: <a href="https://gumroad.com/">Gumroad</a></li>
+  <li>Sales page: <a href="/bootstrap-in-practice">hosted on this blog</a>, with another <a href="http://wrapbootstrap.com/preview/WB07284K4">self made Bootstrap 3 template</a></li>
+  <li>Analytics: <a href="http://www.google.com/analytics/">Google Analytics</a></li>
+</ul>
+
+<p>And that’s it :)</p>
+
+<hr />
+
+<div class="panel panel-default padding-medium-top padding-medium-bottom">
+	<div class="panel-body">
+		<p class="text-center margin-bottom-none">
+			<em>Want to learn more about Bootstrap?<br />
+			<a href="/categories/bootstrap/">Take a look at these other posts.</a></em>
+		</p>
+	</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[My first Bootstrap theme With Themestrap]]></title>
+    <link href="https://www.williamghelfi.com/blog/2013/09/12/my-first-bootstrap-theme-with-themestrap/"/>
+    <updated>2013-09-12T14:00:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2013/09/12/my-first-bootstrap-theme-with-themestrap</id>
+    <content type="html"><![CDATA[<h2 id="heads-up">Heads up!</h2>
+
+<p>I originally wrote this article as a lesson for my 30-day free course about Bootstrap 3 tips. That’s why the closing “Goodbye” paragraph may sound odd to you.<br />
+More info, and the chance to subscribe to the free course in 8 lessons spanning 30 days, at the bottom of the article.</p>
+
+<h2 id="themestrap-vs-bootswatch">Themestrap vs Bootswatch</h2>
+
+<p>I like <a href="http://bootswatch.com/">Bootswatch</a>.
+Thomas Park was the first at trying to define and streamline a suitable approach to theming for Bootstrap.</p>
+
+<p>Bootswatch is still kicking, and rocking while at it.</p>
+
+<p>But I like <a href="http://code.divshot.com/themestrap/">Themestrap more</a>. I only recently looked at it, because when it came out it seemed to me just another Bootswatch.</p>
+
+<p>Turns out I find Themestrap easier to use for building Bootstrap themes. But don’t take my word for it, let’s instead build a theme with Themestrap right here, right now.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul>
+  <li><a href="http://nodejs.org/">node.js</a></li>
+  <li>npm (which comes with node since v0.6.3)</li>
+  <li><a href="http://git-scm.com/">git</a> (prerequisite for bower)</li>
+  <li>bower:
+  npm install -g bower</li>
+  <li>grunt-cli
+npm install -g grunt-cli</li>
+  <li>a very light understanding of <a href="http://lesscss.org/">LESS</a></li>
+</ul>
+
+<h2 id="kickoff-creating-and-naming-our-theme">Kickoff: creating and naming our theme</h2>
+
+<p>I’m going to take inspiration from a classic Bootstwatch v2 theme, <a href="http://bootswatch.com/2/superhero/">Superhero</a>, and name my theme Supervillain instead :p</p>
+
+<p>You can choose any name for your theme. Just try to be creative, it’s fun!</p>
+
+<p>Let’s clone a copy of Themestrap as the README tells us to do:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ git clone https://github.com/divshot/themestrap.git bootstrap-theme-supervillain
+</code></pre>
+</div>
+
+<p>We then have to edit bower.json to adjust some properties:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bootstrap-theme-supervillain"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0.1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"William Ghelfi"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"main"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dist/css/bootstrap.css"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"themestrap"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Supervillain"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/trumbitta/bootstrap-theme-supervillain"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+</span><span class="err">//</span><span class="w"> </span><span class="err">omitting</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">rest</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">file</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">this</span><span class="w"> </span><span class="err">snippet...</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The most important are <code class="highlighter-rouge">name</code> and <code class="highlighter-rouge">author</code>, while <code class="highlighter-rouge">themestrap/name</code> and <code class="highlighter-rouge">themestrap/repo</code> are only useful if you are going to publish your theme on GitHub and sharing it with bower (more in this later).</p>
+
+<p>All set! Time to start it up.</p>
+
+<p>First time only:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install &amp;&amp; bower install
+</code></pre>
+</div>
+
+<p>Then a first all-around build:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>grunt
+</code></pre>
+</div>
+
+<p>Followed by:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>grunt serve
+</code></pre>
+</div>
+
+<p>And we are ready to go with countless cycles of editing and live previewing our work.<br />
+Point your browser to <code class="highlighter-rouge">http://localhost:8000</code>.</p>
+
+<h2 id="what-to-edit">What to edit</h2>
+
+<p>The are two main files to take care of. They are both in the less directory.</p>
+
+<ol>
+  <li><code class="highlighter-rouge">variables.less</code><br />
+where the most part of our work will be</li>
+  <li><code class="highlighter-rouge">theme.less</code><br />
+for additional, advanced, customizations</li>
+</ol>
+
+<p>The page we see at <code class="highlighter-rouge">localhost:8000</code> is built from <code class="highlighter-rouge">pages/index.html</code>. It includes information <code class="highlighter-rouge">from bower.json</code> and the whole <code class="highlighter-rouge">README.md</code>, which you may want to properly edit if you are going to make your theme public.</p>
+
+<p>The starting page also links to another page: “Kitchen Sink”.<br />
+Follow now the link to the Kitchen Sink.<br />
+That’s our sandbox and playground, and its source is <code class="highlighter-rouge">pages/examples/kitchen-sink.html</code> but we don’t usually need to edit it.</p>
+
+<h2 id="how-to-edit">How to edit</h2>
+
+<p>Ok, time for the fun to begin!</p>
+
+<p>Open <code class="highlighter-rouge">variables.less</code>, you’ll see 600+ rows of - well - variables. But fret not, my dear, because we can focus on the first 56 rows and still bring home some nice results.</p>
+
+<p>Let’s fiddle with the <code class="highlighter-rouge">@brand-</code> group of variables, starting from line 21.<br />
+Those variables are the ones piloting the most part of the overall color scheme.</p>
+
+<p>Change the values to some odd, flashy colors (what? Hey! I <strong>only</strong> use odd flashy colors when I’m debugging or exploring something new!) and hit refresh in your browser to start getting to know what’s going on and what you can expect of your endeavours.</p>
+
+<p>The group before this one, the <code class="highlighter-rouge">@gray-</code> group, is for the various grays in Bootstrap’s default theme. You can leave it alone, or tweak some of the grays to better match your other colors, maybe.</p>
+
+<p>Other colors are scattered all over the <code class="highlighter-rouge">variables.less</code> file but it should not be difficult for you to experiment and edit them as needed (or just leaving them alone).</p>
+
+<p>Finally, there’s another important group of variables starting at line 362: the “Form states and alerts” group.<br />
+These variables control the colors of alerts and other stateful components like form validation and more.</p>
+
+<p>You can - wait for it - play with them as well.</p>
+
+<p>Another nice touch is to add some webfonts. Head to <a href="http://www.google.com/fonts">Google Web Fonts</a> and choose two nice fonts.</p>
+
+<p>Import them inside <code class="highlighter-rouge">theme.less</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@import "bootstrap.less";
+
+// Add CSS Customizations to your theme here.
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700|Yanone+Kaffeesatz:400,700);
+</code></pre>
+</div>
+
+<p>Then edit accordingly the <code class="highlighter-rouge">@font-family-</code> variables starting at line 42 of <code class="highlighter-rouge">variables.less</code>.</p>
+
+<h2 id="using-your-theme">Using your theme</h2>
+
+<p>This is the easiest part: just take <code class="highlighter-rouge">dist/css/bootstrap.css</code> or <code class="highlighter-rouge">dist/css/bootstrap.min.css</code> and link them in your HTML just after the original Boostrap css file.</p>
+
+<p>You could remove the original file and replace it with yours, but unless the speed gain is important to you I’d keep also the original file just in case.</p>
+
+<h2 id="sharing-your-theme">Sharing your theme</h2>
+
+<p>The process of sharing your theme is well explained in the <code class="highlighter-rouge">README.md</code> file.<br />
+Just make sure to edit the <code class="highlighter-rouge">README.md</code> itself before registering your theme as a bower package, filling it only with useful information about the theme.</p>
+
+<p>For a brief but clear example, take a look at the contents of <a href="https://github.com/divshot/bootstrap-theme-cirrus/blob/master/README.md">Cirrus Theme’s <code class="highlighter-rouge">README.md</code></a>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Cirrus Theme for Bootstrap 3
+
+Cirrus is a light, modern theme for Bootstrap 3 built on the [Themestrap](https://github.com/divshot/themestrap)
+foundation. You can install it like so:
+
+    bower install bootstrap-theme-cirrus
+
+You can [see the GitHub pages](http://code.divshot.com/bootstrap-theme-cirrus/) for a live demo of how it looks and further instruction. Enjoy!
+
+## Copyright and license
+
+Copyright 2013 Divshot, Inc. under [the Apache 2.0 license](LICENSE).
+</code></pre>
+</div>
+
+<h2 id="goodbye">Goodbye</h2>
+
+<p>So, welcome to the world of Bootstrap themes!<br />
+From now on, it’s just a matter of good choices and design.</p>
+
+<p>My own theme is at <a href="http://trumbitta.github.io/bootstrap-theme-supervillain/">http://trumbitta.github.io/bootstrap-theme-supervillain/</a>.<br />
+It’s still a work in progress, but I like it so far.</p>
+
+<p>P.S.: As you may know, I wrote a book about Bootstrap 3 to help newcomers and starters in getting productive as fast as they can without losing time going deep or getting stuck in the official docs.<br />
+<a href="http://www.williamghelfi.com/bootstrap-in-practice">I think it’s worth checking it out</a>.</p>
+
+<hr />
+
+<div class="panel panel-default padding-medium-top padding-medium-bottom">
+	<div class="panel-body">
+		<p class="text-center margin-bottom-none">
+			<em>Want to learn more about Bootstrap?<br />
+			<a href="/categories/bootstrap/">Take a look at these other posts.</a></em>
+		</p>
+	</div>
+</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bootstrap in practice: Lift off! We have a lift off!]]></title>
+    <link href="https://www.williamghelfi.com/blog/2013/09/07/bootstrap-in-practice-live/"/>
+    <updated>2013-09-07T14:00:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2013/09/07/bootstrap-in-practice-live</id>
+    <content type="html"><![CDATA[<p>And… Action!</p>
+
+<p><a href="/bootstrap-in-practice">Bootstrap In Practice is live now</a>.</p>
+
+<p>For those who don’t know, Bootstrap In Practice is my introduction to Bootstrap 3. I filled it with examples and made it a guide to help newcomers jump right into the framework and be productive from the start.</p>
+
+<p>Here’s what two early readers have to say about the topic:</p>
+
+<blockquote>
+  <p>I’m in the book and I’m still going to buy a copy.<br />
+It is that good.</p>
+
+  <p><small>Justin Dorfman, Bootstrap CDN · powered by <a href="http://www.maxcdn.com/">MaxCDN</a></small></p>
+</blockquote>
+
+<!-- dirty trick to fool markdown -->
+
+<blockquote>
+  <p>Having been a programmer for the last 30 years, I didn’t know anything about web design.<br />
+With Bootstrap In Practice, I was finally able to take Bootstrap for a spin.</p>
+
+  <p>And I like it!</p>
+
+  <p><small>Rinaldo Bonazzo, Product Specialist Manager at Entando</small></p>
+</blockquote>
+
+<p>You can see all the extras, download a free sample chapter, and buy a copy of the book, on <a href="/bootstrap-in-practice">its dedicated page</a>.</p>
+
+<p>Please let me know if you have any questions!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bootstrap in practice: Tomorrow is the day]]></title>
+    <link href="https://www.williamghelfi.com/blog/2013/09/06/bootstrap-in-practice-tomorrow/"/>
+    <updated>2013-09-06T18:00:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2013/09/06/bootstrap-in-practice-tomorrow</id>
+    <content type="html"><![CDATA[<p>It’s done. It’s all ready.<br />
+Tomorrow is launch day for <a href="/bootstrap-in-practice"><em>Bootstrap In Practice</em></a>.</p>
+
+<figure class="text-center">
+<img src="/images/posts/2013-09-06-bootstrap-in-practice-tomorrow/bootstrap-in-practice.png" class="img-responsive display-inline-block" alt="Bootstrap In Practice" />
+</figure>
+
+<p>It’s been a long ride, and I am tired but happy. I learned a lot about me and about things I didn’t know.<br />
+But let’s go straight to the important stuff!</p>
+
+<h2 id="the-book">The Book</h2>
+
+<p><em>Bootstrap In Practice</em> is a 197 pages long PDF filled with examples.</p>
+
+<p>Here is the table of contents:</p>
+
+<h4 id="part-1--knowing-bootstrap">Part 1 — Knowing Bootstrap</h4>
+<p>1 · What’s Bootstrap<br />
+2 · Your First Page<br />
+3 · Styled HTML Fundamentals<br />
+4 · Components<br />
+5 · JavaScript Plugins<br />
+6 · Resources</p>
+
+<h4 id="part-2--using-bootstrap">Part 2 — Using Bootstrap</h4>
+<p>7 · A Landing Page<br />
+8 · Create, Update, Delete, (Hit) List<br />
+9 · A Blog Post</p>
+
+<p>This is the book I wish there was two years ago, when I started using Bootstrap.<br />
+It will help you to quickly grasp the basics (well, much more than the basics actually) and get productive in the littlest time possbile.</p>
+
+<h2 id="the-interviews">The Interviews</h2>
+
+<p>Included with the book, there are also quick but insightful textual interviews with five champions of the Web and Bootstrap.</p>
+
+<ul>
+  <li>Mark Otto, creator of Bootstrap</li>
+  <li>Brad Frost, future friendly frontend designer</li>
+  <li>Justin Dorfman, maintainer of Bootstrap CDN by NetDNA</li>
+  <li>Michael Bleigh, CEO of Divshot</li>
+  <li>Thomas H. Park, creator of Bootswatch</li>
+</ul>
+
+<h2 id="the-extras">The Extras</h2>
+
+<p>I put together a <em>hands-on</em> complete package which includes:</p>
+
+<ul>
+  <li>The book.</li>
+  <li>3 original Themestrap themes for refreshing the default look &amp; feel of Bootstrap.</li>
+  <li>3 Git repositories with the source code of chapters 7, 8, 9 and every incremental step enclosed in a single commit.</li>
+  <li>The description of a tested work environment with tips, plugins, and more.</li>
+</ul>
+
+<h2 id="a-sample-chapter">A Sample Chapter</h2>
+
+<p>I asked to the mailing list what part of Bootstrap was the hardest to understand for the newcomers, and the response was clear and loud: the new grid system.</p>
+
+<p>So here’s <a href="/bootstrap-in-practice/#free-chapter">the new grid system, tamed for free</a>.</p>
+
+<p>To everyone who has helped, inspired, supported me, thank you so much! And to my wife, who always gives me strength right when I need it: I love you!</p>
+
+<p><a href="/bootstrap-in-practice"><em>Bootstrap In Practice</em></a> goes live tomorrow. Stay tuned!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bootstrap in practice: A preview]]></title>
+    <link href="https://www.williamghelfi.com/blog/2013/09/01/bootstrap-in-practice-preview/"/>
+    <updated>2013-09-01T23:00:00+02:00</updated>
+    <id>https://www.williamghelfi.com/blog/2013/09/01/bootstrap-in-practice-preview</id>
+    <content type="html"><![CDATA[<p>First things first: the book is ready!</p>
+
+<figure class="text-center">
+<img src="/images/posts/2013-09-01-bootstrap-in-practice-preview/yeah.jpg" class="img-thumbnail" />
+</figure>
+
+<p>If you already subscribed to the mailing list, you may have received a little sneak peek with the Table of Contents plus the Introduction and the interview with Mark Otto, creator of Bootstrap.</p>
+
+<p>I’m linking it again here, just in case: <a href="/attachments/Bootstrap_In_Practice-Sneakpeek.pdf" class="btn btn-success"><span class="icon icon-download-alt"></span> Get the sneak peek [PDF · 3MB]</a></p>
+
+<h2 id="mystery-release-date">Mystery release date</h2>
+
+<p>I plan to release <em>Bootstrap In Practice</em> on <strong>a mystery day from Sept. 5th to Sept. 8th</strong>.<br />
+There will be a <em>“launch day sale”</em>, so for the first 24 hours the prices will be lower.</p>
+
+<p>The day before the launch, I will send an email on the mailing list announcing it. So, basically, if you are on <a href="/bootstrap-in-practice">the mailing list</a> you will know about the launch day in time for the launch day sale.</p>
+
+<h2 id="packages">Packages</h2>
+
+<p>These final days I’m working hard to finalize two different packages for you to choose from:</p>
+
+<h3 id="the-complete-package">The complete package</h3>
+
+<ul>
+  <li><strong>~200 page PDF book</strong></li>
+  <li><strong>3 Git repositories</strong> with the sources of the hands-on chapters from Part 2, with every incremental step enclosed in a single commit</li>
+  <li><strong>3 original Themestrap themes</strong> you can use for refreshing the default look and feel of Bootstrap</li>
+  <li><strong>Description of my daily work environment</strong> featuring browsers, editor, plugins, tools and more</li>
+</ul>
+
+<h3 id="the-budget-package">The budget package</h3>
+<ul>
+  <li><strong>~200 page PDF book</strong></li>
+</ul>
+
+<p>Also, on the final sales page I will include a sample chapter, different from the sneak peek, and covering your first page with Bootstrap 3 as we learn about the new grid system.</p>
+
+<h2 id="a-goodbye">A goodbye!</h2>
+
+<p>So, the time is coming. In less than 10 days, <em>Bootstrap In Practice</em> will be here.</p>
+
+<p>Stay tuned!</p>
+]]></content>
+  </entry>
+  
+</feed>

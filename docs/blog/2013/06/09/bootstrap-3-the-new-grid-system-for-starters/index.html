@@ -1,0 +1,519 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrap 3: the new grid system, for starters - Born, Growing Up.</title>
+  <meta name="author" content="William Ghelfi" />
+  <meta charset="utf-8" />
+  
+  <meta name="description" content=" Bootstrap 3: the new grid system, for starters June 9th, 2013 Heads up! 2013-08-20 · Updated to Bootstrap 3.0.0 stable. 2013-08-15 · Updated to reflect the changes in Bootstrap 3.0.0-rc.2. 2013-08-12 · It seems that the grid system is now being actively refactored with frequent changes. I’m clos..."/>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/css/screen.css" rel="stylesheet" />
+  <link href="/css/bootstrap-custom-utils.css" rel="stylesheet" />
+  <link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" />
+  <link href="/css/prism.css" rel="stylesheet" />
+
+  
+  <link rel="canonical" href="https://www.williamghelfi.com/blog/2013/06/09/bootstrap-3-the-new-grid-system-for-starters/" />
+  <link href="/favicon.ico" rel="icon" />
+
+  <link href="/atom.xml" rel="alternate" title="Born, Growing Up." type="application/atom+xml" />
+
+</head>
+
+<body >
+
+<div class="container">
+
+  <div class="row">
+
+  <header role="banner" class="col-xs-12 col-md-10 col-md-offset-1 text-center">
+    <h1><a href="/">Born, Growing Up.</a></h1>
+    
+    <h2>William Ghelfi</h2>
+    
+  </header>
+  <nav role="navigation" class="col-xs-12 col-md-10 col-md-offset-1 navbar navbar-default">
+    <ul class="nav navbar-nav">
+      <!--
+      <li><a href="/">Blog</a></li>
+      -->
+      <li><a href="/bootstrap-in-practice"><span class="icon-book"></span>&#32;Bootstrap In Practice</a></li>
+      <li><a href="/blog/archives"><span class="icon-archive"></span>&#32;Archives</a></li>
+      <li><a href="/about?rel=me"><span class="icon-user"></span>&#32;About</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right">
+      <li><a href="https://twitter.com/trumbitta"><span class="icon-twitter"></span></a></li>
+      <li><a href="https://github.com/trumbitta"><span class="icon-github"></span></a></li>
+      <li><a href="https://it.linkedin.com/in/williamghelfi"><span class="icon-linkedin"></span></a></li>
+      <li><a rel="author" href="https://plus.google.com/114169273981533817065/about?rel=author"><span class="icon-google-plus"></span></a></li>
+      <li><a class="navbar-link" href="/atom.xml" rel="subscribe-rss" title="Subscribe via RSS"><span class="icon-rss"></span></a></li>
+    </ul>
+  </nav>
+
+  <article class="col-xs-12 col-md-10 col-md-offset-1" role="article">
+  
+  <header>
+    
+      <h1>Bootstrap 3: the new grid system, for starters</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+<time datetime="2013-06-09T12:04:00+02:00" class="published">
+
+
+
+June
+  
+9th,
+  
+2013
+</time>
+<!--
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+-->
+      </p>
+    
+  </header>
+
+<h2 id="heads-up">Heads up!</h2>
+
+<p><strong>2013-08-20</strong> · Updated to Bootstrap 3.0.0 stable.</p>
+
+<p><strong>2013-08-15</strong> · Updated to reflect the changes in <a href="http://www.speedawarenessmonth.com/bootstrapcdn-now-serving-bootstrap-rc2/">Bootstrap 3.0.0-rc.2</a>.</p>
+
+<p><strong>2013-08-12</strong> · It seems that the grid system is now being actively refactored with frequent changes. I’m closely watching the situation evolving, and will update this post when things settle down a bit.</p>
+
+<p>All in all, the core concepts remain the same. So if you don’t know how the grid system works, you should read on and then wait for me to update with the latest details and features when the time comes.</p>
+
+<h2 id="baby-steps">Baby steps</h2>
+
+<p>It’s super easy to put together a basic page with Bootstrap.<br />
+Just fire up your editor and type in this markup:</p>
+
+<pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;title&gt;Bootstrap in practice: the grid system&lt;/title&gt;
+		&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+		&lt;!-- Bootstrap CSS --&gt;
+		&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" /&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;h1&gt;Hello, world!&lt;/h1&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>This is it. There are just two requirements for a basic Bootstrap page:</p>
+
+<ol>
+  <li>HTML5: achieved declaring a <code class="highlighter-rouge"><span class="cp">&lt;!DOCTYPE html&gt;</span></code></li>
+  <li>Bootstrap CSS</li>
+</ol>
+
+<p>Take a look at the page in a browser, and you’ll see a lonely — but stylish — <code class="highlighter-rouge">Hello, world!</code>.</p>
+
+<figure class="text-center">
+	<img src="/images/posts/2013-06-09-bootstrap-3-new-grid-system-for-starters/test-1.png" alt="Hello, world!" class="img-thumbnail" />
+	<figcaption>
+		<p>Hello, world!</p>
+	</figcaption>
+</figure>
+
+<p><strong>Heads up!</strong> You’d better serve these pages locally.<br />
+If you have ruby, your best bet is to <code class="highlighter-rouge">gem install serve</code> and then launch <code class="highlighter-rouge">serve .</code> from the directory where your HTML file resides.<br />
+Then point your browser to http://localhost:4000/ and you are golden.</p>
+
+<p>If you can’t or don’t want to serve your pages locally, then please change every protocol relative URL in the sources to its more classic variant, or your browser may not be able to find those resources.</p>
+
+<p>Example: change <code class="highlighter-rouge">//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css</code> to <code class="highlighter-rouge">http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css</code>.</p>
+
+<h2 id="adding-some-beef">Adding some beef</h2>
+
+<p>You are going to see the grid system in action very soon, but first you need to beef up your page with some random content.</p>
+
+<p>I’ll take mine from <a href="http://hipsteripsum.me/">hipsteripsum.me</a>, but the classic <a href="http://www.lipsum.com/">www.lipsum.com</a> or any editor plugin will be fine as well.</p>
+
+<pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;title&gt;Bootstrap in practice: the grid system&lt;/title&gt;
+		&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+		&lt;!-- Bootstrap CSS --&gt;
+		&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" /&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;h1&gt;Hello, world!&lt;/h1&gt;
+
+		&lt;p&gt;Asymmetrical YOLO banjo lomo fanny pack, shoreditch flexitarian dreamcatcher ethnic kitsch sriracha nisi sustainable swag. Cliche 90's farm-to-table master cleanse Pinterest jean shorts. Cillum raw denim aesthetic sunt.&lt;/p&gt;
+
+		&lt;p&gt;Aliqua photo booth literally veniam minim leggings, est craft beer banjo intelligentsia Truffaut officia. Irony minim 3 wolf moon meggings, viral hella hoodie selvage flexitarian small batch pariatur.&lt;/p&gt;
+
+		&lt;p&gt;Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.&lt;/p&gt;
+
+		&lt;p&gt;Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.&lt;/p&gt;
+
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h2 id="here-comes-the-grid">Here comes the grid</h2>
+
+<p>Let’s start with a very simple layout: two columns, two paragraphs per column.</p>
+
+<pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;title&gt;Bootstrap in practice: the grid system&lt;/title&gt;
+		&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+		&lt;!-- Bootstrap CSS --&gt;
+		&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" /&gt;
+
+		&lt;!-- To better visualize the columns --&gt;
+		&lt;style&gt;
+		.row &gt; div {
+			background-color: #dedef8;
+			box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;
+		}
+		&lt;/style&gt;
+
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;div class="container"&gt;
+
+			&lt;h1&gt;Hello, world!&lt;/h1&gt;
+
+			&lt;div class="row"&gt;
+
+				&lt;div class="col-md-6"&gt;
+					&lt;p&gt;Asymmetrical YOLO banjo lomo fanny pack, shoreditch flexitarian dreamcatcher ethnic kitsch sriracha nisi sustainable swag. Cliche 90's farm-to-table master cleanse Pinterest jean shorts. Cillum raw denim aesthetic sunt.&lt;/p&gt;
+
+					&lt;p&gt;Aliqua photo booth literally veniam minim leggings, est craft beer banjo intelligentsia Truffaut officia. Irony minim 3 wolf moon meggings, viral hella hoodie selvage flexitarian small batch pariatur.&lt;/p&gt;
+				&lt;/div&gt;
+
+				&lt;div class="col-md-6"&gt;
+					&lt;p&gt;Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.&lt;/p&gt;
+
+					&lt;p&gt;Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.&lt;/p&gt;
+				&lt;/div&gt;
+
+			&lt;/div&gt;
+
+		&lt;/div&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<figure class="text-center">
+	<img src="/images/posts/2013-06-09-bootstrap-3-new-grid-system-for-starters/test-2.png" alt="A basic grid" class="img-thumbnail" />
+	<figcaption>
+		<p>A basic grid</p>
+	</figcaption>
+</figure>
+
+<h2 id="the-details">The details</h2>
+
+<p>First of all, we added a <code class="highlighter-rouge">&lt;div class="container"&gt;...&lt;/div&gt;</code> container element to ensure proper centering and maximum width for the layout. That’s your playground.</p>
+
+<p>Once you have a container in place, you just have to start thinking in terms of rows <code class="highlighter-rouge">&lt;div class="row"&gt;...&lt;/div&gt;</code>, and columns inside the rows <code class="highlighter-rouge">&lt;div class="col-md-6"&gt;...&lt;/div&gt;</code>.</p>
+
+<p>Keep in mind that every row in the grid is made up of 12 units, and you can define the desired size of your columns using those units.</p>
+
+<p>In the previous example you had two columns, each being 6 units wide: <code class="highlighter-rouge">col-md-6</code>.<br />
+As you know, <code class="highlighter-rouge">6 + 6 = 12</code>, and that’s exactly why you had two equally large columns (<code class="highlighter-rouge">col-md-6</code>) in a row taking the whole width (<code class="highlighter-rouge">12</code>) of the container element.</p>
+
+<p>Go on, try some more combinations like <code class="highlighter-rouge">&lt;div class="col-md-3"&gt;...&lt;/div&gt; &lt;div class="col-md-9"&gt;...&lt;/div&gt;</code> or <code class="highlighter-rouge">&lt;div class="col-md-7"&gt;...&lt;/div&gt; &lt;div class="col-md-5"&gt;...&lt;/div&gt;</code> and take a look at the results in your browser.<br />
+Experiment a bit. Just keep in mind that the sum must always be 12.</p>
+
+<p>If you’re feeling brave you could also have more than two columns in the same row, adjusting the column classes accordingly.<br />
+Hint: <code class="highlighter-rouge">3 + 3 + 1 + 5 = 12</code>.</p>
+
+<p>As you may have guessed, if you need to add another row below the first one, you can. Add as much rows as you want.</p>
+
+<h2 id="nesting">Nesting</h2>
+
+<p>Need to nest a row into another? Bootstrap 3 has you covered.</p>
+
+<p>Let’s see this in action by producing a layout having two columns, with the second one being splitted into four boxes over two rows.</p>
+
+<pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Bootstrap in practice: the grid system&lt;/title&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+	&lt;!-- Bootstrap CSS --&gt;
+	&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" /&gt;
+
+	&lt;!-- To better visualize the columns --&gt;
+	&lt;style&gt;
+	.row &gt; div {
+		background-color: #dedef8;
+		box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;
+	}
+	&lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;div class="container"&gt;
+
+		&lt;h1&gt;Hello, world!&lt;/h1&gt;
+
+		&lt;div class="row"&gt;
+
+			&lt;div class="col-md-3"&gt;
+				&lt;p&gt;Asymmetrical YOLO banjo lomo fanny pack, shoreditch flexitarian dreamcatcher ethnic kitsch sriracha nisi sustainable swag. Cliche 90's farm-to-table master cleanse Pinterest jean shorts. Cillum raw denim aesthetic sunt.&lt;/p&gt;
+			&lt;/div&gt;
+
+			&lt;div class="col-md-9"&gt;
+
+				&lt;div class="row"&gt;
+					&lt;div class="col-md-6"&gt;
+						&lt;p&gt;Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.&lt;/p&gt;
+					&lt;/div&gt;
+					&lt;div class="col-md-6"&gt;
+						&lt;p&gt;Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.&lt;/p&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+
+				&lt;div class="row"&gt;
+					&lt;div class="col-md-6"&gt;
+						&lt;p&gt;Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.&lt;/p&gt;
+					&lt;/div&gt;
+					&lt;div class="col-md-6"&gt;
+						&lt;p&gt;Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.&lt;/p&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+
+			&lt;/div&gt;
+
+		&lt;/div&gt;
+
+	&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<figure class="text-center">
+	<img src="/images/posts/2013-06-09-bootstrap-3-new-grid-system-for-starters/test-3.png" alt="Nested grids galore!" class="img-thumbnail" />
+	<figcaption>
+		<p>Nested grids galore!</p>
+	</figcaption>
+</figure>
+
+<h2 id="offsetting">Offsetting</h2>
+
+<p>You can also move columns to the right using <code class="highlighter-rouge">.col-md-offset-N</code> where <code class="highlighter-rouge">N</code>, ranging from <code class="highlighter-rouge">1</code> to <code class="highlighter-rouge">11</code>, is the number of units you want the column to be moved.</p>
+
+<p>Offsetting comes in handy when you need to center an element.</p>
+
+<p>Say you have a <code class="highlighter-rouge">&lt;div class="col-md-6"&gt;...&lt;/div&gt;</code>.<br />
+Centering it, is as easy as adding <code class="highlighter-rouge">.col-md-offset-3</code>:</p>
+
+<pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;title&gt;Bootstrap in practice: the grid system&lt;/title&gt;
+		&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+		&lt;!-- Bootstrap CSS --&gt;
+		&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" /&gt;
+
+		&lt;!-- To better visualize the columns --&gt;
+		&lt;style&gt;
+		.row &gt; div {
+			background-color: #dedef8;
+			box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;
+		}
+		&lt;/style&gt;
+
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;div class="container"&gt;
+
+		&lt;h1&gt;Hello, world!&lt;/h1&gt;
+
+		&lt;div class="row"&gt;
+			&lt;div class="col-md-6 col-md-offset-3"&gt;
+				&lt;strong&gt;Hey oh! See how I'm centered!&lt;/strong&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<figure class="text-center">
+	<img src="/images/posts/2013-06-09-bootstrap-3-new-grid-system-for-starters/test-4.png" alt=" " class="img-thumbnail" />
+	<figcaption>
+		<p>Centering columns with clever use of offsets</p>
+	</figcaption>
+</figure>
+
+<p>That’s because you have a total width of <code class="highlighter-rouge">12</code> units, and a <code class="highlighter-rouge">6</code> units wide element you want to center. Thus, you split the remaining <code class="highlighter-rouge">6</code> units in two, and here’s your offset for centering the element. <code class="highlighter-rouge">3 + 6 + 3 = 12</code>.</p>
+
+<h2 id="ordering">Ordering</h2>
+
+<p>Another nice feature of the grid system is that you can easily write the columns in an order, and show them in another one.</p>
+
+<p>So if you have a two-columns layout with the left column being the narrowest and acting as a sidebar:</p>
+
+<pre><code class="language-markup">&lt;div class="row"&gt;
+	&lt;div class="col-md-4"&gt;...&lt;/div&gt;
+	&lt;div class="col-md-8"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>You can swap the order of the columns using <code class="highlighter-rouge">.col-md-push-N</code> and <code class="highlighter-rouge">.col-md-pull-N</code>.<br />
+Once again, <code class="highlighter-rouge">N</code> is a number from <code class="highlighter-rouge">1</code> to <code class="highlighter-rouge">11</code>:</p>
+
+<pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;title&gt;Bootstrap in practice: the grid system&lt;/title&gt;
+		&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+		&lt;!-- Bootstrap CSS --&gt;
+		&lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" /&gt;
+
+		&lt;!-- To better visualize the columns --&gt;
+		&lt;style&gt;
+		.row &gt; div {
+			background-color: #dedef8;
+			box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;
+		}
+		&lt;/style&gt;
+
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;div class="container"&gt;
+
+		&lt;h1&gt;Hello, world!&lt;/h1&gt;
+
+		&lt;div class="row"&gt;
+			&lt;div class="col-md-4 col-md-push-8"&gt;I was left&lt;/div&gt;
+			&lt;div class="col-md-8 col-md-pull-4"&gt;I was right&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<figure class="text-center">
+	<img src="/images/posts/2013-06-09-bootstrap-3-new-grid-system-for-starters/test-5.png" alt=" " class="img-thumbnail" />
+	<figcaption>
+		<p>And your sidebar is now to the right</p>
+	</figcaption>
+</figure>
+
+<hr />
+
+<div class="panel panel-default padding-medium-top padding-medium-bottom">
+	<div class="panel-body">
+		<p class="text-center margin-bottom-none">
+			<em>Want to learn more about Bootstrap?<br />
+			<a href="/categories/bootstrap/">Take a look at these other posts.</a></em>
+		</p>
+	</div>
+</div>
+
+
+<!--
+
+  
+
+-->
+
+
+  <hr />
+
+  <footer>
+    <div class="vcard">
+      
+Posted by <address class="author"><a rel="author" href="https://plus.google.com/u/0/114169273981533817065?rel=author"><span class="fn">William Ghelfi</span></a></address>
+ &middot;
+      
+
+
+
+
+
+
+<time datetime="2013-06-09T12:04:00+02:00" class="published">
+
+
+
+June
+  
+9th,
+  
+2013
+</time>
+    </div>
+    
+
+<span class="pull-right">
+  
+	  
+	  	<a class="label label-info" href="/category/css/">CSS</a>
+
+	  
+	  	<a class="label label-info" href="/category/bootstrap/">BOOTSTRAP</a>
+
+	  
+  
+</span>
+<span class="clearfix"></span>
+
+
+    <hr/>
+    <!-- Insert tweet button here -->
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <ul class="pager">
+    
+      <li class="previous">
+        <a href="/blog/2013/06/04/from-tables-to-tablets-part-3-of-3-adulthood/" title="Previous Post: From tables to tablets - Part 3 of 3: Adulthood">&larr; From tables to tablets - Part 3 of 3: Adulthood</a>
+      </li>
+    
+    
+      <li class="next">
+        <a href="/blog/2013/06/28/why-you-should-submit-your-first-pull-request-now/" title="Next Post: Why you should submit your first pull request now">Why you should submit your first pull request now &rarr;</a>
+      </li>
+    
+    </ul>
+  </footer>
+
+</article>
+
+  <footer role="contentinfo" class="col-xs-12 col-md-10 col-md-offset-1">
+    <p class="text-muted text-center">
+      Copyright &copy; 2018 &mdash; <a href="https://plus.google.com/u/0/114169273981533817065?rel=author">William Ghelfi</a> &mdash;
+      <span class="credit">Powered by <a href="http://jekyllrb.com/">Jekyll</a></span>
+    </p>
+    <p class="text-muted text-center">
+      The postings on this site are my own and don't necessarily represent my employer's positions, strategies or opinions.
+    </p>
+  </footer>
+  </div>
+</div>
+
+  <script src="/js/prism.js"></script>
+</body>
+</html>

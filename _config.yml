@@ -6,6 +6,7 @@ author: William Ghelfi
 simple_search: false
 description:
 
+destination: docs
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
 subscribe_rss: /atom.xml
 subscribe_email:

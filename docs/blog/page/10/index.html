@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Born, Growing Up.</title>
+  <meta name="author" content="William Ghelfi" />
+  <meta charset="utf-8" />
+  
+  <meta name="description" content=" Bootstrap: fun with labels Mar 13th, 2015 Labels in the official docs are quickly introduced and dismissed. They might seem not much useful, besides for adding the occasional “New!” next to an item. But with a bit of imagination, you can take advantage of labels in quite more interesting ways.
+L..."/>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/css/screen.css" rel="stylesheet" />
+  <link href="/css/bootstrap-custom-utils.css" rel="stylesheet" />
+  <link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" />
+  <link href="/css/prism.css" rel="stylesheet" />
+
+  
+  <link rel="canonical" href="https://www.williamghelfi.com/blog/page/10/" />
+  <link href="/favicon.ico" rel="icon" />
+
+  <link href="/atom.xml" rel="alternate" title="Born, Growing Up." type="application/atom+xml" />
+
+</head>
+
+<body >
+
+<div class="container">
+
+  <div class="row">
+
+  <header role="banner" class="col-xs-12 col-md-10 col-md-offset-1 text-center">
+    <h1><a href="/">Born, Growing Up.</a></h1>
+    
+    <h2>William Ghelfi</h2>
+    
+  </header>
+  <nav role="navigation" class="col-xs-12 col-md-10 col-md-offset-1 navbar navbar-default">
+    <ul class="nav navbar-nav">
+      <!--
+      <li><a href="/">Blog</a></li>
+      -->
+      <li><a href="/bootstrap-in-practice"><span class="icon-book"></span>&#32;Bootstrap In Practice</a></li>
+      <li><a href="/blog/archives"><span class="icon-archive"></span>&#32;Archives</a></li>
+      <li><a href="/about?rel=me"><span class="icon-user"></span>&#32;About</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right">
+      <li><a href="https://twitter.com/trumbitta"><span class="icon-twitter"></span></a></li>
+      <li><a href="https://github.com/trumbitta"><span class="icon-github"></span></a></li>
+      <li><a href="https://it.linkedin.com/in/williamghelfi"><span class="icon-linkedin"></span></a></li>
+      <li><a rel="author" href="https://plus.google.com/114169273981533817065/about?rel=author"><span class="icon-google-plus"></span></a></li>
+      <li><a class="navbar-link" href="/atom.xml" rel="subscribe-rss" title="Subscribe via RSS"><span class="icon-rss"></span></a></li>
+    </ul>
+  </nav>
+
+  <div class="col-xs-12 col-md-10 col-md-offset-1">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1><a href="/blog/2015/03/13/fun-with-labels/">Bootstrap: fun with labels</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+<time datetime="2015-03-13T21:09:00+01:00" class="published">
+
+
+
+Mar
+  
+13th,
+  
+2015
+</time>
+<!--
+        
+-->
+      </p>
+    
+  </header>
+
+<p>Labels in the official docs are quickly introduced and dismissed. They might seem not much useful, besides for adding the occasional “New!” next to an item.</p>
+
+<p>But with a bit of imagination, you can take advantage of labels in quite more interesting ways.<br />
+Let’s see 3 of them.</p>
+
+<h2 id="1-labels-as-removable-tags">1. Labels as removable tags</h2>
+
+<p>Imagine you have a part of a web application, where you can choose tags and apply them to an item like - uhm - an X-Man!</p>
+
+<p>Using labels as we know them from the docs, we’d have a situation similar to the following:</p>
+
+<pre><code class="language-markup">&lt;select name="superpower"&gt;
+&lt;!-- superpower options --&gt;
+&lt;/select&gt;
+
+&lt;p&gt;Superpowers:&lt;/p&gt;
+&lt;span class="label label-info"&gt;Huge Whiskers&lt;/span&gt;
+&lt;span class="label label-info"&gt;Blue Skin&lt;/span&gt;
+...
+&lt;span class="label label-info"&gt;Dumbass Glasses&lt;/span&gt;
+</code></pre>
+
+<p>Well, yes. But we can do better.<br />
+Let’s make real tags of them, with a proper icon and a remove link.</p>
+
+<pre><code class="language-markup">&lt;select name="superpower"&gt;
+&lt;!-- superpower options --&gt;
+&lt;/select&gt;
+
+&lt;p&gt;Superpowers:&lt;/p&gt;
+&lt;span class="label label-info"&gt;
+  &lt;strong&gt;&lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&lt;/strong&gt;&#32;
+  Huge Whiskers&#32;
+  &lt;strong&gt;&lt;a href="/remove-tag" class="text-danger"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;&lt;/strong&gt;
+&lt;/span&gt;
+&lt;span class="label label-info"&gt;
+  &lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&#32;
+  Blue Skin&#32;
+  &lt;a href="/remove-tag" class="text-danger"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/span&gt;
+...
+&lt;span class="label label-info"&gt;
+  &lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&#32;
+  Dumbass Glasses&#32;
+  &lt;a href="/remove-tag" class="text-danger"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/span&gt;
+</code></pre>
+
+<p>Better. But there’s something even more unusual we can do if we want to improve this.</p>
+
+<p>##2. Labels + badges</p>
+
+<p>Yep, using badges.</p>
+
+<p>The remove link will become a badge, and also a button for better styling.<br />
+As a finishing touch, we need a custom class to let the labels properly wrap the new elements:</p>
+
+<pre><code class="language-markup">&lt;style&gt;
+.label-fatter {
+  padding: 0.8em;
+}
+&lt;/style&gt;
+
+&lt;span class="label label-info label-fatter"&gt;
+  &lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&#32;
+  Huge Whiskers&#32;
+  &lt;a href="/remove-tag" class="btn btn-warning badge"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/span&gt;
+&lt;span class="label label-info label-fatter"&gt;
+  &lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&#32;
+  Blue Skin&#32;
+  &lt;a href="/remove-tag" class="btn btn-default badge"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/span&gt;
+...
+&lt;span class="label label-info label-fatter"&gt;
+  &lt;span class="glyphicon glyphicon-tag"&gt;&lt;/span&gt;&#32;
+  Dumbass Glasses&#32;
+  &lt;a href="/remove-tag" class="btn btn-default badge"&gt;
+    &lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/span&gt;
+</code></pre>
+
+<p>Not bad, and you should be able to see where this is going to with just a bit more work on the CSS side :)</p>
+
+<p>##3. Labels as squared badges</p>
+
+<p>In certain situations, you could prefer a squared look instead of the rounded one of badges.<br />
+One way to obtain it, is to add a custom CSS class and override the rounded borders of badges.</p>
+
+<p>Or, you could just use labels.</p>
+
+<p>Let’s see them in action:</p>
+
+<pre><code class="language-markup">&lt;h4&gt;Translations&lt;/h4&gt;
+&lt;ul class="list-unstyled"&gt;
+  &lt;li&gt;&lt;code class="label label-info"&gt;it_IT&lt;/code&gt; Calcio&lt;/li&gt;
+  &lt;li&gt;&lt;code class="label label-info"&gt;en_US&lt;/code&gt; Soccer&lt;/li&gt;
+  &lt;li&gt;&lt;code class="label label-info"&gt;en_GB&lt;/code&gt; Football&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>Did you ever think about making labels out of <code class="highlighter-rouge">&lt;code&gt;</code> elements?</p>
+
+<h2 id="closing-thoughts">Closing Thoughts</h2>
+
+<p>I hope you are starting to see that Bootstrap is far more versatile than it may seem at first sight.</p>
+
+<p>When I was starting with it, back in 2011, I was too much focused on grasping it as a whole and getting productive as quickly as I could.<br />
+Because if you are going to invest time into learning a new framework which can boost your productivity, that’s what you want: get productive, and fast.</p>
+
+<p>But now that I know more of Bootstrap, I am able to use it as I want and go beyond the <em>natural</em> ways of using its components.</p>
+
+<p>Those first weeks, or months, are the most important because you are learning the basics. But at the same time those are the ones you wish you could skip in a minute.</p>
+
+<p>I still feel this pain when I think of it.</p>
+
+<p>Hell, I even wrote <a href="http://www.williamghelfi.com/bootstrap-in-practice">an ebook</a> to help newcomers in learning the basics as quickly as possible and go back to the funnier and more productive things.</p>
+
+<p>But I digress, and it’s time to say goodbye.<br />
+Until next time!</p>
+
+<hr />
+
+<div class="panel panel-default padding-medium-top padding-medium-bottom">
+	<div class="panel-body">
+		<p class="text-center margin-bottom-none">
+			<em>Want to learn more about Bootstrap?<br />
+			<a href="/categories/bootstrap/">Take a look at these other posts.</a></em>
+		</p>
+	</div>
+</div>
+
+
+<!--
+
+  
+
+-->
+
+    </article>
+  
+    <ul class="pager">
+      
+      <li class="previous"><a href="/blog/page/11">&larr; Older</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a href="/blog/page/9">Newer &rarr;</a></li>
+      
+    </ul>
+</div>
+
+  <footer role="contentinfo" class="col-xs-12 col-md-10 col-md-offset-1">
+    <p class="text-muted text-center">
+      Copyright &copy; 2018 &mdash; <a href="https://plus.google.com/u/0/114169273981533817065?rel=author">William Ghelfi</a> &mdash;
+      <span class="credit">Powered by <a href="http://jekyllrb.com/">Jekyll</a></span>
+    </p>
+    <p class="text-muted text-center">
+      The postings on this site are my own and don't necessarily represent my employer's positions, strategies or opinions.
+    </p>
+  </footer>
+  </div>
+</div>
+
+  <script src="/js/prism.js"></script>
+</body>
+</html>

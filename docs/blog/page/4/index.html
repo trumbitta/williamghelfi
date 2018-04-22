@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Born, Growing Up.</title>
+  <meta name="author" content="William Ghelfi" />
+  <meta charset="utf-8" />
+  
+  <meta name="description" content=" Heresy: put your sidebars to the right May 15th, 2016 Haters gonna hate (6x) – Giordano Bruno. Photo by Mark Smith, some rights reserved. Recently, the ever-insightful Luke Wroblewski – a.k.a. Mr. Mobile First – shared a couple LinkedIn statuses about how the hamburger menu and attached sidebar ..."/>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/css/screen.css" rel="stylesheet" />
+  <link href="/css/bootstrap-custom-utils.css" rel="stylesheet" />
+  <link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" />
+  <link href="/css/prism.css" rel="stylesheet" />
+
+  
+  <link rel="canonical" href="https://www.williamghelfi.com/blog/page/4/" />
+  <link href="/favicon.ico" rel="icon" />
+
+  <link href="/atom.xml" rel="alternate" title="Born, Growing Up." type="application/atom+xml" />
+
+</head>
+
+<body >
+
+<div class="container">
+
+  <div class="row">
+
+  <header role="banner" class="col-xs-12 col-md-10 col-md-offset-1 text-center">
+    <h1><a href="/">Born, Growing Up.</a></h1>
+    
+    <h2>William Ghelfi</h2>
+    
+  </header>
+  <nav role="navigation" class="col-xs-12 col-md-10 col-md-offset-1 navbar navbar-default">
+    <ul class="nav navbar-nav">
+      <!--
+      <li><a href="/">Blog</a></li>
+      -->
+      <li><a href="/bootstrap-in-practice"><span class="icon-book"></span>&#32;Bootstrap In Practice</a></li>
+      <li><a href="/blog/archives"><span class="icon-archive"></span>&#32;Archives</a></li>
+      <li><a href="/about?rel=me"><span class="icon-user"></span>&#32;About</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right">
+      <li><a href="https://twitter.com/trumbitta"><span class="icon-twitter"></span></a></li>
+      <li><a href="https://github.com/trumbitta"><span class="icon-github"></span></a></li>
+      <li><a href="https://it.linkedin.com/in/williamghelfi"><span class="icon-linkedin"></span></a></li>
+      <li><a rel="author" href="https://plus.google.com/114169273981533817065/about?rel=author"><span class="icon-google-plus"></span></a></li>
+      <li><a class="navbar-link" href="/atom.xml" rel="subscribe-rss" title="Subscribe via RSS"><span class="icon-rss"></span></a></li>
+    </ul>
+  </nav>
+
+  <div class="col-xs-12 col-md-10 col-md-offset-1">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1><a href="/blog/2016/05/15/heresy-right-hamburger-sidebar/">Heresy: put your sidebars to the right</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+<time datetime="2016-05-15T12:00:00+02:00" class="published">
+
+
+
+May
+  
+15th,
+  
+2016
+</time>
+<!--
+        
+-->
+      </p>
+    
+  </header>
+
+<figure class="text-center">
+    <img src="/images/posts/2016-05-15-heresy-right-hamburger-sidebar/bruno.jpg" alt=" " class="img-thumbnail" />
+    <caption><em>Haters gonna hate (6x)</em> – Giordano Bruno. Photo by <a href="https://www.flickr.com/photos/mjsmith01/">Mark Smith</a>, <a href="https://creativecommons.org/licenses/by-nd/2.0/">some rights reserved</a>.</caption>
+</figure>
+
+<p>Recently, the ever-insightful Luke Wroblewski – a.k.a. <em>Mr. Mobile First</em> – shared a couple LinkedIn statuses about how the hamburger menu and attached sidebar are going to vanish from mobile apps / views.</p>
+
+<p>Most comments went like:</p>
+
+<ul>
+  <li>Hamburger menus are evil and they should be avoided at all costs.</li>
+  <li>Data shows hamburger menus in mobile apps cause low ratings.</li>
+  <li>Hamburger menus are difficult to reach / activate in a mobile interface.</li>
+</ul>
+
+<p>I beg to differ, I have no data sheets to show you, I’m most certainly wrong, but here’s my thoughts on the subject at hand.</p>
+
+<h2 id="a-two-part-dogma-and-my-two-part-heresy">A two-part dogma, and my two-part heresy</h2>
+
+<h3 id="dogma1-hamburger-menus-are-evil-and-they-should-be-avoided-at-all-costs">DOGMA.1: hamburger menus are evil and they should be avoided at all costs</h3>
+
+<p>Hamburger menus effectively hide navigation. Users don’t know what they can do in the page, they see no options.<br />
+My mother doesn’t get what those stacked lines stand for, and she will successfully ignore them every single time.</p>
+
+<p>There are better options. If you give your navigation a proper structure, and organize it with a tap-bar / bottom-bar, cards, tabs, you should always be able to avoid the use of a hamburger menu.</p>
+
+<p>Hamburger menus are cheap. I mean, we even call them names. We don’t call them “menus”, or “sidebar activators”, nor “off-canvas navigation”; no, we call them “hamburger menus”.</p>
+
+<p>If something’s got itself such a silly name, it must be bad. Right?</p>
+
+<h3 id="heresy1-hamburger-menus-are-useful-and-they-should-be-used-whenever-possible">HERESY.1: hamburger menus are useful and they should be used whenever possible</h3>
+
+<p>The key here is the word <em>possible</em>. <strong>Off-canvas navigation</strong> exists for a reason, it’s a tool with a purpose. And you should use it.</p>
+
+<p>A mobile app, a website – anything dealing with information, really – should have some degree of well-thought information architecture. The basics are easy:</p>
+
+<ul>
+  <li>Expose the few – let’s just say 3 to 5 – most important bits (e.g.: a tap-bar / bottom-bar with actions, navigation items, …).</li>
+  <li>Organize the second most important ones (e.g.: tabs, cards, in-canvas navigation, carousels / wizards, …).</li>
+  <li><em>If some more remain</em>, put them in a off-canvas navigation menu and use a de-facto standard icon on the toggle button: <button class="btn btn-default icon icon-reorder"></button></li>
+</ul>
+
+<p><strong>You are not hiding any options.</strong> The most important actions are exposed, immediately recognizable, and easily reached. The second most-important ones are also exposed. But you have more, and you should use an off-canvas navigation for those.</p>
+
+<p>Wait, I’m playing heretic here, so <strong>I think you should actually use an off-canvas navigation for everything.</strong></p>
+
+<p>Yes, expose the important options, then repeat them in the off-canvas navigation alongside the other options.<br />
+Sitemaps are overkill in a mobile view, but thank god we have off-canvas navigation patterns and in mobile views we should use them instead of sitemaps.</p>
+
+<h3 id="dogma2-navigation-belongs-to-the-left-side-of-a-screen">DOGMA.2: navigation belongs to the left side of a screen</h3>
+
+<p>If you read this far, chances are you know about the <a href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/">F-Shaped Pattern For Reading Web Content</a>.</p>
+
+<ul>
+  <li><strong>Implication:</strong> navigation should go to the left, so users will easily notice it.</li>
+  <li><strong>Bonus:</strong> a left navigation sidebar offsets the main content, which ends up in more central, prominent, position.</li>
+</ul>
+
+<p>This is all so a win that one should never, ever, dare to question it. I mean, it’s as clear a fact as drinking water is necessary for staying alive.</p>
+
+<p>Fact: Navigation goes to the left. And this is it.</p>
+
+<h3 id="heresy2-navigation-belongs-to-the-right-side-of-a-screen">HERESY.2: navigation belongs to the right side of a screen</h3>
+
+<p>Fact: a year after the publication of “F-Shaped Pattern For Reading Web Content”, someone invented <a href="https://en.wikipedia.org/wiki/IPhone">modern smartphones</a> and now we are talking about <a href="http://www.lukew.com/ff/entry.asp?933">Mobile First</a>.</p>
+
+<p>On a <em>desktop</em> web page you can rightfully expect to see a menu / sidebar / navigation thing on the left, because:</p>
+
+<ol>
+  <li>That’s where you tend to look first: on the left.</li>
+  <li>Occupying some space on the left makes the main content end up in a more central position, and that’s certainly a win.</li>
+</ol>
+
+<p>But in a <em>mobile</em> app, or in a mobile version / view of a web page:</p>
+
+<ol>
+  <li>The narrower the screen, the more likely becomes that you’ll be able to quickly scan a whole row with just one glance, the less important becomes putting a menu to the left.<br />
+Think of how we often center logos in a mobile view, instead of putting them to the classic left side.</li>
+  <li>You don’t need to offset the main content to make it more central and prominent because it already spans the whole screen.</li>
+  <li>Statistically we are talking about right-handed users, who use their right thumb most of the time they spend on the page.<br />
+If you divide your phone’s screen in four quadrants, and try to reach each one of them with your right thumb while holding the phone with your right hand, you’ll find the <strong>least comfortable</strong> quadrant to reach <strong>is the top-left</strong> one and the <strong>most comfortable</strong> ones to reach <strong>are the top-right and bottom-right</strong> ones.</li>
+</ol>
+
+<p>And that’s why – whenever I have enough menu items to justify the use of <del>a hamburger menu</del> off-canvas navigation – I put it to the right.</p>
+
+<p>I’ve also been known to put navigation to the right in web page views destined to <em>desktop</em> browsers, but that story is for another time.</p>
+
+<!--
+
+  
+
+-->
+
+    </article>
+  
+    <ul class="pager">
+      
+      <li class="previous"><a href="/blog/page/5">&larr; Older</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a href="/blog/page/3">Newer &rarr;</a></li>
+      
+    </ul>
+</div>
+
+  <footer role="contentinfo" class="col-xs-12 col-md-10 col-md-offset-1">
+    <p class="text-muted text-center">
+      Copyright &copy; 2018 &mdash; <a href="https://plus.google.com/u/0/114169273981533817065?rel=author">William Ghelfi</a> &mdash;
+      <span class="credit">Powered by <a href="http://jekyllrb.com/">Jekyll</a></span>
+    </p>
+    <p class="text-muted text-center">
+      The postings on this site are my own and don't necessarily represent my employer's positions, strategies or opinions.
+    </p>
+  </footer>
+  </div>
+</div>
+
+  <script src="/js/prism.js"></script>
+</body>
+</html>
