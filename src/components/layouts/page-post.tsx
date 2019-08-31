@@ -7,24 +7,7 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { UiContainer, UiTypographyH1 } from '../ui';
 import { ApplicationHeader } from '../application-header/application-header.component';
 
-const PageTemplate: FunctionComponent = () => {
-  const data = useStaticQuery(
-    graphql`
-      query BlogPostQuery($id: String) {
-        mdx(id: { eq: $id }) {
-          id
-          body
-          frontmatter {
-            title
-          }
-        }
-        site {
-          ...SiteMetadataFragment
-        }
-      }
-    `
-  );
-
+const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
   return (
     <UiContainer>
       <ApplicationHeader
@@ -37,5 +20,33 @@ const PageTemplate: FunctionComponent = () => {
     </UiContainer>
   );
 };
+
+type QueryData = {
+  data: {
+    mdx: {
+      id: string;
+      body: string;
+      frontmatter: {
+        title: string;
+      };
+    };
+    site: any;
+  };
+};
+
+export const query = graphql`
+  query BlogPostQuery($id: String) {
+    mdx(id: { eq: $id }) {
+      id
+      body
+      frontmatter {
+        title
+      }
+    }
+    site {
+      ...SiteMetadataFragment
+    }
+  }
+`;
 
 export default PageTemplate;
