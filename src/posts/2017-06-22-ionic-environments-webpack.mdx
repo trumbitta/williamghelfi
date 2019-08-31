@@ -1,0 +1,113 @@
+---
+title: "How to set up environment specific configurations with Ionic and Webpack"
+date: 2017-06-22 23:30
+---
+
+At the time of writing, Ionic hasn't any official way to get environment specific configuration variables.
+
+There's an [open discussion on GitHub](https://github.com/ionic-team/ionic-app-scripts/issues/762), but everyone is currently on their own about this.
+
+So of course I came up with my own solution.
+
+I'm going to describe it like it was the best solution in the world, like of course everyone should be doing this like I do.
+
+In fact, there's plenty more ways to solve this problem. This is just how I chose to solve it.
+
+## 1. How many environments?
+
+Two: `dev`(elopment) and `prod`(uction).  
+I'd really like to also have `stag`(ing) and `test`(ing), but first I'd have to find a better way to triage the current environment than the `IONIC_ENV` variable.
+
+## 2. JSON files to store the variables
+
+JSON files are easy to read, and fairly easy to edit. They also are very easy to import into a node script.
+
+I have two of them:
+
+  *  `/config/config-dev.json`
+  *  `/config/config-prod.json`
+
+### Sample `/config/config-dev.json` file:
+
+```
+{
+    foo: "bar",
+    baz: "fooBar"
+}
+```
+
+## 3. Custom Webpack configuration for Ionic
+
+This is an important one: Ionic uses Webpack, and we can specify our own Webpack configuration file. But if we do, the next time we update `@ionic/app-scripts` Ionic might stop working because we are missing some new configuration detail.
+
+Instead we keep the official configuration, and expand it.
+
+  *  Add the following block to your `/package.json`:
+
+```
+    "config": {
+        "ionic_webpack": "./config/webpack.config.js"
+    },
+```
+
+  *  Create `/config/webpack.config.js` and paste this code in it:
+
+```
+const webpackConfig = require('../node_modules/@ionic/app-scripts/config/webpack.config');
+const webpack = require('webpack');
+
+const ENV = process.env.IONIC_ENV;
+const envConfigFile = require(`./config-${ENV}.json`);
+const fooConfig = envConfigFile.foo;
+const bazConfig = envConfigFile.baz;
+
+webpackConfig.plugins.push(
+    new webpack.DefinePlugin({
+        webpackGlobalVars: {
+            foo: JSON.stringify(fooConfig),
+            baz: JSON.stringify(bazConfig)
+        }
+    })
+);
+```
+
+As you can see, we are getting the official Webpack configuration and pushing a new plugin into it. No overrides, just an addition.
+
+## 4. A configuration service
+
+Create `/src/providers/configuration/configuration.service.ts`.  
+You may have noticed I don't dig the Ionic CLI proposed convention of naming a service *"provider"*. I also like to always know what kind of file I'm about to open, hence the `.service` part of the name.
+
+This is where we use the newly defined `webpackGlobalVars` object to inject the environment-driven values into our Ionic / Angular code.
+
+```
+import { Injectable } from '@angular/core';
+
+declare const webpackGlobalVars: any;
+
+@Injectable()
+export class ConfigurationService {
+    public static apiServer = webpackGlobalVars.foo;
+
+    public static fooBar = {
+        bazBaz: 'foo',
+        fooBar: webpackGlobalVars.baz
+    }
+
+    // Add more configuration variables as needed
+}
+```
+
+I chose to make them `static` out of sheer lazyness: this way, I don't have to inject the service: I just `import` it and use it: `const myConst = ConfigurationService.fooBar`.
+
+Now that I think about it, the `@Injectable` decoration might be unnecessary. I'll try to remove it one day or another.
+
+## Conclusion
+
+So this is how I tackle the problem of having environment specific variables in Ionic.
+
+Now I will have the values from `/config/config-dev.json` when I'm developing the app.  
+When I use the `--prod` flag, I will have the values from `/config/config-prod.json` instead.
+
+I think it's fairly concise, effective, and as future proof as it gets.  
+If you give it a try, [let me know](https://twitter.com/trumbitta)! 
