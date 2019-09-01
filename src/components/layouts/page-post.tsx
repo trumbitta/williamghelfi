@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
 import { graphql } from 'gatsby';
-import { useStaticQuery } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 
 import { UiContainer, UiTypographyH1 } from '../ui';
