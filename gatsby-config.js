@@ -28,13 +28,13 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
-        plugins: ['gatsby-remark-images'],
+        plugins: ['gatsby-remark-unwrap-images', 'gatsby-remark-images'],
         gatsbyRemarkPlugins: [
+          'gatsby-remark-unwrap-images',
           {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 1200,
-              sizeByPixelDensity: true,
             },
           },
         ],
