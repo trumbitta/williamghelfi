@@ -4,11 +4,7 @@ import { Link } from 'gatsby';
 import { graphql } from 'gatsby';
 
 import LayoutPageBase from '../components/layouts/page-base';
-import {
-  UiTypographyH1,
-  UiTypographyP,
-  UiTypographyH2,
-} from '../components/ui';
+import { UiTypographyP, UiTypographyH2 } from '../components/ui';
 
 const BlogIndex: FunctionComponent<BlogIndexResponse> = ({ data }) => {
   const { edges: posts } = data.allMdx;
