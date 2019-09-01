@@ -44,6 +44,10 @@ export const fonts = {
     normal: 300,
     bold: 700,
   },
+  sizes: {
+    base: '1rem',
+    small: '0.8rem',
+  },
 };
 
 export const headings = {
