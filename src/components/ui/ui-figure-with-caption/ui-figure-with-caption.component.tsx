@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
+
 import styled from 'styled-components';
+
 import { rhythm, fonts } from '../../styled/_variables';
 
 export const UiFigureWithCaption: FunctionComponent<
