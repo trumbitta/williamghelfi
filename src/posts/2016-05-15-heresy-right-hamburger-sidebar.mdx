@@ -3,7 +3,9 @@ title: 'Heresy: put your sidebars to the right'
 date: 2016-05-15 12:00
 ---
 
-import { UiFigureWithCaption } from '../components/ui';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+
+import { UiFigureWithCaption, UiButton } from '../components/ui';
 
 <UiFigureWithCaption caption='<em>Haters gonna hate (6x)</em> – Giordano Bruno. Photo by
     <a href="https://www.flickr.com/photos/mjsmith01/">Mark Smith</a>,
@@ -48,7 +50,7 @@ A mobile app, a website – anything dealing with information, really – should
 
 - Expose the few – let's just say 3 to 5 – most important bits (e.g.: a tap-bar / bottom-bar with actions, navigation items, ...).
 - Organize the second most important ones (e.g.: tabs, cards, in-canvas navigation, carousels / wizards, ...).
-- _If some more remain_, put them in a off-canvas navigation menu and use a de-facto standard icon on the toggle button: <button class="btn btn-default icon icon-reorder"></button>
+- _If some more remain_, put them in a off-canvas navigation menu and use a de-facto standard icon on the toggle button: <UiButton icon={faBars}></UiButton>
 
 **You are not hiding any options.** The most important actions are exposed, immediately recognizable, and easily reached. The second most-important ones are also exposed. But you have more, and you should use an off-canvas navigation for those.
 

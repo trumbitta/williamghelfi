@@ -37,6 +37,14 @@ export const rhythm = {
 
 export const colors = {
   black: 'hsla(0, 0%, 0%, 0.9)',
+  purple: '#663399',
+  gray: '#efefef',
+};
+
+export const colorRoles = {
+  dark: colors.black,
+  primary: colors.purple,
+  light: colors.gray,
 };
 
 export const fonts = {
@@ -47,6 +55,19 @@ export const fonts = {
   sizes: {
     base: '1rem',
     small: '0.8rem',
+  },
+};
+
+export const buttons = {
+  defaultColorBackground: colorRoles.light,
+  defaultColorForeground: colorRoles.dark,
+  sizes: {
+    base: {
+      fontSize: fonts.sizes.base,
+      borderRadius: '3px',
+      paddingX: rhythm[1],
+      paddingY: rhythm[1],
+    },
   },
 };
 
