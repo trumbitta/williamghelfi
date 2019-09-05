@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { headings, rhythm } from '../../styled/_variables';
+import { headings, rhythm, links } from '../../styled/_variables';
 
 const headingsCommon = css`
   font-family: ${headings.font.family};
@@ -27,4 +27,27 @@ export const UiTypographyH2 = styled.h2.attrs(() => ({ headingsCommon }))`
 export const UiTypographyP = styled.p`
   margin: 0 0 ${rhythm[3]} 0;
   padding: 0;
+`;
+
+export const UiTypographyA = styled.a`
+  text-decoration: none;
+  color: ${links.colors.base};
+  font-weight: ${links.font.weight};
+
+  :hover {
+    text-decoration: underline;
+    color: ${links.colors.hover};
+  }
+
+  :active {
+    color: ${links.colors.active};
+  }
+
+  :visited {
+    color: ${links.colors.visited};
+  }
+
+  :focus {
+    color: ${links.colors.focus};
+  }
 `;

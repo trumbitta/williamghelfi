@@ -5,18 +5,23 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 
 import { UiContainer, UiTypographyH1 } from '../ui';
 import { ApplicationHeader } from '../application-header/application-header.component';
+import { ApplicationFooter } from '../application-footer/application-footer.component';
 
 const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
   return (
-    <UiContainer>
-      <ApplicationHeader
-        applicationTitle={data.site.siteMetadata.title}
-        isInternal={true}
-      ></ApplicationHeader>
+    <React.Fragment>
+      <UiContainer>
+        <ApplicationHeader
+          applicationTitle={data.site.siteMetadata.title}
+          isInternal={true}
+        ></ApplicationHeader>
 
-      <UiTypographyH1>{data.mdx.frontmatter.title}</UiTypographyH1>
-      <MDXRenderer>{data.mdx.body}</MDXRenderer>
-    </UiContainer>
+        <UiTypographyH1>{data.mdx.frontmatter.title}</UiTypographyH1>
+        <MDXRenderer>{data.mdx.body}</MDXRenderer>
+      </UiContainer>
+
+      <ApplicationFooter />
+    </React.Fragment>
   );
 };
 
