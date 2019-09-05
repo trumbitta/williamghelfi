@@ -1,3 +1,5 @@
+import { darken, lighten } from 'polished';
+
 export type UiBreakpointMap = {
   [key: string]: string;
 };
@@ -39,22 +41,41 @@ export const colors = {
   black: 'hsla(0, 0%, 0%, 0.9)',
   purple: '#663399',
   gray: '#efefef',
+  gray2: '#eeeeee',
 };
 
 export const colorRoles = {
   dark: colors.black,
   primary: colors.purple,
+  deaccent: darken('0.2', colors.purple),
+  accent: lighten('0.1', colors.purple),
   light: colors.gray,
 };
 
 export const fonts = {
+  families: {
+    sansSerif: '"Open Sans", sans-serif',
+  },
   weights: {
     normal: 300,
     bold: 700,
   },
   sizes: {
-    base: '1rem',
+    smaller: '0.7rem',
     small: '0.8rem',
+    base: '1rem',
+  },
+};
+
+export const components = {
+  paddingX: rhythm[3],
+  paddingY: rhythm[2],
+  marginX: rhythm[0],
+  marginY: rhythm[0],
+  border: {
+    color: colors.gray2,
+    radius: '3px',
+    thickness: '1px',
   },
 };
 
@@ -64,7 +85,7 @@ export const buttons = {
   sizes: {
     base: {
       fontSize: fonts.sizes.base,
-      borderRadius: '3px',
+      borderRadius: components.border.radius,
       paddingX: rhythm[1],
       paddingY: rhythm[1],
     },
@@ -73,7 +94,7 @@ export const buttons = {
 
 export const headings = {
   font: {
-    family: '"Open Sans", sans-serif',
+    family: fonts.families.sansSerif,
     size: {
       h1: '2.2974rem',
       h2: '1.51572rem',
@@ -96,5 +117,18 @@ export const headings = {
   margin: {
     top: rhythm[5],
     bottom: rhythm[3],
+  },
+};
+
+export const links = {
+  font: {
+    weight: fonts.weights.bold,
+  },
+  colors: {
+    base: colorRoles.primary,
+    hover: colorRoles.deaccent,
+    visited: colorRoles.primary,
+    focus: colorRoles.accent,
+    active: colorRoles.accent,
   },
 };
