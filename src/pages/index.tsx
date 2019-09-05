@@ -6,11 +6,12 @@ import { graphql } from 'gatsby';
 import LayoutPageBase from '../components/layouts/page-base';
 import { UiTypographyP, UiTypographyH2 } from '../components/ui';
 
-const BlogIndex: FunctionComponent<BlogIndexResponse> = ({ data }) => {
+const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
   const { edges: posts } = data.allMdx;
+  const applicationTitle = data.site.siteMetadata.title;
 
   return (
-    <LayoutPageBase>
+    <LayoutPageBase title={applicationTitle}>
       {posts.map(({ node: post }) => (
         <React.Fragment key={post.id}>
           <Link to={post.fields.slug}>
@@ -24,7 +25,12 @@ const BlogIndex: FunctionComponent<BlogIndexResponse> = ({ data }) => {
 };
 
 export const pageQuery = graphql`
-  query blogIndex {
+  query data {
+    site {
+      siteMetadata {
+        title
+      }
+    }
     allMdx {
       edges {
         node {
@@ -42,8 +48,13 @@ export const pageQuery = graphql`
   }
 `;
 
-type BlogIndexResponse = {
+type QueryData = {
   data: {
+    site: {
+      siteMetadata: {
+        title: string;
+      };
+    };
     allMdx: {
       edges: [
         {

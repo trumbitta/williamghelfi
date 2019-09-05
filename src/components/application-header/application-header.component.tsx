@@ -26,14 +26,6 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
   return jsx;
 };
 
-export const query = graphql`
-  fragment SiteMetadataFragment on Site {
-    siteMetadata {
-      title
-    }
-  }
-`;
-
 const LinkStyled = styled(Link)`
   display: flex;
   align-items: center;
