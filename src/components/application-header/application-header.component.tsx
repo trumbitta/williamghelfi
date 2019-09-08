@@ -8,7 +8,7 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { UiTypographyH1 } from '../ui';
-import { headings } from '../styled/_variables';
+import { headings, colorRoles } from '../styled/_variables';
 
 export const ApplicationHeader: FunctionComponent<Props> = ({
   applicationTitle,
@@ -20,7 +20,9 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
       <InternalPageTitle>{applicationTitle}</InternalPageTitle>
     </LinkStyled>
   ) : (
-    <UiTypographyH1>{applicationTitle}</UiTypographyH1>
+    <UiTypographyH1>
+      {applicationTitle} <WIPNotice>Work in progress, finishing up.</WIPNotice>
+    </UiTypographyH1>
   );
 
   return jsx;
@@ -37,6 +39,13 @@ const InternalPageTitle = styled(UiTypographyH1)`
   margin: 0;
   letter-spacing: -1px;
   text-transform: uppercase;
+`;
+
+const WIPNotice = styled.small`
+  color: ${colorRoles.secondary};
+  font-size: 70%;
+  text-transform: lowercase;
+  display: block;
 `;
 
 type Props = {

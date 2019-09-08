@@ -1,4 +1,4 @@
-import { darken, lighten } from 'polished';
+import { darken, lighten, desaturate } from 'polished';
 
 export type UiBreakpointMap = {
   [key: string]: string;
@@ -40,15 +40,16 @@ export const rhythm = {
 export const colors = {
   black: 'hsla(0, 0%, 0%, 0.9)',
   purple: '#663399',
-  gray: '#efefef',
+  gray: '#f8f9fa',
   gray2: '#eeeeee',
 };
 
 export const colorRoles = {
   dark: colors.black,
   primary: colors.purple,
-  deaccent: darken('0.2', colors.purple),
-  accent: lighten('0.1', colors.purple),
+  secondary: lighten(0.2, desaturate(0.5, colors.purple)),
+  deaccent: darken(0.2, colors.purple),
+  accent: lighten(0.1, colors.purple),
   light: colors.gray,
 };
 
