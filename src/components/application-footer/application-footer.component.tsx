@@ -4,13 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 import { UiFooter, UiContainer, UiTypographyP, UiTypographyA } from '../ui';
+import { colorRoles } from '../styled/_variables';
 
 export const ApplicationFooter: FunctionComponent = () => (
   <UiFooter>
     <UiContainer>
       <UiTypographyP>
         Copyright &copy; {new Date().getFullYear()} &mdash; William Ghelfi
-        &mdash; Made with <FontAwesomeIcon icon={faHeart} /> and{' '}
+        &mdash; Made with{' '}
+        <FontAwesomeIcon icon={faHeart} color={colorRoles.primary} /> and{' '}
         <UiTypographyA href="https://www.gatsbyjs.org">Gatsby</UiTypographyA>
       </UiTypographyP>
 
