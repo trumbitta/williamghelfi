@@ -6,10 +6,12 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { UiContainer, UiTypographyH1 } from '../ui';
 import { ApplicationHeader } from '../application-header/application-header.component';
 import { ApplicationFooter } from '../application-footer/application-footer.component';
+import { SEO } from '../seo/seo.component';
 
 const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
   return (
-    <React.Fragment>
+    <>
+      <SEO title={data.mdx.frontmatter.title} />
       <UiContainer>
         <ApplicationHeader
           applicationTitle={data.site.siteMetadata.title}
@@ -21,7 +23,7 @@ const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
       </UiContainer>
 
       <ApplicationFooter />
-    </React.Fragment>
+    </>
   );
 };
 

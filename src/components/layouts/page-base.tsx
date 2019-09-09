@@ -1,15 +1,19 @@
 import React, { FunctionComponent } from 'react';
+import { Helmet } from 'react-helmet';
 
 import { UiContainer } from '../ui';
 import { ApplicationHeader } from '../application-header/application-header.component';
 import { ApplicationFooter } from '../application-footer/application-footer.component';
+import { SEO } from '../seo/seo.component';
 
 const LayoutPageBase: FunctionComponent<{ title: string }> = ({
   title,
   children,
 }) => {
   return (
-    <React.Fragment>
+    <>
+      <SEO />
+
       <UiContainer>
         <ApplicationHeader applicationTitle={title}></ApplicationHeader>
 
@@ -17,7 +21,7 @@ const LayoutPageBase: FunctionComponent<{ title: string }> = ({
       </UiContainer>
 
       <ApplicationFooter />
-    </React.Fragment>
+    </>
   );
 };
 
