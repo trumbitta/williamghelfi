@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { Helmet } from 'react-helmet';
 
 import { UiContainer } from '../ui';
 import { ApplicationHeader } from '../application-header/application-header.component';
