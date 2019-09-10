@@ -1,14 +1,12 @@
 import React, { FunctionComponent } from 'react';
 
-import { Link } from 'gatsby';
-import { graphql } from 'gatsby';
-
 import styled from 'styled-components';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { UiTypographyH1 } from '../ui';
 import { headings, colorRoles } from '../styled/_variables';
+import { Link } from '../link/link.component';
 
 export const ApplicationHeader: FunctionComponent<Props> = ({
   applicationTitle,
@@ -32,6 +30,7 @@ const LinkStyled = styled(Link)`
   display: flex;
   align-items: center;
   line-height: ${headings.font.lineHeight.h1};
+  color: ${headings.font.color} !important;
 `;
 
 const InternalPageTitle = styled(UiTypographyH1)`

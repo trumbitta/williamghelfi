@@ -29,7 +29,7 @@ export const UiTypographyP = styled.p`
   padding: 0;
 `;
 
-export const UiTypographyA = styled.a`
+export const anchorsCommon = css`
   text-decoration: none;
   color: ${links.colors.base};
   font-weight: ${links.font.weight};
@@ -50,4 +50,8 @@ export const UiTypographyA = styled.a`
   :focus {
     color: ${links.colors.focus};
   }
+`;
+
+export const UiTypographyA = styled.a.attrs(() => ({ anchorsCommon }))`
+  ${props => props.anchorsCommon}
 `;
