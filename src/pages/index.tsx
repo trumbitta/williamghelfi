@@ -1,10 +1,12 @@
 import React, { FunctionComponent } from 'react';
 
-import { Link } from 'gatsby';
 import { graphql } from 'gatsby';
 
 import LayoutPageBase from '../components/layouts/page-base';
 import { UiTypographyP, UiTypographyH2 } from '../components/ui';
+import { Link } from '../components/link/link.component';
+import { headings } from '../components/styled/_variables';
+import styled from 'styled-components';
 
 const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
   const { edges: posts } = data.allMdx;
@@ -14,9 +16,9 @@ const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
     <LayoutPageBase title={applicationTitle}>
       {posts.map(({ node: post }) => (
         <React.Fragment key={post.id}>
-          <Link to={post.fields.slug}>
+          <LinkStyled to={post.fields.slug}>
             <UiTypographyH2>{post.frontmatter.title}</UiTypographyH2>
-          </Link>
+          </LinkStyled>
           <UiTypographyP>{post.excerpt}</UiTypographyP>
         </React.Fragment>
       ))}
@@ -73,5 +75,9 @@ type QueryData = {
     };
   };
 };
+
+const LinkStyled = styled(Link)`
+  color: ${headings.font.color} !important;
+`;
 
 export default BlogIndex;
