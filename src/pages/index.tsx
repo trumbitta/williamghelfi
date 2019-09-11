@@ -2,18 +2,28 @@ import React, { FunctionComponent } from 'react';
 
 import { graphql } from 'gatsby';
 
+import styled from 'styled-components';
+
 import LayoutPageBase from '../components/layouts/page-base';
 import { UiTypographyP, UiTypographyH2 } from '../components/ui';
 import { Link } from '../components/link/link.component';
 import { headings } from '../components/styled/_variables';
-import styled from 'styled-components';
+import { SeoProps } from '../components/seo/seo.component';
 
 const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
   const { edges: posts } = data.allMdx;
-  const applicationTitle = data.site.siteMetadata.title;
+
+  const siteMetadata = data.site.siteMetadata;
+  const seo: SeoProps = {
+    description: siteMetadata.defaultDescription,
+    image: siteMetadata.defaultImage,
+    title: siteMetadata.defaultTitle,
+    twitterUsername: siteMetadata.twitterUsername,
+    url: siteMetadata.siteUrl,
+  };
 
   return (
-    <LayoutPageBase title={applicationTitle}>
+    <LayoutPageBase props={seo}>
       {posts.map(({ node: post }) => (
         <React.Fragment key={post.id}>
           <LinkStyled to={post.fields.slug}>
@@ -30,7 +40,12 @@ export const pageQuery = graphql`
   query data {
     site {
       siteMetadata {
-        title
+        defaultTitle: title
+        titleTemplate
+        defaultDescription: description
+        siteUrl: url
+        defaultImage: image
+        twitterUsername
       }
     }
     allMdx {
@@ -54,7 +69,12 @@ type QueryData = {
   data: {
     site: {
       siteMetadata: {
-        title: string;
+        defaultTitle: string;
+        titleTemplate: string;
+        defaultDescription: string;
+        siteUrl: string;
+        defaultImage: string;
+        twitterUsername: string;
       };
     };
     allMdx: {
