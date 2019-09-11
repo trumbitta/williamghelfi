@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react';
 import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 
-import { UiContainer, UiTypographyH1 } from '../ui';
+import { UiContainer, UiTypographyH1, UiDateInfo } from '../ui';
 import { ApplicationHeader } from '../application-header/application-header.component';
 import { ApplicationFooter } from '../application-footer/application-footer.component';
 import { SEO, SeoProps } from '../seo/seo.component';
@@ -24,11 +24,12 @@ const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
       <SEO {...seo} />
       <UiContainer>
         <ApplicationHeader
-          applicationTitle={data.site.siteMetadata.defaultTitle}
+          applicationTitle={siteMetadata.defaultTitle}
           isInternal={true}
         ></ApplicationHeader>
 
         <UiTypographyH1>{data.mdx.frontmatter.title}</UiTypographyH1>
+        <UiDateInfo date={data.mdx.frontmatter.date}></UiDateInfo>
         <MDXRenderer>{data.mdx.body}</MDXRenderer>
       </UiContainer>
 
@@ -45,6 +46,7 @@ type QueryData = {
       excerpt: string;
       frontmatter: {
         title: string;
+        date: string;
       };
     };
     site: {
@@ -68,6 +70,7 @@ export const query = graphql`
       excerpt
       frontmatter {
         title
+        date
       }
     }
     site {
