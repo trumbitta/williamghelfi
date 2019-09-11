@@ -6,13 +6,25 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { UiContainer, UiTypographyH1 } from '../ui';
 import { ApplicationHeader } from '../application-header/application-header.component';
 import { ApplicationFooter } from '../application-footer/application-footer.component';
+import { SEO, SeoProps } from '../seo/seo.component';
 
 const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
+  const siteMetadata = data.site.siteMetadata;
+  const seo: SeoProps = {
+    description: data.mdx.excerpt,
+    image: siteMetadata.defaultImage,
+    title: data.mdx.frontmatter.title,
+    titleTemplate: siteMetadata.titleTemplate,
+    twitterUsername: siteMetadata.twitterUsername,
+    url: siteMetadata.siteUrl,
+  };
+
   return (
-    <React.Fragment>
+    <>
+      <SEO {...seo} />
       <UiContainer>
         <ApplicationHeader
-          applicationTitle={data.site.siteMetadata.title}
+          applicationTitle={data.site.siteMetadata.defaultTitle}
           isInternal={true}
         ></ApplicationHeader>
 
@@ -21,7 +33,7 @@ const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
       </UiContainer>
 
       <ApplicationFooter />
-    </React.Fragment>
+    </>
   );
 };
 
@@ -30,11 +42,21 @@ type QueryData = {
     mdx: {
       id: string;
       body: string;
+      excerpt: string;
       frontmatter: {
         title: string;
       };
     };
-    site: any;
+    site: {
+      siteMetadata: {
+        defaultTitle: string;
+        titleTemplate: string;
+        defaultDescription: string;
+        siteUrl: string;
+        defaultImage: string;
+        twitterUsername: string;
+      };
+    };
   };
 };
 
@@ -43,13 +65,19 @@ export const query = graphql`
     mdx(id: { eq: $id }) {
       id
       body
+      excerpt
       frontmatter {
         title
       }
     }
     site {
       siteMetadata {
-        title
+        defaultTitle: title
+        titleTemplate
+        defaultDescription: description
+        siteUrl: url
+        defaultImage: image
+        twitterUsername
       }
     }
   }

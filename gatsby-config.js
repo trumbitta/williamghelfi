@@ -7,8 +7,15 @@
 module.exports = {
   siteMetadata: {
     title: 'Born, growing up.',
+    titleTemplate: '%s · Born, growing up.',
+    description:
+      'A blog about coding and the life of a computer programmer, by William Ghelfi.',
+    url: 'https://www.williamghelfi.com', // No trailing slash allowed!
+    image: '/images/william.jpg', // Path to your image you placed in the 'static' folder
+    twitterUsername: '@trumbitta',
   },
   plugins: [
+    `gatsby-plugin-react-helmet`,
     'gatsby-plugin-sharp',
     'gatsby-plugin-styled-components',
     {
