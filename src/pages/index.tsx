@@ -5,9 +5,9 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 
 import LayoutPageBase from '../components/layouts/page-base';
-import { UiTypographyP, UiTypographyH2 } from '../components/ui';
+import { UiTypographyP, UiTypographyH2, UiDateInfo } from '../components/ui';
 import { Link } from '../components/link/link.component';
-import { headings } from '../components/styled/_variables';
+import { headings, colorRoles } from '../components/styled/_variables';
 import { SeoProps } from '../components/seo/seo.component';
 
 const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
@@ -29,7 +29,10 @@ const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
           <LinkStyled to={post.fields.slug}>
             <UiTypographyH2>{post.frontmatter.title}</UiTypographyH2>
           </LinkStyled>
-          <UiTypographyP>{post.excerpt}</UiTypographyP>
+          <UiTypographyP>
+            <UiDateInfo date={post.frontmatter.date}></UiDateInfo>
+            {post.excerpt}
+          </UiTypographyP>
         </React.Fragment>
       ))}
     </LayoutPageBase>
@@ -48,13 +51,14 @@ export const pageQuery = graphql`
         twitterUsername
       }
     }
-    allMdx {
+    allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
       edges {
         node {
           id
           excerpt
           frontmatter {
             title
+            date
           }
           fields {
             slug
@@ -85,6 +89,7 @@ type QueryData = {
             excerpt: string;
             frontmatter: {
               title: string;
+              date: string;
             };
             fields: {
               slug: string;
