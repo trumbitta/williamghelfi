@@ -1,5 +1,6 @@
 import { MDXProvider } from '@mdx-js/react';
 import './node_modules/normalize.css/normalize.css';
+import './node_modules/prismjs/themes/prism-tomorrow.css';
 import React from 'react';
 
 import {

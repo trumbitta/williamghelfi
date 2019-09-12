@@ -35,7 +35,12 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
-        plugins: ['gatsby-remark-unwrap-images', 'gatsby-remark-images'],
+        plugins: [
+          'gatsby-remark-unwrap-images',
+          'gatsby-remark-images',
+          'gatsby-remark-embed-snippet',
+          'gatsby-remark-prismjs',
+        ],
         gatsbyRemarkPlugins: [
           'gatsby-remark-unwrap-images',
           {
@@ -43,6 +48,16 @@ module.exports = {
             options: {
               maxWidth: 1200,
             },
+          },
+          {
+            resolve: `gatsby-remark-embed-snippet`,
+            options: {
+              directory: `${__dirname}/src/snippets/`,
+            },
+          },
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {},
           },
         ],
       },
