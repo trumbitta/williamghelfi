@@ -17,3 +17,11 @@ body {
   font-weight: 300;
   word-wrap: break-word;
 }
+
+:not(pre) > code[class*='language-'] {
+  padding: 0.25em;
+  border-radius: 4px;
+  white-space: normal;
+  background-color: #fefefe;
+  color: #000000;
+}
