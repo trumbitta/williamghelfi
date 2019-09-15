@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import LayoutPageBase from '../components/layouts/page-base';
 import { UiTypographyP, UiTypographyH2, UiDateInfo } from '../components/ui';
 import { Link } from '../components/link/link.component';
-import { headings, colorRoles } from '../components/styled/_variables';
+import { headings } from '../components/styled/_variables';
 import { SeoProps } from '../components/seo/seo.component';
 
 const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
