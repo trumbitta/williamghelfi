@@ -22,6 +22,7 @@ export const UiTypographyH2 = styled.h2.attrs(() => ({ headingsCommon }))`
   ${props => props.headingsCommon}
   font-size: ${headings.font.size.h2};
   line-height: ${headings.font.lineHeight.h2};
+  letter-spacing: -1px;
 `;
 
 export const UiTypographyP = styled.p`
