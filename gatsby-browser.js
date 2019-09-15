@@ -7,6 +7,7 @@ import {
   UiTypographyH1,
   UiTypographyP,
   UiTypographyA,
+  UiBlockquote,
 } from './src/components/ui/';
 
 import 'typeface-open-sans';
@@ -18,6 +19,7 @@ const components = {
   h1: UiTypographyH1,
   p: UiTypographyP,
   a: UiTypographyA,
+  blockquote: UiBlockquote,
 };
 
 export const wrapRootElement = ({ element }) => (
