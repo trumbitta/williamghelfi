@@ -1,0 +1,137 @@
+---
+title: 'Bootstrap: fun with labels'
+date: 2015-03-13 21:09
+---
+
+Labels in the official docs are quickly introduced and dismissed. They might seem not much useful, besides for adding the occasional "New!" next to an item.
+
+But with a bit of imagination, you can take advantage of labels in quite more interesting ways.  
+Let's see 3 of them.
+
+## 1. Labels as removable tags
+
+Imagine you have a part of a web application, where you can choose tags and apply them to an item like - uhm - an X-Man!
+
+Using labels as we know them from the docs, we'd have a situation similar to the following:
+
+```html
+<select name="superpower">
+  <!-- superpower options -->
+</select>
+
+<p>Superpowers:</p>
+<span class="label label-info">Huge Whiskers</span>
+<span class="label label-info">Blue Skin</span>
+...
+<span class="label label-info">Dumbass Glasses</span>
+```
+
+Well, yes. But we can do better.  
+Let's make real tags of them, with a proper icon and a remove link.
+
+```html
+<select name="superpower">
+  <!-- superpower options -->
+</select>
+
+<p>Superpowers:</p>
+<span class="label label-info">
+  <strong><span class="glyphicon glyphicon-tag"></span></strong>&#32; Huge
+  Whiskers&#32;
+  <strong
+    ><a href="/remove-tag" class="text-danger">
+      <span class="glyphicon glyphicon-remove"></span> </a
+  ></strong>
+</span>
+<span class="label label-info">
+  <span class="glyphicon glyphicon-tag"></span>&#32; Blue Skin&#32;
+  <a href="/remove-tag" class="text-danger">
+    <span class="glyphicon glyphicon-remove"></span>
+  </a>
+</span>
+...
+<span class="label label-info">
+  <span class="glyphicon glyphicon-tag"></span>&#32; Dumbass Glasses&#32;
+  <a href="/remove-tag" class="text-danger">
+    <span class="glyphicon glyphicon-remove"></span>
+  </a>
+</span>
+```
+
+Better. But there's something even more unusual we can do if we want to improve this.
+
+## 2. Labels + badges
+
+Yep, using badges.
+
+The remove link will become a badge, and also a button for better styling.  
+As a finishing touch, we need a custom class to let the labels properly wrap the new elements:
+
+```html
+<style>
+  .label-fatter {
+    padding: 0.8em;
+  }
+</style>
+
+<span class="label label-info label-fatter">
+  <span class="glyphicon glyphicon-tag"></span>&#32; Huge Whiskers&#32;
+  <a href="/remove-tag" class="btn btn-warning badge">
+    <span class="glyphicon glyphicon-remove"></span>
+  </a>
+</span>
+<span class="label label-info label-fatter">
+  <span class="glyphicon glyphicon-tag"></span>&#32; Blue Skin&#32;
+  <a href="/remove-tag" class="btn btn-default badge">
+    <span class="glyphicon glyphicon-remove"></span>
+  </a>
+</span>
+...
+<span class="label label-info label-fatter">
+  <span class="glyphicon glyphicon-tag"></span>&#32; Dumbass Glasses&#32;
+  <a href="/remove-tag" class="btn btn-default badge">
+    <span class="glyphicon glyphicon-remove"></span>
+  </a>
+</span>
+```
+
+Not bad, and you should be able to see where this is going to with just a bit more work on the CSS side :)
+
+## 3. Labels as squared badges
+
+In certain situations, you could prefer a squared look instead of the rounded one of badges.  
+One way to obtain it, is to add a custom CSS class and override the rounded borders of badges.
+
+Or, you could just use labels.
+
+Let's see them in action:
+
+```html
+<h4>Translations</h4>
+
+<ul class="list-unstyled">
+  <li><code class="label label-info">it_IT</code> Calcio</li>
+  <li><code class="label label-info">en_US</code> Soccer</li>
+  <li><code class="label label-info">en_GB</code> Football</li>
+</ul>
+```
+
+Did you ever think about making labels out of `<code>` elements?
+
+## Closing Thoughts
+
+I hope you are starting to see that Bootstrap is far more versatile than it may seem at first sight.
+
+When I was starting with it, back in 2011, I was too much focused on grasping it as a whole and getting productive as quickly as I could.  
+Because if you are going to invest time into learning a new framework which can boost your productivity, that's what you want: get productive, and fast.
+
+But now that I know more of Bootstrap, I am able to use it as I want and go beyond the _natural_ ways of using its components.
+
+Those first weeks, or months, are the most important because you are learning the basics. But at the same time those are the ones you wish you could skip in a minute.
+
+I still feel this pain when I think of it.
+
+Hell, I even wrote [an ebook](/bootstrap-in-practice) to help newcomers in learning the basics as quickly as possible and go back to the funnier and more productive things.
+
+But I digress, and it's time to say goodbye.  
+Until next time!
