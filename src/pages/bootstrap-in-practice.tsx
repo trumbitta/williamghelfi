@@ -22,7 +22,7 @@ const BiP: FunctionComponent = () => (
       <br />
       Bootstrap is now at version 4, heading for 5.
     </UiTypographyP>
-    <UiTypographyP>That's why it's now free. Enjoy!</UiTypographyP>
+    <UiTypographyP>That's why the book is now free. Enjoy!</UiTypographyP>
     <UiTypographyP>
       <UiTypographyA href="/bootstrap-in-practice/Bootstrap_In_Practice-Complete.zip">
         Download for free [PDF &middot; 30MB]
