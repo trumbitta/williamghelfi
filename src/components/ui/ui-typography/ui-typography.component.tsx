@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { headings, rhythm, links } from '../../styled/_variables';
+import { headings, rhythm, links, colorRoles } from '../../styled/_variables';
 
 const headingsCommon = css`
   font-family: ${headings.font.family};
@@ -22,6 +22,7 @@ export const UiTypographyH2 = styled.h2.attrs(() => ({ headingsCommon }))`
   ${props => props.headingsCommon}
   font-size: ${headings.font.size.h2};
   line-height: ${headings.font.lineHeight.h2};
+  letter-spacing: -1px;
 `;
 
 export const UiTypographyP = styled.p`
@@ -54,4 +55,24 @@ export const anchorsCommon = css`
 
 export const UiTypographyA = styled.a.attrs(() => ({ anchorsCommon }))`
   ${props => props.anchorsCommon}
+`;
+
+export const UiBlockquote = styled.blockquote`
+  border-left: ${rhythm[1]} solid ${colorRoles.primary};
+  margin-left: ${rhythm[3]};
+  margin-right: ${rhythm[3]};
+  padding: ${rhythm[1]} ${rhythm[3]};
+  background-color: ${colorRoles.light};
+  font-style: italic;
+
+  & small {
+    display: flex;
+    justify-content: flex-end;
+    font-style: normal;
+
+    &::before {
+      content: '—';
+      margin-right: ${rhythm[1]};
+    }
+  }
 `;
