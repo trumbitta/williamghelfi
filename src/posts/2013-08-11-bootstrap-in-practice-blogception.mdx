@@ -1,0 +1,289 @@
+---
+title: 'Bootstrap in practice: Blogception'
+date: 2013-08-11 21:13
+---
+
+import { UiFigureWithCaption } from '../components/ui';
+
+> Sorry [Plauto](http://lmgtfy.com/?q=plautus+metatheatre): _metablog_ just wasn't cool enough.
+>
+> <small>
+>   William Ghelfi in&nbsp;
+>   <cite title="This very blog post">This very blog post.</cite>
+> </small>
+
+## I have a plan
+
+Hello! Since I was going to redesign my blog using Bootstrap 3, I thought it would be fun to document my step-by-step progress in a blog post. Or, in other words:
+
+<UiFigureWithCaption>
+
+![](../assets/images/posts/2013-08-11-bootstrap-in-practice-blogception/yo-dawg-i-heard-you-like-blogs.jpg)
+
+</UiFigureWithCaption>
+
+So this is the plan, and this also why for some time you should expect discrepancies between the look & feel of the blog posts and the overall design of the website while I'm rewriting the various layouts and includes in Octopress.
+
+## A beginning
+
+Anyway. Here we have the minimum core of a proper blog post, and we also started to set it up with Bootstrap 3:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bootstrap In Practice - Blog example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap -->
+    <link
+      href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <article class="col-12 col-lg-10 col-offset-1">
+          <header>
+            <h1>Blogception</h1>
+            <p class="meta">
+              <time datetime="2013-08-11T17:55:00+02:00">Aug 11th, 2013</time> |
+              <a href="#disqus_thread">Comments</a>
+            </p>
+          </header>
+
+          <blockquote>
+            <p>
+              Sorry
+              <a href="http://lmgtfy.com/?q=plautus+metatheatre">Plauto</a>:
+              <em>metablog</em> just wasn't cool enough.
+            </p>
+            <small
+              >William Ghelfi in
+              <cite title="This very blog post"
+                >This very blog post.</cite
+              ></small
+            >
+          </blockquote>
+
+          <h2>I have a plan</h2>
+          <p>
+            Hello! Since I was going to redesign my blog using Bootstrap 3, I
+            thought it would be fun to document my step-by-step progress in a
+            blog post. Or, in other words:
+          </p>
+
+          <figure class="text-center">
+            <img
+              src="img/yo-dawg-i-heard-you-like-blogs.jpg"
+              class="img-thumbnail"
+            />
+          </figure>
+
+          <p>
+            So this is the plan, and this also why for some time you should
+            expect discrepancies between blog posts' look & feel and the overall
+            design of the website. as I rewrite the various layouts and includes
+            in Octopress.
+          </p>
+
+          <h2>A beginning</h2>
+          <p>
+            Anyway. Here we have the minimum core of a proper blog post, and we
+            also started to set it up with Bootstrap 3:
+          </p>
+          <ul>
+            <li>
+              Up there in the <code>head</code>, Bootstrap from the great guys
+              at NetDNA &mdash; hey, thanks again!
+            </li>
+            <li>
+              An wide and centered article, slightly narrower at desktop sizes
+              and which is containing the whole post
+            </li>
+            <li>
+              A nerd<em>ish</em> title for our post, followed by a publishing
+              date and a pointer to the comments section. All of them packed
+              into a <code>header</code> element.
+            </li>
+            <li>An intro with accompanying picture</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </body>
+</html>
+```
+
+- Up there in the `head`, Bootstrap from the great guys at NetDNA &mdash; hey, thanks again!
+- A wide and centered article, slightly narrower at desktop sizes and which is containing the whole post
+- A nerd*ish* title for our post, followed by a publishing date and a pointer to the comments section. All of them packed into a `header` element.
+- An intro with accompanying picture
+
+## Easier to the eyes
+
+Before proceeding further, let's adjust the font size for an easier reading. We are all here on a blog, reading a blog post, after all.  
+I'm going to add some overriding styles using a `style` element into the `head` of this document.
+
+```html
+<style>
+  /* Overriding for fun and profit */
+
+  body {
+    /* 17 is better than 16 is better than 14 */
+    font-size: 17px;
+  }
+
+  pre {
+    font-size: 16px;
+  }
+</style>
+```
+
+While this is perfect for showing all the code in a single place, for real world scenarios it's always better to put the stylesheets into separated files and link them back into the document.
+
+A good name for such a file, would certainly be something like `bootstrap-override.css`.
+
+## Highlight my fire
+
+And, since nobody likes code snippets without syntax highlighting, we are now going to add [Prism by Lea Verou](http://prismjs.com/) to our blog post. I'm leaving out line numbers, because I got some problems with vertical alignments.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    ...
+    <link href="prism.css" rel="stylesheet" />
+  </head>
+  <body>
+    ...
+    <script src="prism.js"></script>
+  </body>
+</html>
+```
+
+Not much pain. We only needed to add the js library and our theme of choice &mdash; I chose _Twilight_ &mdash; and now we are good to go.
+
+## Closing the post
+
+This _blogception_ is coming to an end, so we need to add the closing bits:
+
+```html
+<div id="disqus_thread"></div>
+
+<hr />
+
+<footer>
+  <span class="vcard">
+    Posted by
+    <address class="author"><span class="fn">William Ghelfi</span></address>
+    on
+    <time datetime="2013-08-11T17:55:00+02:00" class="published"
+      >Aug 11th, 2013</time
+    >
+  </span>
+  <span class="pull-right">
+    <a class="label label-info" href="/blog/categories/bootstrap/">Bootstrap</a>
+    <a class="label label-info" href="/blog/categories/css/">CSS</a>
+  </span>
+  <hr />
+  <!-- Insert tweet button here -->
+  <ul class="pager">
+    <li class="previous">
+      <a
+        href="/blog/2013/08/04/bootstrap-in-practice-a-landing-page/"
+        title="Previous Post: Bootstrap in Practice: A Landing Page"
+        >&larr; Bootstrap in Practice: A Landing Page</a
+      >
+    </li>
+    <li class="next">
+      <a href="/fakeurl" title="Next Post: Fake Title">Fake Title &rarr;</a>
+    </li>
+  </ul>
+</footer>
+```
+
+- A placeholder for the comments section using Disqus &mdash; but I'm not going to show you how to use Disqus
+- Who wrote the post, and when it was published
+- Categories this post is related to
+- A placeholder for the _tweet this_ button &mdash; same as for Disqus above
+- A pager pointing to the previous or next post as needed
+
+## Final touches
+
+Before saying goodbye, we are going to prettify things a bit.
+
+Stay with me while we add a nicer font for the headings, push the opening date and the link to the commens above the main title, and adjust some margin and padding here and there:
+
+```html
+<head>
+  ...
+  <link
+    href="//fonts.googleapis.com/css?family=Fjalla+One"
+    rel="stylesheet"
+    type="text/css"
+  />
+  ...
+
+  <style>
+    </code>
+    	<code class="language-css">
+    	/* Overriding for fun and profit */
+
+    	body {
+    		/* 17 is better than 16 is better than 14 */
+    		font-size: 17px;
+    	}
+
+    	pre {
+    	  font-size: 16px;
+    	}
+
+    	header {
+    		position: relative;
+    		margin-bottom: 1.5em;
+    		padding: 1.8em 0 1em 0;
+    	}
+
+    	header h1 {
+    		margin: 0;
+    		padding: 0;
+    	}
+
+    	header .meta {
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    		margin: 0;
+    		padding: 0;
+    		text-transform: uppercase;
+    		font-size: 0.9em;
+    		color: #aaa;
+    	}
+
+    	footer {
+    		font-size: 0.9em;
+    	}
+
+    	h1, h2 {
+    		font-family: "Fjalla One", Arial, serif;
+    		font-weight: 400;
+    		margin-bottom: 1em;
+    	}
+
+    	article h2 {
+    		padding-top: 0.8em;
+    	}
+
+    	figure {
+    		margin: 2em 0;
+    	}
+
+    	.author {
+    		display: inline;
+    	}</code><code class="language-markup">
+  </style>
+</head>
+```
+
+I'm not sure I won't come back to the code and refine some edgy corners &mdash; for instance, I'm not quite happy with the overall vertical rythm &mdash; but the final result plays nicely with a Mobile First approach and I hope to have accomplished the mission: showing how to create a clean and readable blog post with Bootstrap 3!

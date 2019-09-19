@@ -1,0 +1,27 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 112.5%;
+  line-height: 1.78em;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+body {
+  color: hsla(0, 0%, 0%, 0.9);
+  font-family: Merriweather, Georgia, serif;
+  font-weight: 300;
+  word-wrap: break-word;
+}
+
+:not(pre) > code[class*='language-'] {
+  padding: 0.25em;
+  border-radius: 4px;
+  white-space: normal;
+  background-color: #fefefe;
+  color: #000000;
+}
