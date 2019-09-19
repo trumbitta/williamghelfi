@@ -5,8 +5,9 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { UiTypographyH1 } from '../ui';
-import { headings, colorRoles } from '../styled/_variables';
+import { headings, colorRoles, rhythm } from '../styled/_variables';
 import { Link } from '../link/link.component';
+import { ApplicationHeaderAvatar } from './application-header-avatar/application-header-avatar';
 
 export const ApplicationHeader: FunctionComponent<Props> = ({
   applicationTitle,
@@ -19,12 +20,25 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
     </LinkStyled>
   ) : (
     <UiTypographyH1>
-      {applicationTitle} <WIPNotice>Work in progress, finishing up.</WIPNotice>
+      <DivStyled>
+        <ApplicationHeaderAvatarStyled />
+        {applicationTitle}
+      </DivStyled>
+      <WIPNotice>Work in progress, finishing up.</WIPNotice>
     </UiTypographyH1>
   );
 
   return jsx;
 };
+
+const DivStyled = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ApplicationHeaderAvatarStyled = styled(ApplicationHeaderAvatar)`
+  margin-right: ${rhythm[5]};
+`;
 
 const LinkStyled = styled(Link)`
   display: flex;
