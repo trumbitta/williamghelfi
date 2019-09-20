@@ -7,12 +7,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UiTypographyH1 } from '../ui';
 import { headings, colorRoles, rhythm } from '../styled/_variables';
 import { Link } from '../link/link.component';
-import { ApplicationHeaderAvatar } from './application-header-avatar/application-header-avatar';
+import {
+  ApplicationHeaderAvatar,
+  ApplicationHeaderAvatarProps,
+} from './application-header-avatar/application-header-avatar';
 
 export const ApplicationHeader: FunctionComponent<Props> = ({
   applicationTitle,
   isInternal = false,
+  avatar,
 }) => {
+  const avatarComponent =
+    avatar && avatar.fixed ? (
+      <ApplicationHeaderAvatarStyled fixed={avatar.fixed} />
+    ) : null;
+
   const jsx = isInternal ? (
     <LinkStyled to="/">
       <FontAwesomeIcon icon={faAngleLeft} fixedWidth />
@@ -21,7 +30,7 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
   ) : (
     <UiTypographyH1>
       <DivStyled>
-        <ApplicationHeaderAvatarStyled />
+        {avatarComponent}
         {applicationTitle}
       </DivStyled>
       <WIPNotice>Work in progress, finishing up.</WIPNotice>
@@ -64,4 +73,5 @@ const WIPNotice = styled.small`
 type Props = {
   applicationTitle: string;
   isInternal?: boolean;
+  avatar: ApplicationHeaderAvatarProps;
 };

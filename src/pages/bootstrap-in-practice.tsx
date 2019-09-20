@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { UiTypographyP, UiTypographyA } from '../components/ui';
-import LayoutPageBase from '../components/layouts/page-base';
-import { SeoProps } from '../components/seo/seo.component';
+import LayoutPageBase, {
+  LayoutPageBaseProps,
+} from '../components/layouts/page-base';
 import { Link } from '../components/link/link.component';
 
 const BiP: FunctionComponent = () => (
-  <LayoutPageBase props={seo}>
+  <LayoutPageBase props={layoutPageBaseProps}>
     <UiTypographyP>
       <Link to={'/'}>
         <FontAwesomeIcon icon={faChevronLeft} fixedWidth />
@@ -31,12 +32,14 @@ const BiP: FunctionComponent = () => (
   </LayoutPageBase>
 );
 
-const seo: SeoProps = {
-  description:
-    'An ebook for starters. Written to help you get productive as fast as you can, without getting stuck or going too much in depth into the official docs.',
-  title: 'Bootstrap In Practice',
-  twitterUsername: 'trumbitta',
-  url: 'https://www.williamghelfi.com/bootstrap-in-practice',
+const layoutPageBaseProps: LayoutPageBaseProps = {
+  seo: {
+    description:
+      'An ebook for starters. Written to help you get productive as fast as you can, without getting stuck or going too much in depth into the official docs.',
+    title: 'Bootstrap In Practice',
+    twitterUsername: 'trumbitta',
+    url: 'https://www.williamghelfi.com/bootstrap-in-practice',
+  },
+  avatar: { fixed: null },
 };
-
 export default BiP;

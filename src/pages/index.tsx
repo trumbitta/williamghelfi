@@ -4,26 +4,31 @@ import { graphql } from 'gatsby';
 
 import styled from 'styled-components';
 
-import LayoutPageBase from '../components/layouts/page-base';
+import LayoutPageBase, {
+  LayoutPageBaseProps,
+} from '../components/layouts/page-base';
 import { UiTypographyP, UiTypographyH2, UiDateInfo } from '../components/ui';
 import { Link } from '../components/link/link.component';
 import { headings } from '../components/styled/_variables';
-import { SeoProps } from '../components/seo/seo.component';
+import { ApplicationHeaderAvatarProps } from '../components/application-header/application-header-avatar/application-header-avatar';
 
 const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
   const { edges: posts } = data.allMdx;
 
   const siteMetadata = data.site.siteMetadata;
-  const seo: SeoProps = {
-    description: siteMetadata.defaultDescription,
-    image: siteMetadata.defaultImage,
-    title: siteMetadata.defaultTitle,
-    twitterUsername: siteMetadata.twitterUsername,
-    url: siteMetadata.siteUrl,
+  const layoutPageBaseProps: LayoutPageBaseProps = {
+    seo: {
+      description: siteMetadata.defaultDescription,
+      image: siteMetadata.defaultImage,
+      title: siteMetadata.defaultTitle,
+      twitterUsername: siteMetadata.twitterUsername,
+      url: siteMetadata.siteUrl,
+    },
+    avatar: data.file.childImageSharp,
   };
 
   return (
-    <LayoutPageBase props={seo}>
+    <LayoutPageBase props={layoutPageBaseProps}>
       {posts.map(({ node: post }) => (
         <React.Fragment key={post.id}>
           <LinkStyled to={post.fields.slug}>
@@ -66,10 +71,21 @@ export const pageQuery = graphql`
         }
       }
     }
+    file(relativePath: { eq: "william.jpg" }) {
+      childImageSharp {
+        fixed(width: 100, height: 100) {
+          base64
+          width
+          height
+          src
+          srcSet
+        }
+      }
+    }
   }
 `;
 
-type QueryData = {
+interface QueryData {
   data: {
     site: {
       siteMetadata: {
@@ -98,8 +114,9 @@ type QueryData = {
         }
       ];
     };
+    file: { childImageSharp: ApplicationHeaderAvatarProps };
   };
-};
+}
 
 const LinkStyled = styled(Link)`
   color: ${headings.font.color} !important;
