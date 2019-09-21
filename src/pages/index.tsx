@@ -75,7 +75,7 @@ export const pageQuery = graphql`
     }
     file(relativePath: { eq: "william.jpg" }) {
       childImageSharp {
-        fixed(width: 100, height: 100) {
+        fixed(width: 50, height: 50) {
           base64
           width
           height

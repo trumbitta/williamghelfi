@@ -1,21 +1,35 @@
 import styled, { css } from 'styled-components';
 
-import { headings, rhythm, links, colorRoles } from '../../styled/_variables';
+import {
+  headings,
+  rhythm,
+  links,
+  colorRoles,
+  breakpoints,
+} from '../../styled/_variables';
 
 const headingsCommon = css`
   font-family: ${headings.font.family};
-  margin: ${headings.margin.top} 0 ${headings.margin.bottom} 0;
+  margin: ${rhythm[3]} 0 ${headings.margin.bottom} 0;
   padding: 0;
   color: ${headings.font.color};
   font-weight: ${headings.font.weight};
   text-rendering: optimizeLegibility;
+
+  @media (min-width: ${breakpoints.md}) {
+    margin: ${headings.margin.top} 0 ${headings.margin.bottom} 0;
+  }
 `;
 
 export const UiTypographyH1 = styled.h1.attrs(() => ({ headingsCommon }))`
   ${props => props.headingsCommon}
-  font-size: ${headings.font.size.h1};
+  font-size: ${headings.font.size.h2};
   line-height: ${headings.font.lineHeight.h1};
   letter-spacing: -2px;
+
+  @media (min-width: ${breakpoints.sm}) {
+    font-size: ${headings.font.size.h1};
+  }
 `;
 
 export const UiTypographyH2 = styled.h2.attrs(() => ({ headingsCommon }))`

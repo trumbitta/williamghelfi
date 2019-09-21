@@ -5,7 +5,13 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { UiTypographyH1 } from '../ui';
-import { headings, colorRoles, rhythm } from '../styled/_variables';
+import {
+  headings,
+  colorRoles,
+  rhythm,
+  breakpoints,
+} from '../styled/_variables';
+import { respondTo } from '../styled/mixins/_respond-to';
 import { Link } from '../link/link.component';
 import {
   ApplicationHeaderAvatar,
@@ -43,7 +49,12 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
 
 const DivStyled = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
+
+  ${respondTo.md`
+    flex-direction: row;
+  `}
 `;
 
 const ApplicationHeaderAvatarStyled = styled(ApplicationHeaderAvatar)`
