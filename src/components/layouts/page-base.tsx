@@ -16,6 +16,7 @@ const LayoutPageBase: FunctionComponent<{
       <UiContainer>
         <ApplicationHeader
           applicationTitle={props.seo.title}
+          subtitle={props.seo.subtitle}
           avatar={props.avatar}
         ></ApplicationHeader>
 

@@ -14,6 +14,7 @@ import {
 
 export const ApplicationHeader: FunctionComponent<Props> = ({
   applicationTitle,
+  subtitle,
   isInternal = false,
   avatar,
 }) => {
@@ -33,7 +34,7 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
         {avatarComponent}
         {applicationTitle}
       </DivStyled>
-      <WIPNotice>Work in progress, finishing up.</WIPNotice>
+      <Subtitle>{subtitle}</Subtitle>
     </UiTypographyH1>
   );
 
@@ -63,15 +64,23 @@ const InternalPageTitle = styled(UiTypographyH1)`
   text-transform: uppercase;
 `;
 
-const WIPNotice = styled.small`
+const Subtitle = styled.small`
   color: ${colorRoles.secondary};
   font-size: 70%;
   text-transform: lowercase;
   display: block;
+  text-align: center;
+
+  @media (min-width: ${breakpoints.md}) {
+    padding-left: 54px;
+    margin-left: ${rhythm[1]};
+    text-align: left;
+  }
 `;
 
-type Props = {
+interface Props {
   applicationTitle: string;
+  subtitle?: string;
   isInternal?: boolean;
   avatar: ApplicationHeaderAvatarProps;
-};
+}

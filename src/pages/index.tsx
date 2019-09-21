@@ -21,6 +21,7 @@ const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
       description: siteMetadata.defaultDescription,
       image: siteMetadata.defaultImage,
       title: siteMetadata.defaultTitle,
+      subtitle: siteMetadata.subtitle,
       twitterUsername: siteMetadata.twitterUsername,
       url: siteMetadata.siteUrl,
     },
@@ -49,6 +50,7 @@ export const pageQuery = graphql`
     site {
       siteMetadata {
         defaultTitle: title
+        subtitle
         titleTemplate
         defaultDescription: description
         siteUrl: url
@@ -90,6 +92,7 @@ interface QueryData {
     site: {
       siteMetadata: {
         defaultTitle: string;
+        subtitle: string;
         titleTemplate: string;
         defaultDescription: string;
         siteUrl: string;
