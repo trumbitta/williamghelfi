@@ -26,6 +26,7 @@ const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
         <ApplicationHeader
           applicationTitle={siteMetadata.defaultTitle}
           isInternal={true}
+          avatar={{ fixed: null }}
         ></ApplicationHeader>
 
         <UiTypographyH1>{data.mdx.frontmatter.title}</UiTypographyH1>
@@ -38,7 +39,7 @@ const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
   );
 };
 
-type QueryData = {
+interface QueryData {
   data: {
     mdx: {
       id: string;
@@ -60,7 +61,7 @@ type QueryData = {
       };
     };
   };
-};
+}
 
 export const query = graphql`
   query BlogPostQuery($id: String) {

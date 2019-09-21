@@ -26,18 +26,20 @@ export const SEO: FunctionComponent<SeoProps> = props => (
   </Helmet>
 );
 
-export type SeoProps = {
+export interface SeoProps {
   title: string;
+  subtitle?: string;
   description?: string;
   image?: string;
   url?: string;
   article?: boolean;
   twitterUsername?: string;
   titleTemplate?: string;
-};
+}
 
 SEO.defaultProps = {
   title: '',
+  subtitle: '',
   description: '',
   image: '',
   url: '',

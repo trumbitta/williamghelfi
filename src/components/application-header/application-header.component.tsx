@@ -5,13 +5,30 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { UiTypographyH1 } from '../ui';
-import { headings, colorRoles } from '../styled/_variables';
+import {
+  headings,
+  colorRoles,
+  rhythm,
+  breakpoints,
+} from '../styled/_variables';
+import { respondTo } from '../styled/mixins/_respond-to';
 import { Link } from '../link/link.component';
+import {
+  ApplicationHeaderAvatar,
+  ApplicationHeaderAvatarProps,
+} from './application-header-avatar/application-header-avatar';
 
 export const ApplicationHeader: FunctionComponent<Props> = ({
   applicationTitle,
+  subtitle,
   isInternal = false,
+  avatar,
 }) => {
+  const avatarComponent =
+    avatar && avatar.fixed ? (
+      <ApplicationHeaderAvatarStyled fixed={avatar.fixed} />
+    ) : null;
+
   const jsx = isInternal ? (
     <LinkStyled to="/">
       <FontAwesomeIcon icon={faAngleLeft} fixedWidth />
@@ -19,12 +36,30 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
     </LinkStyled>
   ) : (
     <UiTypographyH1>
-      {applicationTitle} <WIPNotice>Work in progress, finishing up.</WIPNotice>
+      <DivStyled>
+        {avatarComponent}
+        {applicationTitle}
+      </DivStyled>
+      <Subtitle>{subtitle}</Subtitle>
     </UiTypographyH1>
   );
 
   return jsx;
 };
+
+const DivStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  ${respondTo.md`
+    flex-direction: row;
+  `}
+`;
+
+const ApplicationHeaderAvatarStyled = styled(ApplicationHeaderAvatar)`
+  margin-right: ${rhythm[5]};
+`;
 
 const LinkStyled = styled(Link)`
   display: flex;
@@ -40,14 +75,23 @@ const InternalPageTitle = styled(UiTypographyH1)`
   text-transform: uppercase;
 `;
 
-const WIPNotice = styled.small`
+const Subtitle = styled.small`
   color: ${colorRoles.secondary};
   font-size: 70%;
   text-transform: lowercase;
   display: block;
+  text-align: center;
+
+  @media (min-width: ${breakpoints.md}) {
+    padding-left: 54px;
+    margin-left: ${rhythm[1]};
+    text-align: left;
+  }
 `;
 
-type Props = {
+interface Props {
   applicationTitle: string;
+  subtitle?: string;
   isInternal?: boolean;
-};
+  avatar: ApplicationHeaderAvatarProps;
+}

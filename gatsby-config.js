@@ -7,6 +7,7 @@
 module.exports = {
   siteMetadata: {
     title: 'Born, growing up.',
+    subtitle: 'Dad, developer, nerd.',
     titleTemplate: '%s · Born, growing up.',
     description:
       'A blog about coding and the life of a computer programmer, by William Ghelfi.',
@@ -16,6 +17,7 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     'gatsby-plugin-styled-components',
     {
