@@ -45,13 +45,16 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
   ) : (
     <>
       <ContactsBar>
-        <ContactsBarItem href="https://github.com/trumbitta/">
+        <ContactsBarItem href="https://github.com/trumbitta/" title="GitHub">
           <FontAwesomeIcon icon={faGithub} fixedWidth />
         </ContactsBarItem>
-        <ContactsBarItem href="https://twitter.com/trumbitta/">
+        <ContactsBarItem href="https://twitter.com/trumbitta/" title="Twitter">
           <FontAwesomeIcon icon={faTwitter} fixedWidth />
         </ContactsBarItem>
-        <ContactsBarItem href="https://www.linkedin.com/in/williamghelfi/">
+        <ContactsBarItem
+          href="https://www.linkedin.com/in/williamghelfi/"
+          title="LinkedIn"
+        >
           <FontAwesomeIcon icon={faLinkedin} fixedWidth />
         </ContactsBarItem>
       </ContactsBar>
