@@ -10,6 +10,7 @@ import {
   colorRoles,
   rhythm,
   breakpoints,
+  fonts,
 } from '../styled/_variables';
 import { respondTo } from '../styled/mixins/_respond-to';
 import { Link } from '../link/link.component';
@@ -35,17 +36,23 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
       <InternalPageTitle>{applicationTitle}</InternalPageTitle>
     </LinkStyled>
   ) : (
-    <UiTypographyH1>
+    <UiTypographyH1Styled>
       <DivStyled>
         {avatarComponent}
         {applicationTitle}
       </DivStyled>
       <Subtitle>{subtitle}</Subtitle>
-    </UiTypographyH1>
+    </UiTypographyH1Styled>
   );
 
   return jsx;
 };
+
+const UiTypographyH1Styled = styled(UiTypographyH1)`
+  margin-top: 0 !important;
+  padding-top: ${headings.margin.top};
+  border-top: ${rhythm[1]} solid ${colorRoles.primary};
+`;
 
 const DivStyled = styled.div`
   display: flex;
@@ -65,14 +72,21 @@ const LinkStyled = styled(Link)`
   display: flex;
   align-items: center;
   line-height: ${headings.font.lineHeight.h1};
-  color: ${headings.font.color} !important;
+  color: ${colorRoles.light} !important;
+  background-color: ${colorRoles.primary};
 `;
 
 const InternalPageTitle = styled(UiTypographyH1)`
   font-size: ${headings.font.size.h4};
-  margin: 0;
+  margin: 0 !important;
   letter-spacing: -1px;
   text-transform: uppercase;
+  color: ${colorRoles.light};
+  font-weight: ${fonts.weights.normal};
+
+  @media (min-width: ${breakpoints.sm}) {
+    font-size: ${headings.font.size.h4};
+  }
 `;
 
 const Subtitle = styled.small`
