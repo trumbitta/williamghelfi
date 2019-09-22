@@ -1,16 +1,23 @@
 import React, { FunctionComponent } from 'react';
 
 import styled from 'styled-components';
+import { math } from 'polished';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import {
+  faGithub,
+  faTwitter,
+  faLinkedin,
+} from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { UiTypographyH1 } from '../ui';
+import { UiTypographyH1, UiTypographyA } from '../ui';
 import {
   headings,
   colorRoles,
   rhythm,
   breakpoints,
   fonts,
+  components,
 } from '../styled/_variables';
 import { respondTo } from '../styled/mixins/_respond-to';
 import { Link } from '../link/link.component';
@@ -36,22 +43,46 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
       <InternalPageTitle>{applicationTitle}</InternalPageTitle>
     </LinkStyled>
   ) : (
-    <UiTypographyH1Styled>
-      <DivStyled>
-        {avatarComponent}
-        {applicationTitle}
-      </DivStyled>
-      <Subtitle>{subtitle}</Subtitle>
-    </UiTypographyH1Styled>
+    <>
+      <ContactsBar>
+        <ContactsBarItem href="https://github.com/trumbitta/">
+          <FontAwesomeIcon icon={faGithub} fixedWidth />
+        </ContactsBarItem>
+        <ContactsBarItem href="https://twitter.com/trumbitta/">
+          <FontAwesomeIcon icon={faTwitter} fixedWidth />
+        </ContactsBarItem>
+        <ContactsBarItem href="https://www.linkedin.com/in/williamghelfi/">
+          <FontAwesomeIcon icon={faLinkedin} fixedWidth />
+        </ContactsBarItem>
+      </ContactsBar>
+      <UiTypographyH1Styled>
+        <DivStyled>
+          {avatarComponent}
+          {applicationTitle}
+        </DivStyled>
+        <Subtitle>{subtitle}</Subtitle>
+      </UiTypographyH1Styled>
+    </>
   );
 
   return jsx;
 };
 
+const ContactsBar = styled.nav`
+  background-color: ${colorRoles.primary};
+  display: flex;
+  justify-content: center;
+`;
+
+const ContactsBarItem = styled(UiTypographyA)`
+  color: ${colorRoles.light} !important;
+  margin: 0 ${math(`${components.paddingX} / 4`)};
+  padding: 0 ${math(`${components.paddingX} / 2`)};
+`;
+
 const UiTypographyH1Styled = styled(UiTypographyH1)`
   margin-top: 0 !important;
   padding-top: ${headings.margin.top};
-  border-top: ${rhythm[1]} solid ${colorRoles.primary};
 `;
 
 const DivStyled = styled.div`
