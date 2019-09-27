@@ -9,7 +9,7 @@ import LayoutPageBase, {
 } from '../components/layouts/page-base';
 import { UiTypographyP, UiTypographyH2, UiDateInfo } from '../components/ui';
 import { Link } from '../components/link/link.component';
-import { headings } from '../components/styled/_variables';
+import { headings, grid, breakpoints } from '../components/styled/_variables';
 import { ApplicationHeaderAvatarProps } from '../components/application-header/application-header-avatar/application-header-avatar';
 
 const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
@@ -30,20 +30,34 @@ const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
 
   return (
     <LayoutPageBase props={layoutPageBaseProps}>
-      {posts.map(({ node: post }) => (
-        <React.Fragment key={post.id}>
-          <LinkStyled to={post.fields.slug}>
-            <UiTypographyH2>{post.frontmatter.title}</UiTypographyH2>
-          </LinkStyled>
-          <UiTypographyP>
-            <UiDateInfo date={post.frontmatter.date}></UiDateInfo>
-            {post.excerpt}
-          </UiTypographyP>
-        </React.Fragment>
-      ))}
+      <GridContainer>
+        {posts.map(({ node: post }) => (
+          <article key={post.id}>
+            <LinkStyled to={post.fields.slug}>
+              <UiTypographyH2>{post.frontmatter.title}</UiTypographyH2>
+            </LinkStyled>
+            <UiTypographyP>
+              <UiDateInfo date={post.frontmatter.date}></UiDateInfo>
+              {post.excerpt}
+            </UiTypographyP>
+          </article>
+        ))}
+      </GridContainer>
     </LayoutPageBase>
   );
 };
+
+const LinkStyled = styled(Link)`
+  color: ${headings.font.color} !important;
+`;
+
+const GridContainer = styled.main`
+  @media (min-width: ${breakpoints.lg}) {
+    display: grid;
+    grid-gap: ${grid.gutterWidth}px;
+    grid-template-columns: repeat(2, [col] 1fr);
+  }
+`;
 
 export const pageQuery = graphql`
   query data {
@@ -120,9 +134,5 @@ interface QueryData {
     file: { childImageSharp: ApplicationHeaderAvatarProps };
   };
 }
-
-const LinkStyled = styled(Link)`
-  color: ${headings.font.color} !important;
-`;
 
 export default BlogIndex;
