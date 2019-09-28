@@ -85,7 +85,7 @@ if (process.env.CONTEXT === 'production') {
       cookieExpires: 60 * 60 * 24 * 30, // 1 month
     },
   };
-  cfg.plugins.push(googleAnalyticsCfg);
+  config.plugins.push(googleAnalyticsCfg);
 }
 
 module.exports = config;
