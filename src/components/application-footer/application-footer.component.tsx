@@ -5,6 +5,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 import { UiFooter, UiContainer, UiTypographyP, UiTypographyA } from '../ui';
 import { colorRoles } from '../styled/_variables';
+import { Link } from '../link/link.component';
 
 export const ApplicationFooter: FunctionComponent = () => (
   <UiFooter>
@@ -14,6 +15,10 @@ export const ApplicationFooter: FunctionComponent = () => (
         &mdash; Made with{' '}
         <FontAwesomeIcon icon={faHeart} color={colorRoles.primary} /> and{' '}
         <UiTypographyA href="https://www.gatsbyjs.org">Gatsby</UiTypographyA>
+      </UiTypographyP>
+
+      <UiTypographyP>
+        <Link to="/privacy-policy">Privacy</Link>
       </UiTypographyP>
 
       <UiTypographyP style={{ marginBottom: 0 }}>
