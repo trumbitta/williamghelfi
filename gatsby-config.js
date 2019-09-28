@@ -4,7 +4,7 @@
  * See: https://www.gatsbyjs.org/docs/gatsby-config/
  */
 
-module.exports = {
+const config = {
   siteMetadata: {
     title: 'Born, growing up.',
     subtitle: 'Dad, developer, nerd.',
@@ -72,3 +72,20 @@ module.exports = {
     },
   ],
 };
+
+// https://chaseonsoftware.com/netlify-gatsby-analytics/
+// https://blog.oriel.io/2019/01/24/how-to-make-google-analytics-gdpr-compliant/
+if (process.env.CONTEXT === 'production') {
+  const googleAnalyticsCfg = {
+    resolve: 'gatsby-plugin-google-analytics',
+    options: {
+      trackingId: 'UA-148954935-1',
+      anonymize: true,
+      respectDNT: true,
+      cookieExpires: 60 * 60 * 24 * 30, // 1 month
+    },
+  };
+  cfg.plugins.push(googleAnalyticsCfg);
+}
+
+module.exports = config;
