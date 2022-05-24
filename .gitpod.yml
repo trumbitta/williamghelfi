@@ -1,0 +1,18 @@
+tasks:
+  - before: |
+      nvm install
+      npm i -g nx commitizen
+    init: |
+      npm install
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
+    - nrwl.angular-console
+    - firsttris.vscode-jest-runner
+    - esbenp.prettier-vscode
+    - editorconfig.editorconfig
+    - styled-components.vscode-styled-components
+    - GitHub.copilot
+    - jock.svg
+    - eamodio.gitlens
+    - sleistner.vscode-fileutils
