@@ -2,12 +2,10 @@
 import fs from 'fs';
 import { join } from 'path';
 import matter from 'gray-matter';
+import { serialize } from 'next-mdx-remote/serialize';
 
 // Types
 import { FrontMatter, MarkdownDocument } from './types';
-
-// Utils
-import { markdownToHtml } from './markdown-to-html';
 
 export const getParsedFileContentBySlug = (
   slug: string,
@@ -24,8 +22,6 @@ export const getParsedFileContentBySlug = (
   };
 };
 
-export const renderMarkdown = async (
-  markdownContent: string
-): Promise<string> => {
-  return await markdownToHtml(markdownContent || '');
+export const renderMarkdown = (markdownContent: string) => {
+  return serialize(markdownContent || '');
 };

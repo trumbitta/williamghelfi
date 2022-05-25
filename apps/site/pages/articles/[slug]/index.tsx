@@ -4,6 +4,7 @@ import { GetStaticPaths, GetStaticProps } from 'next/types';
 import { ParsedUrlQuery } from 'querystring';
 import fs from 'fs';
 import { join } from 'path';
+import { MDXRemote } from 'next-mdx-remote';
 
 // Libs
 import {
@@ -11,6 +12,7 @@ import {
   MarkdownRenderingResult,
   renderMarkdown,
 } from '@wg/markdown';
+import { mdxElements } from '@wg/shared/mdx-elements';
 
 export interface WithSlug extends ParsedUrlQuery {
   slug: string;
@@ -22,15 +24,13 @@ const POSTS_PATH = join(process.cwd(), process.env.articlesSourcePath);
 
 export const Article = ({ frontMatter, html }: ArticleProps) => {
   return (
-    <div className="md:container md:mx-auto">
-      <article>
-        <h1>{frontMatter.title}</h1>
-        <p>{frontMatter.date}</p>
-        <hr />
+    <article>
+      <h1>{frontMatter.title}</h1>
+      <p>{frontMatter.date}</p>
+      <hr />
 
-        <main dangerouslySetInnerHTML={{ __html: html }} />
-      </article>
-    </div>
+      <MDXRemote {...html} components={mdxElements} />
+    </article>
   );
 };
 

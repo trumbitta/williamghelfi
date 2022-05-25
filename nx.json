@@ -34,6 +34,9 @@
     "@nrwl/react": {
       "application": {
         "babel": true
+      },
+      "component": {
+        "style": "styled-components"
       }
     },
     "@nrwl/next": {

@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@wg/markdown": ["libs/markdown/src/index.ts"]
+      "@wg/markdown": ["libs/markdown/src/index.ts"],
+      "@wg/shared/mdx-elements": ["libs/shared/mdx-elements/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

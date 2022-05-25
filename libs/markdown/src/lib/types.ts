@@ -1,3 +1,6 @@
+// Third parties
+import { MDXRemoteSerializeResult } from 'next-mdx-remote';
+
 export interface FrontMatter {
   title: string;
   date: string;
@@ -10,5 +13,5 @@ export interface MarkdownDocument {
 
 export interface MarkdownRenderingResult {
   frontMatter: FrontMatter;
-  html: string;
+  html: MDXRemoteSerializeResult;
 }
