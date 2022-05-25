@@ -4,6 +4,7 @@
   "projects": {
     "markdown": "libs/markdown",
     "shared-mdx-elements": "libs/shared/mdx-elements",
+    "shared-theme": "libs/shared/theme",
     "site": "apps/site",
     "site-e2e": "apps/site-e2e"
   }

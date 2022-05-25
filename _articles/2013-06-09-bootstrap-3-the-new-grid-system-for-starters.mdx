@@ -3,7 +3,7 @@ title: 'Bootstrap 3: the new grid system, for starters'
 date: 2013-06-09 12:04
 ---
 
-import { UiFigureWithCaption } from '../components/ui';
+import { Figure } from '@wg/shared/mdx-elements';
 
 ## Heads up!
 
@@ -17,7 +17,7 @@ All in all, the core concepts remain the same. So if you don't know how the grid
 
 ## Baby steps
 
-It's super easy to put together a basic page with Bootstrap.  
+It's super easy to put together a basic page with Bootstrap.
 Just fire up your editor and type in this markup:
 
 ```html
@@ -49,14 +49,14 @@ This is it. There are just two requirements for a basic Bootstrap page:
 
 Take a look at the page in a browser, and you'll see a lonely &mdash; but stylish &mdash; `Hello, world!`.
 
-<UiFigureWithCaption caption='Hello, world!'>
+<Figure caption='Hello, world!'>
 
 ![](../assets/images/posts/2013-06-09-bootstrap-3-new-grid-system-for-starters/test-1.png)
 
-</UiFigureWithCaption>
+</Figure>
 
-**Heads up!** You'd better serve these pages locally.  
-If you have ruby, your best bet is to `gem install serve` and then launch `serve .` from the directory where your HTML file resides.  
+**Heads up!** You'd better serve these pages locally.
+If you have ruby, your best bet is to `gem install serve` and then launch `serve .` from the directory where your HTML file resides.
 Then point your browser to http://localhost:4000/ and you are golden.
 
 If you can't or don't want to serve your pages locally, then please change every protocol relative URL in the sources to its more classic variant, or your browser may not be able to find those resources.
@@ -175,11 +175,11 @@ Let's start with a very simple layout: two columns, two paragraphs per column.
 </html>
 ```
 
-<UiFigureWithCaption caption="A basic grid.">
+<Figure caption="A basic grid.">
 
 ![](../assets/images/posts/2013-06-09-bootstrap-3-new-grid-system-for-starters/test-2.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 ## The details
 
@@ -278,11 +278,11 @@ Let's see this in action by producing a layout having two columns, with the seco
 </html>
 ```
 
-<UiFigureWithCaption caption="Nested grids galore!">
+<Figure caption="Nested grids galore!">
 
 ![](../assets/images/posts/2013-06-09-bootstrap-3-new-grid-system-for-starters/test-3.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 ## Offsetting
 
@@ -326,11 +326,11 @@ Say you have a `<div class="col-md-6">...</div>`. Centering it, is as easy as ad
 </html>
 ```
 
-<UiFigureWithCaption caption="Centering columns with clever use of offsets.">
+<Figure caption="Centering columns with clever use of offsets.">
 
 ![](../assets/images/posts/2013-06-09-bootstrap-3-new-grid-system-for-starters/test-4.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 That's because you have a total width of `12` units, and a `6` units wide
 element you want to center. Thus, you split the remaining `6` units in two, and
@@ -385,8 +385,8 @@ You can swap the order of the columns using `.col-md-push-N` and
 </html>
 ```
 
-<UiFigureWithCaption caption="And your sidebar is now to the right.">
+<Figure caption="And your sidebar is now to the right.">
 
 ![](../assets/images/posts/2013-06-09-bootstrap-3-new-grid-system-for-starters/test-5.png)
 
-</UiFigureWithCaption>
+</Figure>

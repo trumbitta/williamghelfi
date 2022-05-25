@@ -1,16 +1,17 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import './styles.css';
+
+// Libs
+import { GlobalStyle } from '@wg/shared/theme';
 
 const CustomApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
+      <GlobalStyle />
       <Head>
         <title>Welcome to site!</title>
       </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
+      <Component {...pageProps} />
     </>
   );
 };

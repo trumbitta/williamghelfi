@@ -3,7 +3,7 @@ title: 'A SELECT form field bad practice, and 4 ways of fixing it'
 date: 2014-05-24 12:00
 ---
 
-import { UiFigureWithCaption } from '../components/ui';
+import { Figure } from '@wg/shared/mdx-elements';
 
 ## The firestarter
 
@@ -53,11 +53,11 @@ The problem is, that first option doesn't have any purpose which is suitable for
 
 That first `Choose one...` option is there _just to make you choose the actual option you wanted to choose in the first place!_
 
-<UiFigureWithCaption caption="This is madness, and I promise you no Spartan ain't going to kick me in a well for writing it.">
+<Figure caption="This is madness, and I promise you no Spartan ain't going to kick me in a well for writing it.">
 
 ![](../assets/images/posts/2014-05-24-select-form-field-bad-practices-and-how-to-fix-it/madness.jpg)
 
-</UiFigureWithCaption>
+</Figure>
 
 It doesn't make any sense to have it as an option.
 
@@ -69,11 +69,12 @@ Making you want to choose an `<option>`, is the job of a `<label>`. Not of anoth
 
 The first rule of the **Fight _the `Choose one...` madness_ Club** is you always talk about it and you also use a `<label>`.
 
-<label for="icecream">Choose an icecream:</label><br />
+<label for="icecream">Choose an icecream:</label>
+<br />
 <select name="icecream" id="icecream">
-	<option value="banana">Banana</option>
-	<option value="cream">Cream</option>
-	<option value="smurf">Smurf</option>
+  <option value="banana">Banana</option>
+  <option value="cream">Cream</option>
+  <option value="smurf">Smurf</option>
 </select>
 
 ```html
@@ -93,12 +94,13 @@ Now that we know the basics, let's see it in action in a couple different scenar
 
 When the `<select>` is used to filter a list of possible items, you nearly always have to include a first _show them all_ option.
 
-<label for="superheroes">Show superheroes:</label><br />
+<label for="superheroes">Show superheroes:</label>
+<br />
 <select name="superheroes" id="superheroes">
-	<option value="all">All</option>
-	<option value="flying">Flying</option>
-	<option value="super-force">Super-force</option>
-	<option value="super-sight">Super-sight</option>
+  <option value="all">All</option>
+  <option value="flying">Flying</option>
+  <option value="super-force">Super-force</option>
+  <option value="super-sight">Super-sight</option>
 </select>
 
 ```html
@@ -114,14 +116,14 @@ When the `<select>` is used to filter a list of possible items, you nearly alway
 Notes:
 
 1. The `value` of the _show them all_ `<option>` could also be empty. It depends on your backend implementation and coding style.
-2. Since in this example the choice is mandatory, having the _show them all_ option as the first one perfectly fits the requirement.  
+2. Since in this example the choice is mandatory, having the _show them all_ option as the first one perfectly fits the requirement.
    A _don't actually filter anything_ option is often a good default one in such a situation.
 
 ### A filter-like `<select>`, not mandatory choice
 
 Ok, I cheated.
 
-The first example is valid in both cases.  
+The first example is valid in both cases.
 It doesn't really matter if the choice is mandatory or not: when you have a filter-like `<select>`, you can always avoid using the dreadful `Choose one...` first option and stick with the winning _label + show-them-all first option_ combo.
 
 ### A simple choose-one `<select>`, mandatory choice
@@ -132,14 +134,15 @@ Good for us all I'm writing this very blog post.
 
 Consider this:
 
-<label for="opponent">Choose your opponent:</label><br />
+<label for="opponent">Choose your opponent:</label>
+<br />
 <select name="opponent" id="opponent">
-	<option value="godzilla">Godzilla</option>
-	<option value="optimus_prime">Optimus Prime</option>
-	<option value="shaq">Shaq</option>
-	<option value="batman">Batman</option>
-	<option value="chuck_norris">Chuck Norris</option>
-	<option value="indiana_jones">Indiana Jones</option>
+  <option value="godzilla">Godzilla</option>
+  <option value="optimus_prime">Optimus Prime</option>
+  <option value="shaq">Shaq</option>
+  <option value="batman">Batman</option>
+  <option value="chuck_norris">Chuck Norris</option>
+  <option value="indiana_jones">Indiana Jones</option>
 </select>
 
 ```html
@@ -160,14 +163,17 @@ But you could also be a bit less evil and let those warriors try themselves agai
 
 Nothing easier than that. Just add a `selected="selected"` attribute (or just `selected`) to the desired `<option>`:
 
-<label for="opponent">Choose your opponent:</label><br />
+<label for="opponent">Choose your opponent:</label>
+<br />
 <select name="opponent" id="opponent">
-	<option value="godzilla">Godzilla</option>
-	<option value="optimus_prime">Optimus Prime</option>
-	<option value="shaq">Shaq</option>
-	<option value="batman">Batman</option>
-	<option value="chuck_norris">Chuck Norris</option>
-	<option value="indiana_jones" selected="selected">Indiana Jones</option>
+  <option value="godzilla">Godzilla</option>
+  <option value="optimus_prime">Optimus Prime</option>
+  <option value="shaq">Shaq</option>
+  <option value="batman">Batman</option>
+  <option value="chuck_norris">Chuck Norris</option>
+  <option value="indiana_jones" selected="selected">
+    Indiana Jones
+  </option>
 </select>
 
 ```html
@@ -190,25 +196,26 @@ Now what if the choice is **not** mandatory, what if I can skip it and walk away
 
 You add a _Monty Brewster_ option and call it a day.
 
-<UiFigureWithCaption caption="Sometimes a choice can be a non-choice – Confucius.">
+<Figure caption="Sometimes a choice can be a non-choice – Confucius.">
 
 ![None of the above](../assets/images/posts/2014-05-24-select-form-field-bad-practices-and-how-to-fix-it/None-of-the-above.jpg)
 
-</UiFigureWithCaption>
+</Figure>
 
 Wait, what's a _Monty Brewster_ option?
 
 The following is a simple choose-one `<select>` with a not mandatory choice, which uses a _Monty Brewster_ option instead of a that bad bad bad _Choose one..._ option.
 
-<label for="opponent-2">Choose your opponent:</label><br />
+<label for="opponent-2">Choose your opponent:</label>
+<br />
 <select name="opponent-2" id="opponent-2">
-	<option value=" ">None</option>
-	<option value="godzilla">Godzilla</option>
-	<option value="optimus_prime">Optimus Prime</option>
-	<option value="shaq">Shaq</option>
-	<option value="batman">Batman</option>
-	<option value="chuck_norris">Chuck Norris</option>
-	<option value="indiana_jones">Indiana Jones</option>
+  <option value=" ">None</option>
+  <option value="godzilla">Godzilla</option>
+  <option value="optimus_prime">Optimus Prime</option>
+  <option value="shaq">Shaq</option>
+  <option value="batman">Batman</option>
+  <option value="chuck_norris">Chuck Norris</option>
+  <option value="indiana_jones">Indiana Jones</option>
 </select>
 
 ```html
@@ -235,7 +242,7 @@ As I hope to have demonstrated, it is always possible to avoid the use of the _C
 
 Using it is cheap, lazy, confusing to newcomers, and now you have this blog post with examples on how to implement the right thing.
 
-What do you think about it?  
+What do you think about it?
 Did you find a use case I forgot to cover?
 
 Let me know on [Twitter](https://twitter.com/trumbitta), or leave a comment below.

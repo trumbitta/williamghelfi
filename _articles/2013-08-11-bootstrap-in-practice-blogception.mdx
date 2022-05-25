@@ -3,7 +3,7 @@ title: 'Bootstrap in practice: Blogception'
 date: 2013-08-11 21:13
 ---
 
-import { UiFigureWithCaption } from '../components/ui';
+import { Figure } from '@wg/shared/mdx-elements';
 
 > Sorry [Plauto](http://lmgtfy.com/?q=plautus+metatheatre): _metablog_ just wasn't cool enough.
 >
@@ -16,11 +16,11 @@ import { UiFigureWithCaption } from '../components/ui';
 
 Hello! Since I was going to redesign my blog using Bootstrap 3, I thought it would be fun to document my step-by-step progress in a blog post. Or, in other words:
 
-<UiFigureWithCaption>
+<Figure>
 
 ![](../assets/images/posts/2013-08-11-bootstrap-in-practice-blogception/yo-dawg-i-heard-you-like-blogs.jpg)
 
-</UiFigureWithCaption>
+</Figure>
 
 So this is the plan, and this also why for some time you should expect discrepancies between the look & feel of the blog posts and the overall design of the website while I'm rewriting the various layouts and includes in Octopress.
 
@@ -122,7 +122,7 @@ Anyway. Here we have the minimum core of a proper blog post, and we also started
 
 ## Easier to the eyes
 
-Before proceeding further, let's adjust the font size for an easier reading. We are all here on a blog, reading a blog post, after all.  
+Before proceeding further, let's adjust the font size for an easier reading. We are all here on a blog, reading a blog post, after all.
 I'm going to add some overriding styles using a `style` element into the `head` of this document.
 
 ```html

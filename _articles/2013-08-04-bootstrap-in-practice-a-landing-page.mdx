@@ -3,7 +3,7 @@ title: 'Bootstrap in practice: a landing page'
 date: 2013-08-04 17:55
 ---
 
-import { UiFigureWithCaption } from '../components/ui';
+import { Figure } from '@wg/shared/mdx-elements';
 
 ## Heads up!
 
@@ -92,11 +92,11 @@ As an example, we are going to just use a fairly famous question, followed by a 
 </html>
 ```
 
-<UiFigureWithCaption>
+<Figure>
 
 ![](../assets/images/posts/2013-08-04-bootstrap-in-practice-a-landing-page/landing-sshot1.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 Pretty basic, so far.
 
@@ -167,13 +167,13 @@ But things can and will get better, if you start giving your content breath and 
 </html>
 ```
 
-<UiFigureWithCaption>
+<Figure>
 
 ![](../assets/images/posts/2013-08-04-bootstrap-in-practice-a-landing-page/landing-sshot2.png)
 
-</UiFigureWithCaption>
+</Figure>
 
-A few touches, but a very good effect. We horizontally centered the content with a `.col-md-6 .col-md-offset-3`.  
+A few touches, but a very good effect. We horizontally centered the content with a `.col-md-6 .col-md-offset-3`.
 Then we added a default top padding to the `<body>` and used a custom utility class &mdash; `.margin-base-vertical` &mdash; to adjust the vertical margins of some elements.
 
 ## Jewels
@@ -254,11 +254,11 @@ Jewels are little shiny additions to a king's crown and dress. Just like adding 
 </html>
 ```
 
-<UiFigureWithCaption>
+<Figure>
 
 ![](../assets/images/posts/2013-08-04-bootstrap-in-practice-a-landing-page/landing-sshot3.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 ## Tapestries
 
@@ -270,7 +270,7 @@ And what's a throne room without tapestries! (Wait, wa...)
 
 So let's all thank Chris Coyer &mdash; for the tecnique &mdash; and Flickr user _erwlas_ &mdash; for the photo (see the attribution links added at the bottom of the final example code) &mdash; and give this landing page a nice full screen background.
 
-As a last touch, we are making the grid cell containing the content a `.panel` and also overriding its default white background with a slightly transparent one.  
+As a last touch, we are making the grid cell containing the content a `.panel` and also overriding its default white background with a slightly transparent one.
 Notice also that in order to let the `html` background be visible through the page, we also need to make sure the `body` has a `background: transparent;`.
 
 ```html
@@ -364,11 +364,11 @@ Notice also that in order to let the `html` background be visible through the pa
 </html>
 ```
 
-<UiFigureWithCaption>
+<Figure>
 
 ![](../assets/images/posts/2013-08-04-bootstrap-in-practice-a-landing-page/landing-sshot4.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 [Live Demo](/demos/b3-landing-page.html)
 

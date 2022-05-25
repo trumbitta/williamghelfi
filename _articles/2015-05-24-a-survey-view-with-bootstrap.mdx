@@ -3,7 +3,7 @@ title: 'A survey view with Bootstrap'
 date: 2015-05-24 15:38
 ---
 
-import { UiFigureWithCaption } from '../components/ui';
+import { Figure } from '@wg/shared/mdx-elements';
 
 A survey view using progress bars, to be precise. In 4 simple steps.
 
@@ -14,7 +14,7 @@ A survey view using progress bars, to be precise. In 4 simple steps.
 - [git](http://git-scm.com/) (prerequisite for bower)
 - bower: `npm install -g bower` (you may need to use `sudo`)
 
-We are not going to use _grunt_: a simple static server will suffice.  
+We are not going to use _grunt_: a simple static server will suffice.
 I like `serve` (see the [free chapter from my ebook about Bootstrap for newcomers](/bootstrap-in-practice)), but [`superstatic`](https://www.npmjs.com/package/superstatic) by [Divshot](http://www.divshot.com) is a great and more powerful alternative.
 
 ## What are we going to build
@@ -180,11 +180,11 @@ The code:
 
 And it should be like this:
 
-<UiFigureWithCaption>
+<Figure>
 
 ![Step 1: just the content and basic Bootstrap](../assets/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step1.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 Hey, not bad at all! **Ok, my job here is done, goodbye...** Wait! There's more :)
 
@@ -208,11 +208,11 @@ Then, add the theme into the head section of the page, just after the original B
 
 Resulting in this pretty page:
 
-<UiFigureWithCaption>
+<Figure>
 
 ![Step 2: applying bootstrap-theme-supervillain](../assets/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step2.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 Ok. But we can – and will – do better!
 
@@ -220,11 +220,11 @@ Ok. But we can – and will – do better!
 
 Adding some custom classes and an id, we will obtain this improved page with gorgeous big progress bars featuring the two gentlemen facing off:
 
-<UiFigureWithCaption>
+<Figure>
 
 ![Step 3: simple customization](../assets/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step3.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 Here's the code, the images must be `100x100`:
 
@@ -452,26 +452,26 @@ Just a bit more styling to the voting buttons and progress bars, borrowing 4 cla
 
 And it's done! No, really: done as in done!
 
-<UiFigureWithCaption>
+<Figure>
 
 ![Step 4: finishing touches](../assets/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step4.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 **Bonus:** of course it's responsive, and in its smaller form it only shows the picture of the current winner ;-)
 
-<UiFigureWithCaption>
+<Figure>
 
 ![Step 4: finishing touches](../assets/images/posts/2015-05-24-a-survey-view-with-bootstrap/responsive.png)
 
-</UiFigureWithCaption>
+</Figure>
 
 ## Closing thoughts
 
-Once again we used a Bootstrap component in a way that was not explicitly showcased in the official docs.  
+Once again we used a Bootstrap component in a way that was not explicitly showcased in the official docs.
 This time we also applied a ready-made theme and we built our customizations upon it, until we obtained a good-enough finished page.
 
-This is an example of what Mark and Jacob mean for "intended use of Bootstrap".  
+This is an example of what Mark and Jacob mean for "intended use of Bootstrap".
 And this is what you should always try to do when using it.
 
 Also, this is what you'll want to do after reading an upcoming blog post, where I'll be introducing [WrapBootstrap](https://wrapbootstrap.com/) both as a resource and as a way to profit.
