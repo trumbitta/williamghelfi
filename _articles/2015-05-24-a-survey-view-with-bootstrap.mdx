@@ -1,0 +1,477 @@
+---
+title: 'A survey view with Bootstrap'
+date: 2015-05-24 15:38
+---
+
+import { UiFigureWithCaption } from '../components/ui';
+
+A survey view using progress bars, to be precise. In 4 simple steps.
+
+## Prerequisites
+
+- [node.js](http://nodejs.org/)
+- npm (which comes with node since v0.6.3)
+- [git](http://git-scm.com/) (prerequisite for bower)
+- bower: `npm install -g bower` (you may need to use `sudo`)
+
+We are not going to use _grunt_: a simple static server will suffice.  
+I like `serve` (see the [free chapter from my ebook about Bootstrap for newcomers](/bootstrap-in-practice)), but [`superstatic`](https://www.npmjs.com/package/superstatic) by [Divshot](http://www.divshot.com) is a great and more powerful alternative.
+
+## What are we going to build
+
+We are going to build a simple survey-like view for a _dueling_ web application, where people can vote for one of the contenders and leave a comment with their vote.
+
+The view will not be complete (no actual comment form, and so on...), but it will do the job it was designed for:
+
+- Showing how to use and customize progress bars in an unorthodox way
+- Showing the [Themestrap theme I built](/blog/2013-09-12-my-first-bootstrap-theme-with-themestrap) in action :p
+- Showing how to improve some details of a ready-made theme
+
+## Step 1 of 4: all the content in place
+
+Here it goes the basic structure of our view:
+
+- Some nice icons
+- A yellow (just like a lightbulb) bar for Mr. Edison
+- A blue ( blue is the color of electricity) bar for Mr. Tesla
+- Voting buttons
+- The list of recent comments
+
+And a bunch of minor details.
+
+The code:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>The Duel - Edison vs Tesla</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Le styles -->
+    <link
+      href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <header class="text-center col-md-12">
+          <h1 class="text-left">
+            <small>THE <span class="icon-exchange"></span> DUEL</small>
+          </h1>
+          <h2 class="h1">
+            Thomas Alva Edison <span class="icon icon-lightbulb"></span>
+            <span class="text-muted">&amp;middot;</span>
+            <span class="icon-bolt"></span> Nikola Tesla
+          </h2>
+        </header>
+      </div>
+      <div role="main" class="row">
+        <div class="col-md-1">
+          <a href="/voteA" class="btn btn-primary btn-block"
+            >+1 <span class="icon icon-lightbulb"></span
+          ></a>
+        </div>
+        <div class="col-md-10">
+          <div class="progress">
+            <div class="progress-bar progress-bar-warning" style="width: 40%;">
+              Edison 40%
+            </div>
+            <div class="progress-bar progress-bar-info" style="width: 60%;">
+              60% Tesla
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <a href="/voteB" class="btn btn-primary btn-block"
+            ><span class="icon icon-bolt"></span> +1</a
+          >
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <p class="panel-heading text-center">
+              <small>
+                Total: <strong>Edison</strong> 197 &ndash; 221
+                <strong>Tesla</strong>
+              </small>
+            </p>
+            <div class="panel-body">
+              <ul class="list-unstyled">
+                <li>
+                  <p>
+                    <span class="label label-default col-sm-1">Nick</span
+                    >&amp;nbsp;
+                    <em>I know for sure Mr. Tesla should win this duel.</em>
+                    &amp;middot; +1 Tesla
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span class="label label-default col-sm-1">T.J.</span
+                    >&amp;nbsp;
+                    <em>Dad says Mr. Edison is the smartest guy in town.</em>
+                    &amp;middot; +1 Edison
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span class="label label-default col-sm-1">John</span
+                    >&amp;nbsp;
+                    <em
+                      >The boss... Uhm... a friend of mine asked me to come and
+                      vote for Mr. E</em
+                    >
+                    &amp;middot; +1 Edison
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span class="label label-default col-sm-1">Elon</span
+                    >&amp;nbsp; <em>I like Tesla, good name.</em> &amp;middot;
+                    +1 Tesla
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span class="label label-default col-sm-1">Pidgeon</span
+                    >&amp;nbsp; <em><3 <3 <3</em> &amp;middot; +1 Tesla
+                  </p>
+                </li>
+              </ul>
+            </div>
+            <div class="panel-footer">
+              <p>
+                <a href="/more"
+                  >More <span class="icon icon-ellipsis-horizontal"></span
+                ></a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <footer class="col-md-12">
+          <ul class="pager">
+            <li class="previous">
+              <a href="/results">JSON</a>
+            </li>
+            <li class="next">
+              <a href="/disclaimer.html">About</a>
+            </li>
+          </ul>
+          <p class="clearfix text-center">
+            <small>&copy; <a href="#">ACME, inc</a> 2013</small>
+          </p>
+        </footer>
+      </div>
+    </div>
+    <!-- /container -->
+  </body>
+</html>
+```
+
+And it should be like this:
+
+<UiFigureWithCaption>
+
+![Step 1: just the content and basic Bootstrap](../assets/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step1.png)
+
+</UiFigureWithCaption>
+
+Hey, not bad at all! **Ok, my job here is done, goodbye...** Wait! There's more :)
+
+## Step 2 of 4: apply the theme
+
+First of all, install `bootstrap-theme-supervillain` with bower:
+
+```bash
+bower install bootstrap-theme-supervillain
+```
+
+Then, add the theme into the head section of the page, just after the original Bootstrap CSS:
+
+```html
+  <!-- Le styles -->
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap-theme-supervillain/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+</head>
+```
+
+Resulting in this pretty page:
+
+<UiFigureWithCaption>
+
+![Step 2: applying bootstrap-theme-supervillain](../assets/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step2.png)
+
+</UiFigureWithCaption>
+
+Ok. But we can – and will – do better!
+
+## Step 3 of 4: customize
+
+Adding some custom classes and an id, we will obtain this improved page with gorgeous big progress bars featuring the two gentlemen facing off:
+
+<UiFigureWithCaption>
+
+![Step 3: simple customization](../assets/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step3.png)
+
+</UiFigureWithCaption>
+
+Here's the code, the images must be `100x100`:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>The Duel - Edison vs Tesla</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Le styles -->
+    <link
+      href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/bower_components/bootstrap-theme-supervillain/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      #survey .progress {
+        height: 110px;
+        line-height: 110px;
+      }
+      #survey .progress img {
+        margin-top: -5px;
+      }
+      #survey .progress .progress-bar {
+        font-size: 20px;
+        font-family: 'Yanone Kaffeesatz', Georgia, serif;
+        line-height: inherit;
+      }
+      #survey .progress .progress-bar.text-left {
+        text-align: left;
+        padding-left: 10px;
+      }
+      #survey .progress .progress-bar.text-right {
+        text-align: right;
+        padding-right: 10px;
+      }
+      #survey .vote {
+        font-family: 'Yanone Kaffeesatz', Georgia, serif;
+        line-height: 70px;
+        margin-top: 29px; /* (( 110[height .progress] - 92[height .btn-lg .vote] ) / 2 ) + 20px margin-top .progress */
+      }
+      .margin-medium-vertical {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      .margin-medium-bottom {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <header class="text-center col-md-12">
+          <h1 class="text-left">
+            <small>THE <span class="icon-exchange"></span> DUEL</small>
+          </h1>
+          <h2 class="h1">
+            Thomas Alva Edison <span class="icon icon-lightbulb"></span>
+            <span class="text-muted">&amp;middot;</span>
+            <span class="icon-bolt"></span> Nikola Tesla
+          </h2>
+        </header>
+      </div>
+      <div role="main" class="row margin-medium-bottom" id="survey">
+        <div class="col-md-1">
+          <a href="/voteA" class="btn btn-primary btn-lg btn-block vote"
+            >+1 <span class="icon icon-lightbulb"></span
+          ></a>
+        </div>
+        <div class="col-md-10">
+          <div class="progress margin-medium-vertical">
+            <div
+              class="progress-bar progress-bar-warning text-right"
+              style="width: 40%;"
+            >
+              <span class="progress-bar-candidate">Edison 40%</span>
+              <img src="edison.png" />
+            </div>
+            <div
+              class="progress-bar progress-bar-info text-left"
+              style="width: 60%;"
+            >
+              <img src="tesla.png" />
+              <span class="progress-bar-candidate">60% Tesla</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <a href="/voteB" class="btn btn-primary btn-lg btn-block vote"
+            ><span class="icon icon-bolt"></span> +1</a
+          >
+        </div>
+      </div>
+      <div class="row margin-medium-vertical">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <p class="panel-heading text-center">
+              <small>
+                Total: <strong>Edison</strong> 197 &ndash; 221
+                <strong>Tesla</strong>
+              </small>
+            </p>
+            <div class="panel-body">
+              <ul class="list-unstyled">
+                <li>
+                  <p>
+                    <span class="label label-default col-sm-1">Nick</span
+                    >&amp;nbsp;
+                    <em>I know for sure Mr. Tesla should win this duel.</em>
+                    &amp;middot; +1 Tesla
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span class="label label-default col-sm-1">T.J.</span
+                    >&amp;nbsp;
+                    <em>Dad says Mr. Edison is the smartest guy in town.</em>
+                    &amp;middot; +1 Edison
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span class="label label-default col-sm-1">John</span
+                    >&amp;nbsp;
+                    <em
+                      >The boss... Uhm... a friend of mine asked me to come and
+                      vote for Mr. E</em
+                    >
+                    &amp;middot; +1 Edison
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span class="label label-default col-sm-1">Elon</span
+                    >&amp;nbsp; <em>I like Tesla, good name.</em> &amp;middot;
+                    +1 Tesla
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span class="label label-default col-sm-1">Pidgeon</span
+                    >&amp;nbsp; <em><3 <3 <3</em> &amp;middot; +1 Tesla
+                  </p>
+                </li>
+              </ul>
+            </div>
+            <div class="panel-footer">
+              <p>
+                <a href="/more"
+                  >More <span class="icon icon-ellipsis-horizontal"></span
+                ></a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <footer class="col-md-12">
+          <ul class="pager">
+            <li class="previous">
+              <a href="/results">JSON</a>
+            </li>
+            <li class="next">
+              <a href="/disclaimer.html">About</a>
+            </li>
+          </ul>
+          <p class="clearfix text-center">
+            <small>&copy; <a href="#">ACME, inc</a> 2013</small>
+          </p>
+        </footer>
+      </div>
+    </div>
+    <!-- /container -->
+    <!--
+  Tesla:  http://en.wikipedia.org/wiki/File:Tesla_circa_1890.jpeg
+  Edison: http://en.wikipedia.org/wiki/File:Thomas_Edison2.jpg
+-->
+  </body>
+</html>
+```
+
+## Step 4 of 4: embellish
+
+Just a bit more styling to the voting buttons and progress bars, borrowing 4 classes from `bower_components/bootstrap/dist/css/bootstrap-theme.css` and properly adapting the colors to match **Supervillain**:
+
+```html
+<style>
+...
+  .btn-primary {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+  }
+  .progress-bar {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
+  .progress-bar-info {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#5bc0de), to(#31b0d5));
+    background-image: -webkit-linear-gradient(top, #5bc0de, 0%, #31b0d5, 100%);
+    background-image: -moz-linear-gradient(top, #5bc0de 0%, #31b0d5 100%);
+    background-image: linear-gradient(to bottom, #5bc0de 0%, #31b0d5 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=&#39;#ff5bc0de&#39;, endColorstr=&#39;#ff31b0d5&#39;, GradientType=0);
+  }
+  .progress-bar-warning {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#ffeb54), to(#e6c92e));
+    background-image: -webkit-linear-gradient(top, #ffeb54, 0%, #e6c92e, 100%);
+    background-image: -moz-linear-gradient(top, #ffeb54 0%, #e6c92e 100%);
+    background-image: linear-gradient(to bottom, #ffeb54 0%, #e6c92e 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=&#39;#ffffeb54&#39;, endColorstr=&#39;#ffe6c92e&#39;, GradientType=0);
+  }
+  </style>
+</head>
+```
+
+And it's done! No, really: done as in done!
+
+<UiFigureWithCaption>
+
+![Step 4: finishing touches](../assets/images/posts/2015-05-24-a-survey-view-with-bootstrap/05_step4.png)
+
+</UiFigureWithCaption>
+
+**Bonus:** of course it's responsive, and in its smaller form it only shows the picture of the current winner ;-)
+
+<UiFigureWithCaption>
+
+![Step 4: finishing touches](../assets/images/posts/2015-05-24-a-survey-view-with-bootstrap/responsive.png)
+
+</UiFigureWithCaption>
+
+## Closing thoughts
+
+Once again we used a Bootstrap component in a way that was not explicitly showcased in the official docs.  
+This time we also applied a ready-made theme and we built our customizations upon it, until we obtained a good-enough finished page.
+
+This is an example of what Mark and Jacob mean for "intended use of Bootstrap".  
+And this is what you should always try to do when using it.
+
+Also, this is what you'll want to do after reading an upcoming blog post, where I'll be introducing [WrapBootstrap](https://wrapbootstrap.com/) both as a resource and as a way to profit.
