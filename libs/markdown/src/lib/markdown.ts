@@ -4,6 +4,7 @@ import { join } from 'path';
 import matter from 'gray-matter';
 import { serialize } from 'next-mdx-remote/serialize';
 import rehypeImgSize from 'rehype-img-size';
+import rehypeHighlight from 'rehype-highlight';
 
 // Types
 import { FrontMatter, MarkdownDocument } from './types';
@@ -34,6 +35,7 @@ export const renderMarkdown = (markdownContent: string) => {
             dir: join(process.cwd(), process.env.articlesImagePath as string),
           },
         ],
+        rehypeHighlight,
       ],
     },
   });

@@ -21,7 +21,13 @@ export default class CustomDocument extends Document<{
   render() {
     return (
       <Html>
-        <Head>{this.props.styleTags}</Head>
+        <Head>
+          {this.props.styleTags}
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/@highlightjs/cdn-assets@11.5.0/styles/github-dark.min.css"
+          ></link>
+        </Head>
         <body>
           <Main />
           <NextScript />

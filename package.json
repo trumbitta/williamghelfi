@@ -18,6 +18,7 @@
     "react-dom": "18.1.0",
     "react-is": "18.1.0",
     "regenerator-runtime": "0.13.7",
+    "rehype-highlight": "^5.0.2",
     "rehype-img-size": "github:ksoichiro/rehype-img-size",
     "styled-components": "5.3.5",
     "styled-normalize": "^8.0.7",

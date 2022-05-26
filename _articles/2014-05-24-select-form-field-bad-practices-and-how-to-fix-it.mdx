@@ -67,7 +67,7 @@ Making you want to choose an `<option>`, is the job of a `<label>`. Not of anoth
 
 The first rule of the **Fight _the `Choose one...` madness_ Club** is you always talk about it and you also use a `<label>`.
 
-<label for="icecream">Choose an icecream:</label>
+<label htmlFor="icecream">Choose an icecream:</label>
 <br />
 <select name="icecream" id="icecream">
   <option value="banana">Banana</option>
@@ -92,7 +92,7 @@ Now that we know the basics, let's see it in action in a couple different scenar
 
 When the `<select>` is used to filter a list of possible items, you nearly always have to include a first _show them all_ option.
 
-<label for="superheroes">Show superheroes:</label>
+<label htmlFor="superheroes">Show superheroes:</label>
 <br />
 <select name="superheroes" id="superheroes">
   <option value="all">All</option>
@@ -132,7 +132,7 @@ Good for us all I'm writing this very blog post.
 
 Consider this:
 
-<label for="opponent">Choose your opponent:</label>
+<label htmlFor="opponent">Choose your opponent:</label>
 <br />
 <select name="opponent" id="opponent">
   <option value="godzilla">Godzilla</option>
@@ -161,17 +161,15 @@ But you could also be a bit less evil and let those warriors try themselves agai
 
 Nothing easier than that. Just add a `selected="selected"` attribute (or just `selected`) to the desired `<option>`:
 
-<label for="opponent">Choose your opponent:</label>
+<label htmlFor="opponent">Choose your opponent:</label>
 <br />
-<select name="opponent" id="opponent">
+<select name="opponent" id="opponent" defaultValue="indiana_jones">
   <option value="godzilla">Godzilla</option>
   <option value="optimus_prime">Optimus Prime</option>
   <option value="shaq">Shaq</option>
   <option value="batman">Batman</option>
   <option value="chuck_norris">Chuck Norris</option>
-  <option value="indiana_jones" selected="selected">
-    Indiana Jones
-  </option>
+  <option value="indiana_jones">Indiana Jones</option>
 </select>
 
 ```html
@@ -204,7 +202,7 @@ Wait, what's a _Monty Brewster_ option?
 
 The following is a simple choose-one `<select>` with a not mandatory choice, which uses a _Monty Brewster_ option instead of a that bad bad bad _Choose one..._ option.
 
-<label for="opponent-2">Choose your opponent:</label>
+<label htmlFor="opponent-2">Choose your opponent:</label>
 <br />
 <select name="opponent-2" id="opponent-2">
   <option value=" ">None</option>
@@ -247,12 +245,10 @@ Let me know on [Twitter](https://twitter.com/trumbitta), or leave a comment belo
 
 And if you are just starting with HTML (and CSS), I'm writing an ebook you might be interested in:
 
-<div class="text-center">
-  <iframe
-    width="99%"
-    height="400"
-    src="https://leanpub.com/easyhtmlcss/embed"
-    frameborder="0"
-    allowtransparency="true"
-  ></iframe>
-</div>
+<iframe
+  width="99%"
+  height="400"
+  src="https://leanpub.com/easyhtmlcss/embed"
+  frameBorder="0"
+  allowtransparency="true"
+></iframe>
