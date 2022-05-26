@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 
 // Third parties
 import styled from 'styled-components';
@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { fontSizes, spacing } from '@wg/shared/theme';
 
 export interface FigureProps {
-  caption?: string;
+  caption?: ReactNode;
 }
 
 export const Figure = ({

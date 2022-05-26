@@ -3,17 +3,12 @@ title: 'Heresy: put your sidebars to the right'
 date: 2016-05-15 12:00
 ---
 
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-
-import { UiButton } from '@wg/shared/mdx-elements';
-
-<Figure caption='<em>Haters gonna hate (6x)</em> – Giordano Bruno. Photo by
-    <a href="https://www.flickr.com/photos/mjsmith01/">Mark Smith</a>,
+<Figure caption={<><em>Haters gonna hate (6x)</em> – Giordano Bruno. Photo by{' '}
+    <a href="https://www.flickr.com/photos/mjsmith01/">Mark Smith</a>,{' '}
     <a href="https://creativecommons.org/licenses/by-nd/2.0/">
       some rights reserved
-    </a>
-    .
-'>
+    </a>.</>
+}>
 
 ![](/images/posts/2016-05-15-heresy-right-hamburger-sidebar/bruno.jpg 'wela')
 
@@ -50,7 +45,25 @@ A mobile app, a website – anything dealing with information, really – should
 
 - Expose the few – let's just say 3 to 5 – most important bits (e.g.: a tap-bar / bottom-bar with actions, navigation items, ...).
 - Organize the second most important ones (e.g.: tabs, cards, in-canvas navigation, carousels / wizards, ...).
-- _If some more remain_, put them in a off-canvas navigation menu and use a de-facto standard icon on the toggle button: <UiButton icon={faBars}></UiButton>
+- _If some more remain_, put them in a off-canvas navigation menu and use a de-facto standard icon on the toggle button:
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+  strokeWidth={2}
+  style={{
+    width: '2rem',
+    height: '2rem',
+  }}
+>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    d="M4 6h16M4 12h16M4 18h16"
+  />
+</svg>
 
 **You are not hiding any options.** The most important actions are exposed, immediately recognizable, and easily reached. The second most-important ones are also exposed. But you have more, and you should use an off-canvas navigation for those.
 
