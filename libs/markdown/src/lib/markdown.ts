@@ -3,6 +3,7 @@ import fs from 'fs';
 import { join } from 'path';
 import matter from 'gray-matter';
 import { serialize } from 'next-mdx-remote/serialize';
+import rehypeImgSize from 'rehype-img-size';
 
 // Types
 import { FrontMatter, MarkdownDocument } from './types';
@@ -23,5 +24,17 @@ export const getParsedFileContentBySlug = (
 };
 
 export const renderMarkdown = (markdownContent: string) => {
-  return serialize(markdownContent || '');
+  return serialize(markdownContent || '', {
+    mdxOptions: {
+      rehypePlugins: [
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        [
+          rehypeImgSize as any,
+          {
+            dir: join(process.cwd(), process.env.articlesImagePath as string),
+          },
+        ],
+      ],
+    },
+  });
 };

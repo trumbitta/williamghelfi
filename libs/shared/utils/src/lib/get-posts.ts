@@ -11,8 +11,10 @@ export interface Post extends MarkdownDocument {
 export const getPosts = (): Post[] => {
   const postPaths = getPostPaths();
 
-  return postPaths.map((slug) => ({
-    slug,
-    ...getParsedFileContentBySlug(slug),
-  }));
+  return postPaths
+    .map((slug) => ({
+      slug,
+      ...getParsedFileContentBySlug(slug),
+    }))
+    .reverse();
 };

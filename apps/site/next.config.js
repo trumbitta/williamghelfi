@@ -10,6 +10,7 @@ const nextConfig = {
   },
   env: {
     articlesSourcePath: '_articles',
+    articlesImagePath: 'apps/site/public',
   },
   nx: {
     // Set this to true if you would like to to use SVGR

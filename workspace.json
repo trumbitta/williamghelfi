@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "blog-components": "libs/blog/components",
     "markdown": "libs/markdown",
     "shared-mdx-elements": "libs/shared/mdx-elements",
     "shared-theme": "libs/shared/theme",

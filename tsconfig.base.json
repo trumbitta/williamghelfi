@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@wg/blog/components": ["libs/blog/components/src/index.ts"],
       "@wg/markdown": ["libs/markdown/src/index.ts"],
       "@wg/shared/mdx-elements": ["libs/shared/mdx-elements/src/index.ts"],
       "@wg/shared/theme": ["libs/shared/theme/src/index.ts"],
