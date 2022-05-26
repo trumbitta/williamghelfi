@@ -21,12 +21,19 @@ export interface WithSlug extends ParsedUrlQuery {
 
 export type ArticleProps = MarkdownRenderingResult;
 
-export const Article = ({ frontMatter, html }: ArticleProps) => {
+export const Article = ({
+  frontMatter: { date, title },
+  html,
+}: ArticleProps) => {
+  const formattedDate = new Intl.DateTimeFormat('sv-SE', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+  }).format(new Date(date));
+
   return (
     <article>
-      <h1>{frontMatter.title}</h1>
-      <p>{frontMatter.date}</p>
-      <hr />
+      <h1>{title}</h1>
+      <p>{formattedDate}</p>
 
       <MDXRemote {...html} components={mdxElements} />
     </article>

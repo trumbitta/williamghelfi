@@ -1,14 +1,11 @@
-import { ReactNode } from 'react';
+// Third parties
 import styled from 'styled-components';
 
-export interface H1Props {
-  children?: ReactNode;
-}
+// Libs
+import { fontSizes, spacing } from '@wg/shared/theme';
 
-const StyledH1 = styled.h1`
-  color: pink;
+export const H1 = styled.h1`
+  margin: ${spacing.xl} 0;
+  font-size: ${fontSizes.l};
+  font-weight: normal;
 `;
-
-export const H1 = ({ children }: H1Props) => {
-  return <StyledH1>{children}</StyledH1>;
-};

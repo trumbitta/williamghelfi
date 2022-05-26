@@ -14,6 +14,7 @@
     "gray-matter": "^4.0.3",
     "next": "12.1.5",
     "next-mdx-remote": "^4.0.3",
+    "polished": "^4.2.2",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-is": "18.1.0",

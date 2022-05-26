@@ -1,7 +1,12 @@
 import Link from 'next/link';
 
+// Third parties
+import styled from 'styled-components';
+
 // Libs
 import { FrontMatter } from '@wg/markdown';
+import { H1 } from '@wg/shared/mdx-elements';
+import { spacing } from '@wg/shared/theme';
 
 export interface PostPreviewProps {
   linkTo?: string;
@@ -10,19 +15,19 @@ export interface PostPreviewProps {
 
 export const PostPreview = ({
   linkTo = '',
-  post: { date, title },
+  post: { title },
 }: PostPreviewProps) => {
-  const formattedDate = new Intl.DateTimeFormat('sv-SE', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  }).format(new Date(date));
-
   return (
-    <article>
-      <h1>
+    <Wrapper>
+      <H1>
         <Link href={linkTo}>{title}</Link>
-      </h1>
-      <p>{formattedDate}</p>
-    </article>
+      </H1>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.article`
+  a {
+    color: inherit;
+  }
+`;
