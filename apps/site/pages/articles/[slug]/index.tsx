@@ -13,14 +13,13 @@ import {
   renderMarkdown,
 } from '@wg/markdown';
 import { mdxElements } from '@wg/shared/mdx-elements';
+import { getPostPaths } from '@wg/shared/utils';
 
 export interface WithSlug extends ParsedUrlQuery {
   slug: string;
 }
 
 export type ArticleProps = MarkdownRenderingResult;
-
-const POSTS_PATH = join(process.cwd(), process.env.articlesSourcePath);
 
 export const Article = ({ frontMatter, html }: ArticleProps) => {
   return (
@@ -40,10 +39,7 @@ export const getStaticProps: GetStaticProps<MarkdownRenderingResult> = async ({
   params: WithSlug;
 }) => {
   // read markdown file into content and frontmatter
-  const articleMarkdownContent = getParsedFileContentBySlug(
-    params.slug,
-    POSTS_PATH
-  );
+  const articleMarkdownContent = getParsedFileContentBySlug(params.slug);
 
   // generate HTML
   const renderedHTML = await renderMarkdown(articleMarkdownContent.content);
@@ -57,10 +53,7 @@ export const getStaticProps: GetStaticProps<MarkdownRenderingResult> = async ({
 };
 
 export const getStaticPaths: GetStaticPaths<WithSlug> = async () => {
-  const paths = fs
-    .readdirSync(POSTS_PATH)
-    // Remove file extensions for page paths
-    .map((path) => path.replace(/\.mdx?$/, ''))
+  const paths = getPostPaths()
     // Map the path into the static paths object required by Next.js
     .map((slug) => ({ params: { slug } }));
 

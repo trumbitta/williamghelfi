@@ -9,7 +9,7 @@ import { FrontMatter, MarkdownDocument } from './types';
 
 export const getParsedFileContentBySlug = (
   slug: string,
-  postsPath: string
+  postsPath = join(process.cwd(), process.env.articlesSourcePath ?? '_articles')
 ): MarkdownDocument => {
   const postFilePath = join(postsPath, `${slug}.mdx`);
   const fileContents = fs.readFileSync(postFilePath);
