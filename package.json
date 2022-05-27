@@ -28,6 +28,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
+    "@netlify/plugin-nextjs": "^4.7.1",
     "@nrwl/cli": "14.1.7",
     "@nrwl/cypress": "14.1.7",
     "@nrwl/eslint-plugin-nx": "14.1.7",
