@@ -8,6 +8,6 @@
     "shared-theme": "libs/shared/theme",
     "shared-utils": "libs/shared/utils",
     "site": "apps/site",
-    "site-e2e": "apps/site-e2e"
+    "site-styled": "apps/site-styled"
   }
 }

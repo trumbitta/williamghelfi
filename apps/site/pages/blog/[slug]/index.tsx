@@ -2,8 +2,6 @@ import { GetStaticPaths, GetStaticProps } from 'next/types';
 
 // Third parties
 import { ParsedUrlQuery } from 'querystring';
-import fs from 'fs';
-import { join } from 'path';
 import { MDXRemote } from 'next-mdx-remote';
 
 // Libs
@@ -12,7 +10,7 @@ import {
   MarkdownRenderingResult,
   renderMarkdown,
 } from '@wg/markdown';
-import { H1, mdxElements } from '@wg/shared/mdx-elements';
+import { mdxElements } from '@wg/shared/mdx-elements';
 import { getPostPaths } from '@wg/shared/utils';
 
 export interface WithSlug extends ParsedUrlQuery {
@@ -31,8 +29,8 @@ export const Article = ({
   }).format(new Date(date));
 
   return (
-    <article>
-      <H1>{title}</H1>
+    <article className="prose prose-lg lg:prose-xl">
+      <h1>{title}</h1>
       <p>{formattedDate}</p>
 
       <MDXRemote {...html} components={mdxElements} />
