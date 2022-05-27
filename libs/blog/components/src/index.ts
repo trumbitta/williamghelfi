@@ -1,1 +1,2 @@
-export * from './lib/post-preview/post-preview.component';
+export * from './lib/header';
+export * from './lib/post-preview';

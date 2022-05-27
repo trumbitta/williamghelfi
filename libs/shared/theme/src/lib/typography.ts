@@ -1,6 +1,6 @@
 export const fontFamilies = {
-  sansSerif: 'sans-serif',
-  serif: 'serif',
+  sansSerif: 'Open Sans, sans-serif',
+  serif: 'Merriweather, serif',
   monospace: 'monospace',
 };
 
@@ -10,4 +10,11 @@ export const fontSizes = {
   m: '2rem',
   l: '3rem',
   xl: '4rem',
+  xxl: '6rem',
+};
+
+export const fontWeights = {
+  light: 300,
+  normal: 400,
+  bold: 700,
 };

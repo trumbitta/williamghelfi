@@ -12,7 +12,7 @@ import {
   MarkdownRenderingResult,
   renderMarkdown,
 } from '@wg/markdown';
-import { mdxElements } from '@wg/shared/mdx-elements';
+import { H1, mdxElements } from '@wg/shared/mdx-elements';
 import { getPostPaths } from '@wg/shared/utils';
 
 export interface WithSlug extends ParsedUrlQuery {
@@ -32,7 +32,7 @@ export const Article = ({
 
   return (
     <article>
-      <h1>{title}</h1>
+      <H1>{title}</H1>
       <p>{formattedDate}</p>
 
       <MDXRemote {...html} components={mdxElements} />

@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 
 // Lib
 import { getPosts, Post } from '@wg/shared/utils';
-import { PostPreview } from '@wg/blog/components';
+import { Header, PostPreview } from '@wg/blog/components';
 
 export interface IndexProps {
   posts: Post[];
@@ -10,7 +10,7 @@ export interface IndexProps {
 
 export const Index = ({ posts }: IndexProps) => (
   <>
-    <h1>Born, growing up.</h1>
+    <Header>Born, growing up.</Header>
 
     {posts.map(({ slug, frontMatter }) => (
       <PostPreview key={slug} post={frontMatter} linkTo={`/blog/${slug}`} />

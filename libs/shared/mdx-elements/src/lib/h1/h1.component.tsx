@@ -2,10 +2,16 @@
 import styled from 'styled-components';
 
 // Libs
-import { fontSizes, spacing } from '@wg/shared/theme';
+import {
+  fontFamilies,
+  fontSizes,
+  fontWeights,
+  spacing,
+} from '@wg/shared/theme';
 
 export const H1 = styled.h1`
   margin: ${spacing.xl} 0;
-  font-size: ${fontSizes.l};
-  font-weight: normal;
+  font-family: ${fontFamilies.sansSerif};
+  font-size: ${fontSizes.xl};
+  font-weight: ${fontWeights.bold};
 `;

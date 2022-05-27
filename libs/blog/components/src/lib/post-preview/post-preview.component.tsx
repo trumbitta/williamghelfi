@@ -6,7 +6,7 @@ import styled from 'styled-components';
 // Libs
 import { FrontMatter } from '@wg/markdown';
 import { H1 } from '@wg/shared/mdx-elements';
-import { spacing } from '@wg/shared/theme';
+import { fontSizes, fontWeights } from '@wg/shared/theme';
 
 export interface PostPreviewProps {
   linkTo?: string;
@@ -19,9 +19,9 @@ export const PostPreview = ({
 }: PostPreviewProps) => {
   return (
     <Wrapper>
-      <H1>
+      <Title>
         <Link href={linkTo}>{title}</Link>
-      </H1>
+      </Title>
     </Wrapper>
   );
 };
@@ -30,4 +30,9 @@ const Wrapper = styled.article`
   a {
     color: inherit;
   }
+`;
+
+const Title = styled(H1)`
+  font-size: ${fontSizes.l};
+  font-weight: ${fontWeights.normal};
 `;
