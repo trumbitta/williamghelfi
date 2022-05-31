@@ -1,0 +1,192 @@
+---
+title: "React's default way of appending itself to a DOM tree considered harmful"
+date: 2022-06-02 17:00
+---
+
+import { UiFigureWithCaption } from '../components/ui';
+
+<UiFigureWithCaption caption='Photo by
+    <a href="https://unsplash.com/@jentheodore?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jen Theodore</a> on 
+    <a href="https://unsplash.com/s/photos/beware?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
+      Unsplash
+    </a>
+    .
+'>
+
+![](../assets/images/posts/2022-06-02-react-dom-harmful/jen-theodore-KDu-62mZGcA-unsplash.jpg)
+
+</UiFigureWithCaption>
+
+## For the impatient
+
+### Don't do this
+
+```html
+<body>
+  <div id="root"></div>
+</body>
+```
+
+```js
+const rootElement = document.getElementById('root');
+
+ReactDOM.render(<App />, rootElement);
+```
+
+### Do this instead
+
+```html
+<body>
+  <div data-role-react-root></div>
+</body>
+```
+
+```js
+const rootElement = document.querySelector('[data-role-react-root]'),
+
+ReactDOM.render(<App />, rootElement);
+```
+
+Or, as [Andrew Luca](https://twitter.com/iamandrewluca) once offered: go even deeper!
+
+```js
+const rootElement = document.body.appendChild(document.createElement('div'));
+
+ReactDOM.render(<App />, rootElement);
+```
+
+## What am I talking about?
+
+If you ever dabbled in React or followed even [the most basic of its tutorials](https://reactjs.org/docs/add-react-to-a-website.html#add-react-in-one-minute), chances are you'll find the following snippet quite familiar:
+
+```html
+<!-- here reduced to the bare minimum for simplicity's sake -->
+<body>
+  <div id="root"></div>
+</body>
+```
+
+```js
+const rootElement = document.getElementById("root");
+
+ReactDOM.render(<App />, rootElement);
+```
+
+This `<div id="root"></div>` plus the accompanying JavaScript snippet, or one of their variants, are everywhere: tutorials, official docs, tools like Create React App and Nx, online samples... everywhere.
+
+Here's why this is bad to the point of being harmful.
+
+## Why is it harmful
+
+In a nutshell:
+
+- Ids and classes are meant to be used for styling purposes:  
+```HTML
+<div class="some-class"></div>
+```
+- Even better, don't use ids for styling purposes; use them only for navigation:  
+```HTML
+<a href="#pricing">Pricing</a>
+
+<!-- more code -->
+
+<section id="pricing">
+  <!-- awesome pricing table -->
+</section>
+```
+- When you need to add special meaning to HTML, use data attributes:  
+```HTML
+<div data-special>Such special, much data</div>
+```
+
+This separation of concerns (**styling** via **classes**, **navigation** via **ids**, **special meaning** via **data attributes**) helps avoiding some harmful situations you most certainly **will** find yourself in at some point in your career if you keep using `<div id="root"></div>` as a React root element.
+
+### Harmful situation #1
+
+- Sue creates a new React app.  
+```html
+<div id="root"></div>
+```
+- Bob hops on the project. The design by Alan has a furry pink border for the main container, meaning Bob needs a selector and lo and behold `#root` is already there.  
+```css
+#root {
+  border: 2rem furry pink;
+}
+```
+- John the CEO has a vision: furry borders are so 2005! We need to get rid of it!
+- John the CEO calls Alan at 5:00 in the morning on a sunday and asks him to change the border ASAP, before his meeting with prospect investors.
+- Alan, a designer with good enough CSS skills to get rid of a border, but no JavaScript nor React skill whatsoever, finds the offending CSS rule and deletes it.
+
+Then, in a rare flash of love for his job, Alan the designer searches the codebase for places where `id="root"` is used.  
+Alan finds our friend `<div id="root"></div>`.  
+Alan thinks he just removed the one and only reason for it to exist, and deletes the whole line.
+
+A sip of coffee, a deploy to production, and the job is done just before the important meeting.
+
+Chaos ensues.
+
+### Harmful situation #2
+
+- Sue creates a new React app.  
+```html
+<div id="root"></div>
+```
+- Bob starts working on the project, but leaves the company with a ton of work still to be done.
+- John the CEO decides to be smart and hires a bunch of junior developers from outer space.
+- Xyz, one of the junior devs from outer space, works on a new strategic feature and being the junior that she is, she uses `document.getElementById('root')` as the base for the strategic feature.
+- Something happens on Twitter and suddenly "root" is not a good word anymore. Sue changes the HTML:  
+```html
+  <div id="react-base"></div>
+```
+- Sue also changes the React initialization code accordingly:  
+```js
+ReactDOM.render(<App />, document.getElementById('react-base'));
+```
+- The strategic feature doesn't work anymore.
+
+Chaos ensues.
+
+### Conclusions
+
+Both of these harmful situations happened to me multiple times over the last 20 years.
+
+At first, I was Alan or Xyz, more recently I was Bob or Sue.
+
+We had the knowledge to avoid it. Something we learnt during the first months of our careers.
+
+Something some old dude taught us and we forgot.
+
+## What's the best practice
+
+So what was the old dude rambling about?  
+When working with HTML, CSS, and JavaScript:
+
+- For styling purposes, use only classes and element selectors.
+- Use ids only for anchors and navigation.
+- When you need to get a DOM element via JavaScript, use data attributes.
+
+Or, on the other hand:
+
+- If you see a class, assume it's for styling only.
+- If you see an id, assume it's for navigation only.
+- If you see a data attribute, assume it's used via JavaScript somehow, somewhere.
+
+**Separation of concerns.**
+
+Works wonders, if you remember about it.
+
+## FAQ and counterpoints
+
+### Isn't `document.getElementById()` supposed to be more faster than `document.querySelector()`?
+
+It is! If you are selecting dozens of elements in a couple seconds.  
+Is it still faster when selecting one single element while the app is starting up? Probably. Will the user notice? No way.
+
+### This is only your opinion, nobody else considers it harmful!
+
+Totally my opinion, coming from my own experience. Wish you'll never have to experience any of the situations you just read about. Take care! 🤞
+
+----
+
+Do you have any questions / opinions?  
+[Let me know on Twitter!](https://twitter.com/intent/tweet?text=So%2C%20about%20https%3A%2F%2Fwww.williamghelfi.com%2Fblog%2F2022-06-02-react-dom-harmful%2F%20by%20%40trumbitta%20...)
