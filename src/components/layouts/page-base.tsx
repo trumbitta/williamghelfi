@@ -4,7 +4,7 @@ import { UiContainer } from '../ui';
 import { ApplicationHeader } from '../application-header/application-header.component';
 import { ApplicationFooter } from '../application-footer/application-footer.component';
 import { SEO, SeoProps } from '../seo/seo.component';
-import { ApplicationHeaderAvatarProps } from '../application-header/application-header-avatar/application-header-avatar';
+import { IGatsbyImageData } from 'gatsby-plugin-image';
 
 const LayoutPageBase: FunctionComponent<{
   props: LayoutPageBaseProps;
@@ -30,7 +30,7 @@ const LayoutPageBase: FunctionComponent<{
 
 export interface LayoutPageBaseProps {
   seo: SeoProps;
-  avatar: ApplicationHeaderAvatarProps;
+  avatar?: IGatsbyImageData;
 }
 
 export default LayoutPageBase;

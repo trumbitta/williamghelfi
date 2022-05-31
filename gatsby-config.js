@@ -17,8 +17,9 @@ const config = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
-    'gatsby-transformer-sharp',
+    `gatsby-plugin-image`,
     'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp',
     'gatsby-plugin-styled-components',
     {
       resolve: 'gatsby-source-filesystem',
@@ -62,12 +63,6 @@ const config = {
             options: {},
           },
         ],
-      },
-    },
-    {
-      resolve: 'gatsby-plugin-ts-loader',
-      options: {
-        tslint: true, // false or exclude to disable tslint
       },
     },
   ],

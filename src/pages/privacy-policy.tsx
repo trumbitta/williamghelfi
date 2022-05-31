@@ -17,7 +17,6 @@ const Privacy: FunctionComponent = () => {
       twitterUsername: 'trumbitta',
       url: 'https://www.williamghelfi.com/privacy-policy',
     },
-    avatar: { fixed: null },
   };
 
   return (
