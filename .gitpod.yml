@@ -3,8 +3,9 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - before: nvm install 12
-    init: npm install
+  - init: |
+      nvm install 12
+      npm install
     command: npm start
 ports:
   - port: 8000

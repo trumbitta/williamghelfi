@@ -4,6 +4,6 @@ import styled from 'styled-components';
 
 import { anchorsCommon } from '../ui';
 
-export const Link = styled(GatsbyLink).attrs(() => ({ anchorsCommon }))`
-  ${props => props.anchorsCommon}
+export const Link = styled(GatsbyLink)`
+  ${anchorsCommon}
 `;
