@@ -5,6 +5,7 @@
 tasks:
   - init: |
       nvm install 12
+      npm install -g commitizen
       npm install
     command: npm start
 ports:
