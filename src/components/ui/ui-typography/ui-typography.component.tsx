@@ -89,4 +89,8 @@ export const UiBlockquote = styled.blockquote`
       margin-right: ${rhythm[1]};
     }
   }
+
+  code {
+    word-break: break-all;
+  }
 `;
