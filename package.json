@@ -24,7 +24,7 @@
     "gatsby": "^3.0.0",
     "gatsby-plugin-image": "^1.13.0",
     "gatsby-plugin-google-analytics": "^3.0.0",
-    "gatsby-plugin-mdx": "^2.0.0",
+    "gatsby-plugin-mdx": "^2.14.1",
     "gatsby-plugin-react-helmet": "^4.0.0",
     "gatsby-plugin-sharp": "^3.0.0",
     "gatsby-plugin-styled-components": "^4.0.0",
