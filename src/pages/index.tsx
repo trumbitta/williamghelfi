@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 import { graphql } from 'gatsby';
+import { ImageDataLike, getImage } from 'gatsby-plugin-image';
 
 import styled from 'styled-components';
 
@@ -10,7 +11,6 @@ import LayoutPageBase, {
 import { UiTypographyP, UiTypographyH2, UiDateInfo } from '../components/ui';
 import { Link } from '../components/link/link.component';
 import { headings, grid, breakpoints } from '../components/styled/_variables';
-import { ApplicationHeaderAvatarProps } from '../components/application-header/application-header-avatar/application-header-avatar';
 
 const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
   const { edges: posts } = data.allMdx;
@@ -25,7 +25,7 @@ const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
       twitterUsername: siteMetadata.twitterUsername,
       url: siteMetadata.siteUrl,
     },
-    avatar: data.file.childImageSharp,
+    avatar: getImage(data.file),
   };
 
   return (
@@ -59,46 +59,39 @@ const GridContainer = styled.main`
   }
 `;
 
-export const pageQuery = graphql`
-  query data {
-    site {
-      siteMetadata {
-        defaultTitle: title
-        subtitle
-        titleTemplate
-        defaultDescription: description
-        siteUrl: url
-        defaultImage: image
-        twitterUsername
-      }
+export const pageQuery = graphql`query data {
+  site {
+    siteMetadata {
+      defaultTitle: title
+      subtitle
+      titleTemplate
+      defaultDescription: description
+      siteUrl: url
+      defaultImage: image
+      twitterUsername
     }
-    allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
-      edges {
-        node {
-          id
-          excerpt
-          frontmatter {
-            title
-            date
-          }
-          fields {
-            slug
-          }
+  }
+  allMdx(sort: {fields: [frontmatter___date], order: DESC}) {
+    edges {
+      node {
+        id
+        excerpt
+        frontmatter {
+          title
+          date
         }
-      }
-    }
-    file(relativePath: { eq: "william.jpg" }) {
-      childImageSharp {
-        fixed(width: 50, height: 50) {
-          base64
-          width
-          height
-          src
-          srcSet
+        fields {
+          slug
         }
       }
     }
   }
+  file(relativePath: {eq: "william.jpg"}) {
+    childImageSharp {
+      gatsbyImageData(width: 50, height: 50, placeholder: BLURRED, layout: FIXED)
+    }
+  }
+}
 `;
 
 interface QueryData {
@@ -131,7 +124,7 @@ interface QueryData {
         }
       ];
     };
-    file: { childImageSharp: ApplicationHeaderAvatarProps };
+    file: ImageDataLike;
   };
 }
 

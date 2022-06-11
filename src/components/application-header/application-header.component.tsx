@@ -25,6 +25,14 @@ import {
   ApplicationHeaderAvatar,
   ApplicationHeaderAvatarProps,
 } from './application-header-avatar/application-header-avatar';
+import { IGatsbyImageData } from 'gatsby-plugin-image';
+
+interface Props {
+  applicationTitle: string;
+  subtitle?: string;
+  isInternal?: boolean;
+  avatar?: IGatsbyImageData;
+}
 
 export const ApplicationHeader: FunctionComponent<Props> = ({
   applicationTitle,
@@ -33,8 +41,8 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
   avatar,
 }) => {
   const avatarComponent =
-    avatar && avatar.fixed ? (
-      <ApplicationHeaderAvatarStyled fixed={avatar.fixed} />
+    avatar ? (
+      <ApplicationHeaderAvatar avatar={avatar} />
     ) : null;
 
   const jsx = isInternal ? (
@@ -136,10 +144,3 @@ const Subtitle = styled.small`
     text-align: left;
   }
 `;
-
-interface Props {
-  applicationTitle: string;
-  subtitle?: string;
-  isInternal?: boolean;
-  avatar: ApplicationHeaderAvatarProps;
-}

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import Img from 'gatsby-image';
+import { GatsbyImage, IGatsbyImageData } from "gatsby-plugin-image";
 
 import styled from 'styled-components';
 
@@ -8,15 +8,13 @@ import { colorRoles, rhythm } from '../../styled/_variables';
 
 export const ApplicationHeaderAvatar: FunctionComponent<
   ApplicationHeaderAvatarProps
-> = ({ fixed }) => (
+> = ({avatar}) => (
   <ContainerStyled>
-    <ImgStyled fixed={fixed} />
+    <ImgStyled image={avatar} alt="" />
   </ContainerStyled>
 );
 
-export interface ApplicationHeaderAvatarProps {
-  fixed: any;
-}
+export type ApplicationHeaderAvatarProps = {avatar: IGatsbyImageData };
 
 const ContainerStyled = styled.div`
   display: flex;
@@ -30,6 +28,6 @@ const ContainerStyled = styled.div`
   margin-right: ${rhythm[1]};
 `;
 
-const ImgStyled = styled(Img)`
+const ImgStyled = styled(GatsbyImage)`
   clip-path: circle(50% at 50% 50%);
 `;

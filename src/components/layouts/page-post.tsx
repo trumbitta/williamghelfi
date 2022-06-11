@@ -26,7 +26,7 @@ const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
         <ApplicationHeader
           applicationTitle={siteMetadata.defaultTitle}
           isInternal={true}
-          avatar={{ fixed: null }}
+          avatar={{ gatsbyImageData: null }}
         ></ApplicationHeader>
 
         <UiTypographyH1>{data.mdx.frontmatter.title}</UiTypographyH1>

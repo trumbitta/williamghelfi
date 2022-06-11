@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 import { graphql } from 'gatsby';
+import { getImage, ImageDataLike } from 'gatsby-plugin-image';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +11,6 @@ import LayoutPageBase, {
   LayoutPageBaseProps,
 } from '../components/layouts/page-base';
 import { Link } from '../components/link/link.component';
-import { ApplicationHeaderAvatarProps } from '../components/application-header/application-header-avatar/application-header-avatar';
 
 const BiP: FunctionComponent<QueryData> = ({ data }) => {
   const layoutPageBaseProps: LayoutPageBaseProps = {
@@ -21,7 +21,7 @@ const BiP: FunctionComponent<QueryData> = ({ data }) => {
       twitterUsername: 'trumbitta',
       url: 'https://www.williamghelfi.com/bootstrap-in-practice',
     },
-    avatar: data.file.childImageSharp,
+    avatar: getImage(data.file),
   };
 
   return (
@@ -48,25 +48,18 @@ const BiP: FunctionComponent<QueryData> = ({ data }) => {
   );
 };
 
-export const pageQuery = graphql`
-  query bipImage {
-    file(relativePath: { eq: "bootstrap-in-practice.png" }) {
-      childImageSharp {
-        fixed(width: 50, height: 50) {
-          base64
-          width
-          height
-          src
-          srcSet
-        }
-      }
+export const pageQuery = graphql`query bipImage {
+  file(relativePath: {eq: "bootstrap-in-practice.png"}) {
+    childImageSharp {
+      gatsbyImageData(width: 50, height: 50, placeholder: BLURRED, layout: FIXED)
     }
   }
+}
 `;
 
 interface QueryData {
   data: {
-    file: { childImageSharp: ApplicationHeaderAvatarProps };
+    file: ImageDataLike;
   };
 }
 
