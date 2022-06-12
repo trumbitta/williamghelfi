@@ -4,7 +4,9 @@
  * See: https://www.gatsbyjs.org/docs/gatsby-config/
  */
 
-const config = {
+import { GatsbyConfig } from "gatsby";
+
+const config: GatsbyConfig = {
   siteMetadata: {
     title: 'Born, growing up.',
     subtitle: 'Dad, developer, nerd.',
@@ -41,7 +43,6 @@ const config = {
         plugins: [
           'gatsby-remark-unwrap-images',
           'gatsby-remark-images',
-          'gatsby-remark-embed-snippet',
           'gatsby-remark-prismjs',
         ],
         gatsbyRemarkPlugins: [
@@ -50,12 +51,6 @@ const config = {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 1200,
-            },
-          },
-          {
-            resolve: `gatsby-remark-embed-snippet`,
-            options: {
-              directory: `${__dirname}/src/snippets/`,
             },
           },
           {
@@ -80,7 +75,7 @@ if (process.env.CONTEXT === 'production') {
       cookieExpires: 60 * 60 * 24 * 30, // 1 month
     },
   };
-  config.plugins.push(googleAnalyticsCfg);
+  config.plugins?.push(googleAnalyticsCfg);
 }
 
 module.exports = config;

@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
-import { graphql } from 'gatsby';
+import { graphql, PageProps } from 'gatsby';
 import { ImageDataLike, getImage } from 'gatsby-plugin-image';
 
 import styled from 'styled-components';
@@ -8,14 +8,14 @@ import styled from 'styled-components';
 import LayoutPageBase, {
   LayoutPageBaseProps,
 } from '../components/layouts/page-base';
-import { UiTypographyP, UiTypographyH2, UiDateInfo } from '../components/ui';
+import { UiDateInfo } from '../components/ui';
 import { Link } from '../components/link/link.component';
 import { headings, grid, breakpoints } from '../components/styled/_variables';
 
-const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
-  const { edges: posts } = data.allMdx;
+const BlogIndex = ({ data: { allMdx, file, site } }: PageProps<QueryData>) => {
+  const { edges: posts } = allMdx;
 
-  const siteMetadata = data.site.siteMetadata;
+  const siteMetadata = site.siteMetadata;
   const layoutPageBaseProps: LayoutPageBaseProps = {
     seo: {
       description: siteMetadata.defaultDescription,
@@ -25,7 +25,7 @@ const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
       twitterUsername: siteMetadata.twitterUsername,
       url: siteMetadata.siteUrl,
     },
-    avatar: getImage(data.file),
+    avatar: getImage(file),
   };
 
   return (
@@ -34,12 +34,12 @@ const BlogIndex: FunctionComponent<QueryData> = ({ data }) => {
         {posts.map(({ node: post }) => (
           <article key={post.id}>
             <LinkStyled to={post.fields.slug}>
-              <UiTypographyH2>{post.frontmatter.title}</UiTypographyH2>
+              <h2>{post.frontmatter.title}</h2>
             </LinkStyled>
-            <UiTypographyP>
+            <p>
               <UiDateInfo date={post.frontmatter.date}></UiDateInfo>
               {post.excerpt}
-            </UiTypographyP>
+            </p>
           </article>
         ))}
       </GridContainer>
@@ -59,73 +59,77 @@ const GridContainer = styled.main`
   }
 `;
 
-export const pageQuery = graphql`query data {
-  site {
-    siteMetadata {
-      defaultTitle: title
-      subtitle
-      titleTemplate
-      defaultDescription: description
-      siteUrl: url
-      defaultImage: image
-      twitterUsername
+export const pageQuery = graphql`
+  query data {
+    site {
+      siteMetadata {
+        defaultTitle: title
+        subtitle
+        titleTemplate
+        defaultDescription: description
+        siteUrl: url
+        defaultImage: image
+        twitterUsername
+      }
     }
-  }
-  allMdx(sort: {fields: [frontmatter___date], order: DESC}) {
-    edges {
-      node {
-        id
-        excerpt
-        frontmatter {
-          title
-          date
-        }
-        fields {
-          slug
+    allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
+      edges {
+        node {
+          id
+          excerpt
+          frontmatter {
+            title
+            date
+          }
+          fields {
+            slug
+          }
         }
       }
     }
-  }
-  file(relativePath: {eq: "william.jpg"}) {
-    childImageSharp {
-      gatsbyImageData(width: 50, height: 50, placeholder: BLURRED, layout: FIXED)
+    file(relativePath: { eq: "william.jpg" }) {
+      childImageSharp {
+        gatsbyImageData(
+          width: 50
+          height: 50
+          placeholder: BLURRED
+          layout: FIXED
+        )
+      }
     }
   }
-}
 `;
 
-interface QueryData {
-  data: {
-    site: {
-      siteMetadata: {
-        defaultTitle: string;
-        subtitle: string;
-        titleTemplate: string;
-        defaultDescription: string;
-        siteUrl: string;
-        defaultImage: string;
-        twitterUsername: string;
-      };
+type QueryData = {
+  site: {
+    siteMetadata: {
+      defaultTitle: string;
+      subtitle: string;
+      titleTemplate: string;
+      defaultDescription: string;
+      siteUrl: string;
+      defaultImage: string;
+      twitterUsername: string;
     };
-    allMdx: {
-      edges: [
-        {
-          node: {
-            id: any;
-            excerpt: string;
-            frontmatter: {
-              title: string;
-              date: string;
-            };
-            fields: {
-              slug: string;
-            };
-          };
-        }
-      ];
-    };
-    file: ImageDataLike;
   };
-}
+  allMdx: {
+    edges: [
+      {
+        node: {
+          id: any;
+          excerpt: string;
+          frontmatter: {
+            title: string;
+            date: string;
+          };
+          fields: {
+            slug: string;
+          };
+        };
+      }
+    ];
+  };
+  file: ImageDataLike;
+};
 
 export default BlogIndex;
