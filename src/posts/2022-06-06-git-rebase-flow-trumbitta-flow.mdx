@@ -1,0 +1,264 @@
+---
+title: "Introducing the Trumbitta Flow: a Git rebase flow"
+date: 2022-06-06 00:00
+---
+
+import { UiFigureWithCaption } from '../components/ui';
+
+<UiFigureWithCaption caption='Photo by
+    <a href="https://unsplash.com/@marekpiwnicki?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Marek Piwnicki</a> on 
+    <a href="https://unsplash.com/s/photos/purple?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
+      Unsplash
+    </a>
+    .
+'>
+
+![](../assets/images/posts/2022-06-06-git-rebase-flow-trumbitta-flow/marek-piwnicki-dqx3HQDrXuw-unsplash.jpeg)
+
+</UiFigureWithCaption>
+
+In 2008, my friend and then colleague [Andrea Dessì](https://twitter.com/NKjoep) introduced me to Git at work. Soon after, I discovered [git-flow](https://nvie.com/posts/a-successful-git-branching-model/); I started using it at work, I got involved in the community, and I adapted [my own fork](https://github.com/trumbitta/gitflow/commits/develop) to our needs.
+
+A couple years later I was already done with it, and I started dabbling into trunk-based development with [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow) and more.
+
+I never stopped learning about Git, and improving how I work with Git.  
+In this article, I'll introduce you to the flow I distilled over the last 14 years.
+
+It needs a name, so let's call it **Trumbitta Flow**.
+
+You can apply this flow to trunk-based development (my favorite), to a git-flow-like branch layout with `main` and `develop`, or anything else.
+
+For the rest of this post I'm going to assume you are working on a repo hosted on GitHub, with trunk-based development, and with a base branch called `main`.
+
+## TL;DR
+
+1. Assign yourself a task a.k.a. *have something to do*
+1. Create a working branch from `main` (or `master`, or `develop`, or whatever) to work on the task
+1. Create a Pull Request / Merge Request immediately after you created the working branch, mark it as *Draft*
+1. Always make atomic commits: use `git add -p`
+1. Push often
+1. If you end up needing more than 1 day, every morning before reprising from where you left off, incorporate updates from the base branch with `git rebase main`
+1. When it's ready to merge, usually after a successful code review, use `git rebase -i` to polish the history of the working branch
+1. Do one last rebase from the base branch: `git rebase main`
+1. Merge into the base branch: `git merge --no-ff the-task-in-short-123`
+
+Congratulations! You now have the cleanest and most readable possible Git history 🎉
+
+```git
+# Sample Git history with a basic merge / squash flow
+
+*   caf994e (HEAD -> main) Merge branch 'features/pizza-configurator'
+|\  
+| * 081849a (features/pizza-configurator) feat: add pizza configurator
+| *   02ef578 Merge branch 'main' into features/pizza-configurator
+| |\  
+| |/  
+|/|   
+* |   034ac32 Merge branch 'features/menu'
+|\ \  
+| |/  
+|/|   
+| * f3ecc38 (features/menu) feat: add pizza menu
+| * 8166210 feat(design-system): add pizza component
+|/  
+* 3b4bea8 feat: add license
+* 1bb4d1f chore: create repo with initial stuff
+```
+
+Looks familiar? Now check this out:
+
+```git
+# Sample Git history with Trumbitta Flow
+
+*   0255a20 (HEAD -> main) Merge branch 'features/pizza-configurator'
+|\  
+| * d1b20c2 (features/pizza-configurator) feat: add pizza configurator
+| * 6061fb8 feat(design-system): make pizza component accept Pepperoni toppings
+|/  
+*   37d116a Merge branch 'features/menu'
+|\  
+| * 8a323ae (features/menu) feat: add pizza menu
+| * fe54291 feat(design-system): add pizza component
+|/  
+* b77079c feat: add license
+* 6267e64 chore: create repo with initial stuff
+```
+
+Does it look better? Are you still interested? Keep on reading! 👇
+
+## The longer story
+
+### Assign yourself a task a.k.a. *have something to do*
+
+This might seem obvious, but for non-trivial projects of any kind (from side projects to work projects) having some kind of task management is paramount.  
+You'll be able to split not only the work, but also ideas and problems, into smaller chunks. And if you write down your thoughts about the task, you'll have a future reference about *why* you did something.
+
+Examples of task management software are GitHub issues, Asana, Trello, and my sworn enemy and bearer of one of the worst UXs ever: Jira.
+
+### Create a branch to work on the task
+
+Now that you got yourself something to do, it's time to create a branch to work on it. Let's say your task is described in GitHub issue `#123`.
+
+- Open a terminal and `cd` into the cloned repository
+- `git checkout main`
+- `git pull -p` to make sure you're starting from an updated status (see what the [`-p` option](https://git-scm.com/docs/git-pull#Documentation/git-pull.txt--p) does)
+- `git checkout -b the-task-in-short-123` to create a working branch. Notice the issue number in the branch name: this will come in handy whenever you'll need to remember what issue you're working on.
+
+> #### 🍊 KUMQUAT ALERT!
+>
+> If you are using [Gitpod](https://www.gitpod.io/), you can open the issue via the [official browser extension](https://chrome.google.com/webstore/detail/gitpod-always-ready-to-co/dodmmooeoklaejobgleioelladacbeki) or by prefixing its URL with `https://gitpod.io/#`.
+>
+Example: `https://gitpod.io/#github.com/username/repo-name/issues/123`
+>
+> This will create a working branch for you, with a proper name, and from the latest commit of the base branch.
+
+### Immediately create a draft Pull Request
+
+As soon as you have a first commit, even if it's a trivial change like fixing a typo or adding a missing comma, push your working branch and open a draft Pull Request (GitLab will allow you to open a Merge Request even if your working and base branch are still perfectly the same).
+
+This has several benefits:
+
+- You establish the PR list view as the single source of "what's going on in this repo"
+- You can start organizing your ideas in the description of the PR.  
+I usually jot down some step-by-step process using the [extended Mardown syntax for task lists](https://github.github.com/gfm/#task-list-items-extension-), and then I get a little serotonine high whenever I mark something as completed:  
+```md
+- [x] create barebones component
+- [ ] style as per specification on Figma
+- [ ] unit tests
+- [ ] refactor Pizza app to use new component
+```
+- You can attach screen captures (animated GIFs or videos) to show off your progress or maybe ask for feedback about alternatives
+- Whoever might be interested can follow along and maybe chime in with suggestions
+- You can catch early problems with your automated checks (GitHub actions) and tests
+
+Seriously, if you take just one thing away from this article, take this: create Pull Requests as early as possible.
+
+### Make atomic commits with `git add -p`
+
+At times, `git rebase` can result into *conflict hell*. We need to do what's in our power to avoid that.  
+Small, atomic, commits can't reduce the likelyhood of merge conflicts but they will reduce the magnitude of such conflicts, resulting in easier resolutions.
+
+Use `git add -p` instead of the regular `git add` to prepare your commits. If you're feeling brave you can also go a step further and use [interactive staging](https://git-scm.com/book/it/v2/Git-Tools-Interactive-Staging#r_interactive_staging).
+
+I usually use `git add -p` at first just for looking around my code in chunks (by choosing `n` at every chunk), remembering what I did, and starting to think about how I want to group my changes into meaningful atomic commits.  
+After that, with the following passes of `git add -p`, I will choose `y` on selected chunks and start making atomic commit after atomic commit.
+
+### Push often
+
+You should push at least before lunch break and before calling it a day.  
+Remember you are working on a Draft PR and push whenever you have some work to save. Don't worry about how clean your history is, or how meaningful your work is so far. Just push, just save your work.
+
+> #### 💡 Good habit
+>
+> Always specify remote and target branch no matter what.  
+> I never do `git push`.  
+> I always do `git push origin the-task-in-short-123`.  
+> This way I'll never forget about changes to the local git config. I'll never give control to some automagic git feature.
+>
+> "Yeah ok, but it's too much to write and I'm lazy!"  
+> Not really: most modern shell environments have command and arguments completion for Git!
+
+### Incorporate updates with `git rebase main`
+
+Despite [eroic efforts of keeping changes small](https://www.gitpod.io/blog/gitpod-core-values#ship-skateboards), in the real world you are likely to be working on the same task for days.  
+Every day, before resuming work, you should update your working branch.
+
+- Switch to your base branch: `git checkout main`
+- Update the local copy of your base branch: `git pull -p`
+- Switch back to your working branch: `git checkout the-task-in-short-123`
+- Update the local copy of your working branch: `git rebase main`
+- Immediately push the updated working branch: `git push origin the-task-in-short-123 --force-with-lease`
+
+This will ensure the history of your working branch will stay linear, and the final merge into the base branch once you're finished with the task will be as smooth as possible.
+
+> #### 💡 Good habit: `git pull -p`
+> 
+> Adding that `-p` to `git pull` and making a habit of it, ensures your local environment will stay clean of branches which don't exist anymore on the remote.
+>
+> 🍊 You won't need it if you use Gitpod and embrace ephemeral workspaces.
+
+> #### 💡 Good habit: `--force-with-lease`
+> 
+> Every time you use `git rebase`, you are changing the history of your local clone in a way that makes it impossible for Git to compare it with the history of the remote. Hence why after a rebase you always have to `git push` with `--force`.
+>
+> Replace `--force` with `--force-with-lease` to make Git refuse your push if it will overwrite work by someone else that's already on the remote.
+
+### Polish the history with `git rebase -i`
+
+When the task is done, and hopefully you also went through a code review, you are now ready to merge. But first you're going to want to polish your history a tad, so that once you merge into the base branch you'll have contributed a nice and clean bit to an already nice and clean history.
+
+Now, several people just *"squash merge"* and call it a day. But what if you also have some loosely related commits in your PR?
+
+Does this Git history look familiar to you?
+
+```
+* 72af54d feat(pizzas) add sample Pepperoni to pizza configurator
+* 7079bab feat(design-system) make pizza component also accept Pepperoni
+* 4926fec feat(pizzas): add WIP pizza configurator
+* db25c08 feat(pizzas): add WIP pizza configurator
+```
+
+You *could* just squash it all into a single commit, but *should* you? Should you let that commit about the design system just vanish inside the creation of the pizza configurator?  
+No, you shouldn't.
+
+What you want is a Git history like this:
+
+```
+* 1bb5807 feat(pizzas): add pizza configurator
+* cfcaf97 feat(design-system) make pizza component also accept Pepperoni
+```
+
+With `git rebase -i` (interactive rebase) it's quite simple and if you made precise, atomic, commits and remembered to update your working branch with `git rebase` instead of `git merge` it will also usually be free of conflicts.
+
+If you never used interactive rebase before, you can read an introduction on the [GitHub Docs](https://docs.github.com/en/get-started/using-git/about-git-rebase#rebasing-commits-against-a-branch). I also recommend you take your time to try it, experiment a bit, and get the hang of it by yourself.
+
+And remember to `git push origin the-task-in-short-123 --force-with-lease` afterwards!
+
+### One last update
+
+So now you have a history that it's linear, nice, and clean. Before the final merge into the base branch, it's a good habit to do a last rebase just to make sure that:
+
+- What you did is still valid and it still works with the latest updates
+- You take responsibility for fixing any conflicts that might arise, on your end, making the life of who's going to merge your work easier
+
+### Merge
+
+So now you have:
+
+- Your task accomplished
+- Your history nice and clean
+- You working branch up to date
+
+Mark your branch as ready / remove the "Draft" status, and merge! I use GitHub's interface for merging and I also leave the proposed merge commit message as is.
+
+## Conclusions
+
+This is how I work, what I always try to steer the teams I'm in towards. It's my own current best practice and it's still evolving, but I mean... just look at this gem one more time:
+
+```git
+# Sample Git history with Trumbitta Flow
+
+*   0255a20 (HEAD -> main) Merge branch 'features/pizza-configurator'
+|\  
+| * d1b20c2 (features/pizza-configurator) feat: add pizza configurator
+| * 6061fb8 feat(design-system): make pizza component accept Pepperoni toppings
+|/  
+*   37d116a Merge branch 'features/menu'
+|\  
+| * 8a323ae (features/menu) feat: add pizza menu
+| * fe54291 feat(design-system): add pizza component
+|/  
+* b77079c feat: add license
+* 6267e64 chore: create repo with initial stuff
+```
+
+The habits and practices in Trumbitta Flow might not be the only ones that will give you this kind of linear and readable history, and Trumbitta Flow might not be for everyone.  
+As always, choose what works best for you.
+
+I just hope you found something new and interesting in this article 💜
+
+----
+
+Do you have any questions / opinions?  
+[Let me know on Twitter!](https://twitter.com/intent/tweet?text=So%2C%20about%20https%3A%2F%2Fwww.williamghelfi.com%2Fblog%2F2022-06-06-git-rebase-flow-trumbitta-flow%2F%20by%20%40trumbitta%20...)
+
