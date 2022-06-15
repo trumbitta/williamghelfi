@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
 
 import { anchorsCommon } from './styled/mixins/_anchors';
@@ -7,7 +7,6 @@ import { headingsCommon } from './styled/mixins/_headings';
 import {
   headings,
   rhythm,
-  links,
   colorRoles,
   breakpoints,
 } from './styled/_variables';
@@ -29,7 +28,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    color: hsla(0, 0%, 0%, 0.9);
+    color: ${colorRoles.dark};
     font-family: Merriweather, Georgia, serif;
     font-weight: 300;
     word-wrap: break-word;
@@ -80,7 +79,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${colorRoles.light};
     font-style: italic;
 
-    & small {
+    small {
       display: flex;
       justify-content: flex-end;
       font-style: normal;
@@ -92,7 +91,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     code {
-      word-break: break-all;
+      word-break: break-all !important;
     }
   }
 `;
