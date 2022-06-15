@@ -5,3 +5,9 @@
 tasks:
   - init: nvm install && npm install -g commitizen && npm install
     command: npm start
+
+vscode:
+  extensions:
+    - esbenp.prettier-vscode
+    - dbaeumer.vscode-eslint
+    - styled-components.vscode-styled-components
