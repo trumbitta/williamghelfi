@@ -10,7 +10,6 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { UiTypographyH1, UiTypographyA } from '../ui';
 import {
   headings,
   colorRoles,
@@ -21,10 +20,7 @@ import {
 } from '../styled/_variables';
 import { respondTo } from '../styled/mixins/_respond-to';
 import { Link } from '../link/link.component';
-import {
-  ApplicationHeaderAvatar,
-  ApplicationHeaderAvatarProps,
-} from './application-header-avatar/application-header-avatar';
+import { ApplicationHeaderAvatar } from './application-header-avatar/application-header-avatar';
 import { IGatsbyImageData } from 'gatsby-plugin-image';
 
 interface Props {
@@ -40,10 +36,9 @@ export const ApplicationHeader: FunctionComponent<Props> = ({
   isInternal = false,
   avatar,
 }) => {
-  const avatarComponent =
-    avatar ? (
-      <ApplicationHeaderAvatar avatar={avatar} />
-    ) : null;
+  const avatarComponent = avatar ? (
+    <ApplicationHeaderAvatar avatar={avatar} />
+  ) : null;
 
   const jsx = isInternal ? (
     <LinkStyled to="/">
@@ -85,13 +80,13 @@ const ContactsBar = styled.nav`
   justify-content: center;
 `;
 
-const ContactsBarItem = styled(UiTypographyA)`
+const ContactsBarItem = styled.a`
   color: ${colorRoles.light} !important;
   margin: 0 ${math(`${components.paddingX} / 4`)};
   padding: 0 ${math(`${components.paddingX} / 2`)};
 `;
 
-const UiTypographyH1Styled = styled(UiTypographyH1)`
+const UiTypographyH1Styled = styled.h1`
   margin-top: 0 !important;
   padding-top: ${headings.margin.top};
 `;
@@ -118,7 +113,7 @@ const LinkStyled = styled(Link)`
   background-color: ${colorRoles.primary};
 `;
 
-const InternalPageTitle = styled(UiTypographyH1)`
+const InternalPageTitle = styled.h1`
   font-size: ${headings.font.size.h4};
   margin: 0 !important;
   letter-spacing: -1px;

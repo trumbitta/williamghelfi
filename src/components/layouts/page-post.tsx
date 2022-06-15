@@ -3,10 +3,11 @@ import React, { FunctionComponent } from 'react';
 import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 
-import { UiContainer, UiTypographyH1, UiDateInfo } from '../ui';
+import { UiContainer, UiDateInfo } from '../ui';
 import { ApplicationHeader } from '../application-header/application-header.component';
 import { ApplicationFooter } from '../application-footer/application-footer.component';
 import { SEO, SeoProps } from '../seo/seo.component';
+import { GlobalStyle } from '../global-style.component';
 
 const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
   const siteMetadata = data.site.siteMetadata;
@@ -21,15 +22,15 @@ const PageTemplate: FunctionComponent<QueryData> = ({ data }) => {
 
   return (
     <>
+      <GlobalStyle />
       <SEO {...seo} />
       <UiContainer>
         <ApplicationHeader
           applicationTitle={siteMetadata.defaultTitle}
           isInternal={true}
-          avatar={{ gatsbyImageData: null }}
         ></ApplicationHeader>
 
-        <UiTypographyH1>{data.mdx.frontmatter.title}</UiTypographyH1>
+        <h1>{data.mdx.frontmatter.title}</h1>
         <UiDateInfo date={data.mdx.frontmatter.date}></UiDateInfo>
         <MDXRenderer>{data.mdx.body}</MDXRenderer>
       </UiContainer>
