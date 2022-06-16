@@ -1,0 +1,119 @@
+---
+title: "The John Cena framework"
+date: 2022-06-22 00:00
+---
+
+import { UiFigureWithCaption } from '../components/ui';
+
+<UiFigureWithCaption caption='<a href="https://commons.wikimedia.org/wiki/File:John_Cena_-_You_Can%27t_See_Me.jpg">Army Spc. Christopher Admire, 55th Signal Company</a>, Public domain, via Wikimedia Commons'>
+
+![](../assets/images/posts/2022-06-22-angular-vs-react/John_Cena_-_You_Can't_See_Me.jpeg)
+
+</UiFigureWithCaption>
+
+React developers never say the word *"Angular"*.
+
+According to major podcasts, Twitter personalities, and conference speakers, the main frontend frameworks and libraries are React and Vue, with Svelte as the up and coming contender.
+
+In the React world, Angular is invisible. Just like John Cena.
+
+But even though these days I use React as my tool of choice, up until early 2020 my main framework was Angular.  
+What it means, is that I'm in a pretty good position for writing one of those A vs B comparisons: this very article.
+
+## 5 Angular things I wish React had
+
+### 1. First-class TypeScript support
+
+2022 appears to be the year React developers are discovering TypeScript and falling in love with it. Angular developers, on the other hand, have been at it since 2017~ and it shows.
+
+TypeScript types for React are... not particularly good.
+
+Just an example of several possible ones: `FC`, `FunctionComponent`, `ReactNode`, `JSX.Element`, not typing the component but typing the props with `PropsWithChildren`, are all mere variations of the same use case: typing a component.
+
+Meanwhile, Angular has just one: the `@Component` decorator. You learn it once, you use it always.
+
+Superior DevX.
+
+### 2. RxJS
+
+Angular makes large and proficous use of RxJS. The in-house HTTP service, route guards, NgRx (see below): Observables (the main character in the RxJS story) are everywhere. Angular is async, and data is a stream.
+
+Complex problems can be solved by one RxJS operator, or a couple ones combined together, or just piped one after the other.  
+Sure, RxJS is just JS/TS and you can use it everywhere but with Angular it's just there while with React you got... `useEffect()`, I guess?
+
+### 3. Reactive Forms
+
+Oh to have a powerful, comprehensive, versatile form library as a part of React!
+
+No, you must use Formik, or react-hook-form, or whatever the next community library is. But they don't usually have validation, why would they? Just use, you know, another library for that!  
+
+I miss Reactive Forms, I miss `ControlValueAccessor` to create custom form components, and now I'm stuck with chosing between controlled components and uncontrolled components. Every time.
+
+### 4. Stellar official docs and guides
+
+React docs are all over the place. They often lack a high-level strategy, real-world actionable examples, encompassing tutorials. The React team agrees with me on this, so much that they are taking action and [completely rewriting their documentation](https://beta.reactjs.org/).
+
+Angular docs are brilliant, complete, easy to understand, with actionable examples based on real-world scenarios, suitable for any level of Angular knowledge from newbies to superheroes.  
+Whereas React is best learned through third-party tutorials and courses, Angular gets the docs just right and you don't need anything else.
+
+### 5. NgRx
+
+If I'd have to choose just one thing I'd port from Angular to React, that would be NgRx without an ounce of doubt.
+
+Of course is based on RxJS: the perfect choice for a mono-directional stream of application state but also for advanced data access flows via Angular's own HTTP service. NgRx is complete and versatile. It's an all-in-one solution compared to what Redux Toolkit offers: re-exporting third-party libraries.  
+I use redux-observable for side effects so I can still use RxJS, but it's not the same thing.
+
+## 5 React things I wish Angular had
+
+### 1. JSX
+
+Like it or not, JSX is the real match-winner when it comes to React vs Angular.
+
+You might not like it ("JavaScript in my HTML? Ew!"), I know for years I didn't ("JavaScript in my HTML? Ew!"), but it's easier to write and read compared to the majestic monument to the NIH (Not Invented Here) Syndrome that Angular folks call "directives".
+
+Seriously, I wish they'd abandon directives for JSX.
+
+### 2. Function components
+
+Class components are ok. Angular ones are also better than React ones. But you can't really beat a lightweight function component.  
+Lifecycle methods of Angular components are better defined and make more sense than whatever React devs where thinking when they modeled theirs. But you know what's even better? No lifecycle methods and just a bunch of hooks.
+
+In Angular 14 there's a new `inject()` utility function that shows some promise about simplifying Angular components. Let's cross our fingers for the future.
+
+### 3. CSS-in-JS, especially styled-components
+
+Last time I checked, apart from subtleties, Angular only had support for plain CSS or SCSS.  
+Now, even though component styles in Angular are scoped, and you can use SCSS if you want, you know what's better than SCSS? SCSS where you can also use JavaScript when the need arises. And that's basically styled-components.
+
+Another thing I love of CSS-in-JS solutions is that my styling variables and utility functions (e.g. `pxToRem()`, or `getColor(color, variant)`) are typed with TypeScript.
+
+Angular really needs to step up its game there.
+
+### 4. The `children` prop
+
+So, *content projection* anyone? Single-slot, multi-slot, conditional? Using yet another special component - `<ng-content></ng-content>` - for marking the slots?
+
+No wonder prop drilling is so common in Angular! If the alternative is so convoluted and verbose!
+
+Meanwhile, React with its chill `children` prop is all about composition. <3 `children`.
+
+### 5. The community
+
+And finally, the community. I don't know where the Angular devs hang out, but it's not easy to find them.  
+Be that on Twitter, or in podcasts, Hacker News YC, wherever, vocal Angular devs are few and far between. On the other hand, React devs are everywhere.
+
+Community is important for an Open Source framework, and React nails it. Angular still feels like an enterprise framework, developed for the enterprise by an enterprise. You need to wear a tie before you enter the community, sir.
+
+## Conclusions
+
+As you can see, there's a lot more about Angular than most web developers seem to get.
+
+At end of the day, I feel React devs should learn to be more open to Angular and maybe they'd manage to steal a couple tricks the John Cena framework executes better than any other framework.
+
+Until that day, I'll continue composing function components like there's no tomorrow, thinking about how ridiculous *content projection* sounds, and dearly missing Reactive Forms and NgRx 😢.
+
+----
+
+Do you have any questions / opinions?  
+[Let me know on Twitter!](https://twitter.com/intent/tweet?text=So%2C%20about%20https%3A%2F%2Fwww.williamghelfi.com%2Fblog%2F2022-06-22-angular-vs-react%2F%20by%20%40trumbitta%20...)
+
