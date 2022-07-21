@@ -1,0 +1,98 @@
+---
+title: "How to create an icon lib for React within a Nx monorepo"
+date: 2022-07-21 00:00
+---
+
+import { UiFigureWithCaption } from '../components/ui';
+
+<UiFigureWithCaption caption='<a href="https://www.pexels.com/photo/man-standing-next-to-a-figurine-of-elvis-presley-playing-the-guitar-4965661/">Photo by Key Notez</a>'>
+
+![](../assets/images/posts/2022-07-21-icon-lib-for-react-nx/pexels-key-notez-4965661.jpeg)
+
+</UiFigureWithCaption>
+
+Sorry for the lame title: this time I just wanted it to be [obvious](https://www.youtube.com/watch?v=I4UIIISgl2U).
+
+One of the most frequently asked questions in [the Nx Community Slack workspace](https://go.nrwl.io/join-slack?utm_source=nx.dev) is along the lines of *"I really need to have my SVG icons in a separate lib. I think I'm near the solution but it just doesn't work!"*.  
+This post is my answer. Now I have a handy link to share with everyone who asks that question.
+
+## A little less conversation
+
+If you want to follow along, you can use [gitpod-nx, my tool to quickly create a new Nx workspace in Gitpod and start hacking away](https://github.com/trumbitta/gitpod-nx).
+
+Or, if you prefer, you should be able to easily pick up from where you need and apply every step to your project with no problems.
+
+## A little more action
+
+- Create a new Nx workspace with [gitpod-nx](https://github.com/trumbitta/gitpod-nx). Let's call it `icontopia`. See details below.
+
+```sh
+Enter a scope name (used by TypeScript path aliases and published NPM packages):
+icontopia
+✔ What to create in the new workspace · react
+✔ Application name                    · app
+✔ Default stylesheet format           · styled-components
+
+ >  NX   Nx is creating your v14.4.3 workspace.
+
+   To make sure the command works reliably in all environments, and that the preset is applied correctly,
+   Nx will run "npm install" several times. Please wait.
+
+✔ Installing dependencies with npm
+✔ Nx has successfully created the workspace.
+```
+
+`styled-components` is just my personal preference and it doesn't impact what we are going to achieve here.
+
+- Create a workspace lib for the icons - **this is the first step if you are trying to apply the instructions to a repo you already have**
+
+```sh
+npx nx generate @nrwl/workspace:library icons --standaloneConfig --unitTestRunner=none --no-interactive
+```
+
+- Edit the `tsconfig.base.json` entry for the `icons` lib
+
+```json
+"paths": {
+  "@icontopia/icons/*": ["libs/icons/src/lib/*"]
+}
+```
+
+- Delete `libs/icons/src/lib/icons.ts`
+
+- Edit `libs/icons/src/index.ts`
+
+```ts
+// Fake!
+```
+
+- Put at least one SVG icon inside the lib.  
+Here's one for you from [tabler/tabler-icons](https://github.com/tabler/tabler-icons/blob/master/icons/circle.svg), paste it into `libs/icons/src/lib/icon-circle.svg`.
+
+```xml
+<!-- libs/icons/src/lib/icon-circle.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <circle cx="12" cy="12" r="9" />
+</svg>
+```
+
+- Import an icon from your library <3
+
+```tsx
+import { ReactComponent as IconCircle } from '@icontopia/icons/icon-circle.svg';
+
+export function NxWelcome({ title }: { title: string }) {
+  return <p>Hello icon <IconCircle /></p>;
+}
+
+export default NxWelcome;
+```
+
+[And then Bob's your uncle](https://external-preview.redd.it/tQMndO1YP-DehNvC-hbs0AGdI0luSmxsEanEqQNgaMo.jpg?auto=webp&s=7a2e263a4b37aa903cfd1d741d92f6bb6c5b0cbf).
+
+----
+
+Do you have any questions / opinions?  
+[Let me know on Twitter!](https://twitter.com/intent/tweet?text=So%2C%20about%20https%3A%2F%2Fwww.williamghelfi.com%2Fblog%2F2022-07-21-icon-lib-for-react-nx%2F%20by%20%40trumbitta%20...)
+
