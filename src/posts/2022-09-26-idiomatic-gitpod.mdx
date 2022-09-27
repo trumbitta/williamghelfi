@@ -1,0 +1,89 @@
+---
+title: '🍊 Idiomatic Gitpod'
+date: 2022-09-26 00:00
+---
+
+In short, [*"You're holding it wrong"*](https://en.wikipedia.org/wiki/IPhone_4#Antenna).
+
+import { UiFigureWithCaption } from '../components/ui';
+
+<UiFigureWithCaption caption='<a href="https://www.pexels.com/photo/man-in-checkered-coat-and-black-beanie-holding-a-cellphone-9929144/">Photo by Maksim Goncharenok</a>'>
+
+![](../assets/images/posts/2022-09-26-idiomatic-gitpod/pexels-maksim-goncharenok-9929144.jpeg)
+
+</UiFigureWithCaption>
+
+I'm just joking! There are several ways of _"holding Gitpod right"_.
+
+But there's one way of using Gitpod, that in my experience and for my own use case, is better than most: it's what I call _idiomatic Gitpod_.
+
+## Why am I writing this
+
+Being an active member of the community, and especially of [the Discord server](https://www.gitpod.io/community), I often read (and reply to) questions by people who open a single workspace and use it for weeks, even months, on end like it was the cloud version of their personal computer.
+
+This is not idiomatic Gitpod.
+
+## What is idiomatic Gitpod
+
+The fundamental concept you should understand about Gitpod is that from the user's perspective workspaces are cheap. Use a workspace, throw it away like a paper towel, quickly spin up another one. Repeat.
+
+Workspaces become _ephemeral_.
+
+### Examples
+
+Let's get into some real world scenarios.
+
+> #### 🍊 KUMQUAT ALERT!
+>
+> Most of the wonders you're going to read about, work flawlessy thanks to the [official Gitpod extension for your browser](https://www.gitpod.io/docs/browser-extension).
+>
+> Highly recommended!
+
+#### Working on a task
+
+This is the most basic scenario: you need to work on a GitHub issue that was assigned to you.
+
+Now, if you didn't know better, you'd open up your trusty long-running Gitpod workspace, you'd then create a branch to work on the task, commit some changes, open a PR; while you'd be waiting for the code review you'd also start working on another task so you'd need to create another branch and so on and so forth.  
+But then the code review would be ready with some changes requested before merging, and you'd have to switch branches again, maybe stashing some unfinished code... woah.
+
+✨ Thank gods this is a blog post about idiomatic Gitpod! ✨
+
+So instead of doing all of the above, you open the issue's page on GitHub, and start a fresh new Gitpod workspace from that page.  
+Gitpod creates a new branch for you with some reasonable name. You commit some code, push, and close the workspace forever. The garbage collector will delete it sooner or later.
+
+💅🏻 Not your problem.
+
+You open a PR, then you start working on another issue while you wait for the code review. So of course you visit the other issue's page on GitHub, start a fresh new Gitpod workspace from that page, and history repeats itself.  
+But then the code review is ready and you need to change something about the first PR. Ok, while the workspace for your second issue is still active with no need for stashing anything, you visit the PR's page, start a fresh new Gitpod workspace, and I think you're starting to get the hang of it.
+
+Every time, the workspace is fresh, clean, ready to go. No stashing, no creating branches, no deciding branch names, no `rm -rf node_modules && npm install` because in branch A you added a new dependency that you shouldn't use in branch B.
+
+Every single time, the workspace is anew, pristine, perfect. And ephemeral.
+
+#### Reviewing a PR
+
+Now it's your turn to review a PR, and the code is not too complex for a single PR but it's complex enough to make you want to reach for your code editor and delve into it.
+
+So of course you stash or commit your code, switch branches, pull the updates, maybe delete `node_modules` and reinstall, but it doesn't work. Why? Oh! Of course! You did _that thing_ for your issue and now you have to... 🤯
+
+Just a nightmare. Truth is you are a master of idiomatic Gitpod by now, so here's what you do instead:  
+You visit the PR's page, open a new workspace from there, remember that `node_modules` are already there and ready to go thanks to prebuilds, and start the app in the exact same environment (well, an exact copy) the author of the PR was working in.
+
+#### Bonus: design reviews
+
+Here's a bonus use case: let's say you are a frontend developer (I am) and you are working on a design system (I am!) together with a designer.
+
+Whenever you open a PR, the designer can chime in, open a new workspace, and get Storybook up and running in less than a minute!
+
+Once you start to really get Gitpod, once you feel your are using idiomatic Gitpod, you realize you can do things you weren't doing before like having a designer chime in early, before the PR gets merged and built, without installing a full developer environment on their machine.
+
+## Did I write _"ephemeral"_ enough times, yet?
+
+Gitpod workspaces are **meant to be ephemeral** and thrown away like used paper towels (be responsible! Don't waste paper towels, though!).
+
+Embrace idiomatic Gitpod, thank me later.
+
+---
+
+Do you have any questions / opinions?  
+[Let me know on Twitter!](https://twitter.com/intent/tweet?text=So%2C%20about%20https%3A%2F%2Fwww.williamghelfi.com%2Fblog%2F2022-09-26-idiomatic-gitpod%2F%20by%20%40trumbitta%20...)
