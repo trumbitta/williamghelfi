@@ -6,7 +6,7 @@ I moved to React in 2020. Previously on Angular since 2014.
 
 ## Contact
 
-- Blog: [http://www.williamghelfi.com/](http://www.williamghelfi.com/)
+- Blog: [http://code.williamghelfi.com/](http://code.williamghelfi.com/)
 - LinkedIn: [https://www.linkedin.com/in/williamghelfi/](https://www.linkedin.com/in/williamghelfi/)
 - GitHub: [https://github.com/trumbitta](https://github.com/trumbitta)
 - Twitter: [https://twitter.com/trumbitta](https://twitter.com/trumbitta)
@@ -19,14 +19,14 @@ I moved to React in 2020. Previously on Angular since 2014.
 ## Publications
 
 - Angular for dads — 2019  
-[https://medium.com/angular-for-dads](https://medium.com/angular-for-dads)  
-So you want to learn Angular, but you just don’t have time.
+  [https://medium.com/angular-for-dads](https://medium.com/angular-for-dads)  
+  So you want to learn Angular, but you just don’t have time.
 - InVision Blog / Designing An Effective Sales Page — 2016  
-[http://blog.invisionapp.com/designing-an-effective-sales-page/](http://blog.invisionapp.com/designing-an-effective-sales-page/)  
-Things I learned about web content marketing.
+  [http://blog.invisionapp.com/designing-an-effective-sales-page/](http://blog.invisionapp.com/designing-an-effective-sales-page/)  
+  Things I learned about web content marketing.
 - Bootstrap In Practice — 2013  
-[http://www.williamghelfi.com/bootstrap-in-practice](http://www.williamghelfi.com/bootstrap-in-practice)  
-A book about Bootstrap 3, for beginners.
+  [http://code.williamghelfi.com/bootstrap-in-practice](http://code.williamghelfi.com/bootstrap-in-practice)  
+  A book about Bootstrap 3, for beginners.
 
 ## Experience
 

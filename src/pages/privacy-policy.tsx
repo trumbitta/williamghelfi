@@ -14,7 +14,7 @@ const Privacy = () => {
       description: 'Privacy policy.',
       title: 'Privacy policy',
       twitterUsername: 'trumbitta',
-      url: 'https://www.williamghelfi.com/privacy-policy',
+      url: 'https://code.williamghelfi.com/privacy-policy',
     },
   };
 

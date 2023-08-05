@@ -18,7 +18,7 @@ const BiP = ({ data: { file } }: PageProps<QueryData>) => {
         'An ebook for starters. Written to help you get productive as fast as you can, without getting stuck or going too much in depth into the official docs.',
       title: 'Bootstrap In Practice',
       twitterUsername: 'trumbitta',
-      url: 'https://www.williamghelfi.com/bootstrap-in-practice',
+      url: 'https://code.williamghelfi.com/bootstrap-in-practice',
     },
     avatar: getImage(file),
   };

@@ -4,7 +4,7 @@
  * See: https://www.gatsbyjs.org/docs/gatsby-config/
  */
 
-import { GatsbyConfig } from "gatsby";
+import { GatsbyConfig } from 'gatsby';
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -13,7 +13,7 @@ const config: GatsbyConfig = {
     titleTemplate: '%s · Born, growing up.',
     description:
       'A blog about coding and the life of a computer programmer, by William Ghelfi.',
-    url: 'https://www.williamghelfi.com', // No trailing slash allowed!
+    url: 'https://code.williamghelfi.com', // No trailing slash allowed!
     image: '/images/william.jpg', // Path to your image you placed in the 'static' folder
     twitterUsername: '@trumbitta',
   },
